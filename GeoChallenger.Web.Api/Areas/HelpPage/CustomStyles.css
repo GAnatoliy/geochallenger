@@ -1,0 +1,104 @@
+﻿body 
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+a {color: #386fd3 !important; text-decoration: underline}
+a:hover {text-decoration: none}
+
+div.ui-widget-overlay 
+{
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed;
+    top: 0; left: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-top: 0 !important;
+}
+table td, 
+table th 
+{
+    border: 1px solid #ccc !important;
+    vertical-align: middle !important;
+}
+table th 
+{
+    background: #e5edfa;
+}
+.content-wrapper h1 
+{
+    font-size: 22px;
+    line-height: 22px;
+    border: 1px solid #afc0de;
+    background: #e5edfa;
+    padding: 15px;
+}
+#accordion h3 
+{
+    padding: 10px 10px 10px 30px;
+}
+
+#testClientButton 
+{
+    background: #428bca;
+    border: none;
+    padding: 10px 22px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 14px;
+    cursor: pointer;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    
+    position: fixed;
+    bottom: 20px; right: 20px;
+}
+#testClientButton:hover 
+{
+    background: #5bc0de;
+}
+#testClientDialog 
+{
+    margin-top: 15px;
+}
+#testClientResponseDialog h5.ui-widget-header,
+#testClientDialog h5.ui-widget-header
+{
+    padding: 5px;
+}
+#testClientResponseDialog textarea,
+#testClientDialog textarea 
+{
+    width: 100%;
+    resize: vertical;
+    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+button.ui-button.ui-widget 
+{
+    color: #fff;
+    background: #428bca !important;
+    border: none;
+}
+button.ui-button.ui-widget:hover 
+{
+    background: #5bc0de !important;
+}
+
+.optional-default-value
+{
+    color: Gray;
+}
+
+.optional
+{
+    color: Gray;
+}

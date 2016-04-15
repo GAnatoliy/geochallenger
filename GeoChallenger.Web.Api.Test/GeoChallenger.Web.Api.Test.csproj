@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoChallenger.Web.Api\GeoChallenger.Web.Api.csproj">
-      <Project>{57ef9bdf-72ba-420a-a624-214d1b3e4080}</Project>
+      <Project>{96f541d2-8960-4742-a823-cf417f7b2f2c}</Project>
       <Name>GeoChallenger.Web.Api</Name>
     </ProjectReference>
   </ItemGroup>

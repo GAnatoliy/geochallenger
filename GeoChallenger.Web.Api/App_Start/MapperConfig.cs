@@ -2,7 +2,6 @@
 using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Web.Api.Models;
 
-
 namespace GeoChallenger.Web.Api
 {
     public class MapperConfig
@@ -31,7 +30,7 @@ namespace GeoChallenger.Web.Api
 
         private static void MapFromViewModelsToContracts(IMapperConfiguration config)
         {
-            
+
         }
     }
 }
