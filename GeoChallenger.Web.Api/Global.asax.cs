@@ -14,6 +14,8 @@ namespace GeoChallenger.Web.Api
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            var mapperConfiguration = MapperConfig.CreateMapperConfiguration();
+            DIConfig.RegisterDI(mapperConfiguration);
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
