@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using GeoChallenger.Web.Api.Config;
+using NUnit.Framework;
 
 namespace GeoChallenger.Web.Api.Test
 {

@@ -1,7 +1,9 @@
 ﻿using System.Web.Http;
 using System.Web.Mvc;
 using GeoChallenger.Web.Api;
+using GeoChallenger.Web.Api.Config;
 using Microsoft.Owin;
+using NLog;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -10,15 +12,19 @@ namespace GeoChallenger.Web.Api
 {
     public class Startup
     {
-        public static HttpConfiguration HttpConfiguration;
+        public static HttpConfiguration HttpConfiguration { get; private set; }
 
         public void Configuration(IAppBuilder app)
         {
+            ILogger logger = LogManager.GetCurrentClassLogger();
+
+            logger.Log(LogLevel.Info, "Started");
+
             HttpConfiguration = new HttpConfiguration();
 
-            var mapperConfiguration = MapperConfig.CreateMapperConfiguration();
+            DIConfig.RegisterDI(HttpConfiguration, MapperConfig.CreateMapperConfiguration());
 
-            DIConfig.RegisterDI(HttpConfiguration, mapperConfiguration);
+            OAuthConfig.ConfigureOAuth(app, HttpConfiguration);
 
             WebApiConfig.Register(app, HttpConfiguration);
 

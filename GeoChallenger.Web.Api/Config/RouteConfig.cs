@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Owin;
 
-namespace GeoChallenger.Web.Api
+namespace GeoChallenger.Web.Api.Config
 {
     public class RouteConfig
     {

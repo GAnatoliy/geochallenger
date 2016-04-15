@@ -13,6 +13,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using GeoChallenger.Web.Api.Areas.HelpPage.ModelDescriptions;
 using GeoChallenger.Web.Api.Areas.HelpPage.Models;
+using GeoChallenger.Web.Api.Areas.HelpPage.SampleGeneration;
 
 namespace GeoChallenger.Web.Api.Areas.HelpPage
 {

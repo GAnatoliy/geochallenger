@@ -1,4 +1,4 @@
-namespace GeoChallenger.Web.Api.Areas.HelpPage
+namespace GeoChallenger.Web.Api.Areas.HelpPage.SampleGeneration
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

@@ -8,7 +8,7 @@ namespace GeoChallenger.Web.Api.Controllers
     /// <summary>
     ///     Geo tags controller
     /// </summary>
-    [RoutePrefix("api/[controller]")]
+    [RoutePrefix("api/tags")]
     public class TagsController : ApiController
     {
         /// <summary>

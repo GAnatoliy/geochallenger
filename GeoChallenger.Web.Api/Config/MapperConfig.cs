@@ -2,7 +2,7 @@
 using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Web.Api.Models;
 
-namespace GeoChallenger.Web.Api
+namespace GeoChallenger.Web.Api.Config
 {
     public class MapperConfig
     {
