@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -39,12 +40,15 @@ namespace GeoChallenger.Services
             _dbContextScopeFactory = dbContextScopeFactory;
         }
 
-        public async Task<IList<PoiDto>> GetPoisAsync()
+        public async Task<IList<PoiDto>> SearchPoisAsync(string query)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-                var pois = context.Pois.ToList();
+                // TODO: add full text search.
+                var pois = await context.Pois
+                    .Where(p => p.Content.ToLower().Contains(query))
+                    .ToListAsync();
 
                 return _mapper.Map<IList<PoiDto>>(pois);
             }

@@ -16,6 +16,16 @@
         public string Title { get; set; }
 
         /// <summary>
+        /// Short preview of the content.
+        /// </summary>
+        public string ContentPreview { get; set; }
+
+        /// <summary>
+        /// Text content of the poi.
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
         ///     POI location address
         /// </summary>
         public string Address { get; set; }

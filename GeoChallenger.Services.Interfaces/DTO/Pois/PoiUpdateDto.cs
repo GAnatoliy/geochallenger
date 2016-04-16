@@ -11,6 +11,11 @@
         public string Title { get; set; }
 
         /// <summary>
+        /// Text content of poi.
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
         ///     POI location address
         /// </summary>
         public string Address { get; set; }

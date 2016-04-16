@@ -1,32 +1,37 @@
 ﻿namespace GeoChallenger.Web.Api.Models.Pois
 {
     /// <summary>
-    ///     View model for update poi by user
+    /// Preview of the poi.
     /// </summary>
-    public class PoiUpdateViewModel
+    public class PoiPreviewViewModel
     {
         /// <summary>
-        ///     Poi title
+        /// POI Id
+        /// </summary>
+        public int PoiId { get; set; }
+
+        /// <summary>
+        /// POI title
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Text content of poi.
+        /// Short preview of the content.
         /// </summary>
-        public string Content { get; set; }
-
+        public string ContentPreview { get; set; }
+        
         /// <summary>
-        ///     POI location address
+        /// POI location address
         /// </summary>
         public string Address { get; set; }
 
         /// <summary>
-        ///     POI location latitude
+        /// POI location latitude
         /// </summary>
         public double Latitude { get; set; }
 
         /// <summary>
-        ///     POI location Longitude
+        /// POI location Longitude
         /// </summary>
         public double Longitude { get; set; }
     }

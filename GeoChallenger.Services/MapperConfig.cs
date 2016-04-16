@@ -49,6 +49,7 @@ namespace GeoChallenger.Services
             config.CreateMap<PoiUpdateDto, Poi>()
                 .ForMember(dst => dst.PoiId, opt => opt.Ignore())
                 .ForMember(dst => dst.Location, opt => opt.Ignore())
+                .ForMember(dst => dst.ContentPreview, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });

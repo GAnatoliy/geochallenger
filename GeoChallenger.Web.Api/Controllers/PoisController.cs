@@ -35,18 +35,18 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         /// <summary>
-        ///     Get all stub pois
+        /// Search poi based on the location and text.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<IList<PoiReadViewModel>> Get()
+        public async Task<IList<PoiPreviewViewModel>> Get(string query)
         {
-            return _mapper.Map<IList<PoiReadViewModel>>(await _poisService.GetPoisAsync());
+            return _mapper.Map<IList<PoiPreviewViewModel>>(await _poisService.SearchPoisAsync(query));
         }
 
         /// <summary>
-        ///     Get poi stub by id
+        /// Get poi stub by id
         /// </summary>
         /// <param name="poiId">Poi Id</param>
         /// <returns></returns>
