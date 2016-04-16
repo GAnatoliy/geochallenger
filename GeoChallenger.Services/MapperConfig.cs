@@ -41,6 +41,7 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Location, opt => opt.Ignore())
                 .ForMember(dst => dst.ContentPreview, opt => opt.Ignore())
+                .ForMember(dst => dst.Content, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });

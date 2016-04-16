@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
 using GeoChallenger.Database.Extensions;
-using GeoChallenger.Domains;
 using GeoChallenger.Domains.Pois;
+using GeoChallenger.Services.Helpers;
 using GeoChallenger.Services.Interfaces;
-using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using Mehdime.Entity;
 
@@ -79,10 +78,13 @@ namespace GeoChallenger.Services
 
                 var poi = _mapper.Map<Poi>(poiUpdateDto);
 
+                poi.Content = HtmlHelper.SanitizeHtml(poiUpdateDto.Content);
+                poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
+
                 context.Pois.Add(poi);
 
                 // TODO: minify and make preview.
-
+                
                 await dbContextScope.SaveChangesAsync();
                 return _mapper.Map<PoiDto>(poi);
             }
@@ -100,7 +102,8 @@ namespace GeoChallenger.Services
 
                 _mapper.Map(poiUpdateDto, poi);
 
-                // TODO: minify and make preview.
+                poi.Content = HtmlHelper.SanitizeHtml(poiUpdateDto.Content);
+                poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
 
                 await dbContextScope.SaveChangesAsync();
 
@@ -122,6 +125,22 @@ namespace GeoChallenger.Services
 
                 await context.SaveChangesAsync();
             }
+        }
+
+        /// <summary>
+        /// Process string by left plain text (removing html) and strip it to the limited length.
+        /// </summary>
+        /// <returns></returns>
+        // TODO: move to helper and test.
+        private string GetContentPreview(string content)
+        {
+            const int DEFAULT_LENGTH = 256;
+
+            if (string.IsNullOrEmpty(content)) {
+                return string.Empty;
+            }
+
+            return StringHelper.Cut(HtmlHelper.ConvertToText(content), DEFAULT_LENGTH);
         }
     }
 }
