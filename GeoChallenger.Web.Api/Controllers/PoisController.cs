@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using AutoMapper;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
@@ -51,7 +53,7 @@ namespace GeoChallenger.Web.Api.Controllers
         /// <param name="poiId">Poi Id</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{poiId:int}")]
+        [Route("{poiId:int}", Name = "GetPoiById")]
         public async Task<PoiReadViewModel> Get(int poiId)
         {
             var poiDto = await _poisService.GetPoiAsync(poiId);
@@ -62,6 +64,19 @@ namespace GeoChallenger.Web.Api.Controllers
             return _mapper.Map<PoiReadViewModel>(poiDto);
         }
 
+        [HttpPost]
+        [Route("")]
+        public async Task<IHttpActionResult> Create(PoiUpdateViewModel model)
+        {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            var createdPoi = await _poisService.CreatePoiAsync(_mapper.Map<PoiUpdateDto>(model));
+
+            return Created(Url.Link("GetPoiById", new { poiId = createdPoi.Id }), createdPoi);
+        }
+
         [HttpPut]
         [Route("{poiId:int}")]
         public async Task<IHttpActionResult> Update(int poiId, PoiUpdateViewModel model)
@@ -70,16 +85,27 @@ namespace GeoChallenger.Web.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _poisService.UpdatePoiAsync(poiId, _mapper.Map<PoiUpdateDto>(model));
-            return Ok();
+            var poi = await _poisService.GetPoiAsync(poiId);
+            if (poi == null) {
+                var createdPoi = await _poisService.CreatePoiAsync(_mapper.Map<PoiUpdateDto>(model));
+                return Created(Url.Link("GetPoiById", new { poiId = createdPoi.Id }), createdPoi);
+            } else {
+                var updatedPoi = await _poisService.UpdatePoiAsync(poiId, _mapper.Map<PoiUpdateDto>(model));
+                return Ok(updatedPoi);
+            }
         }
 
         [HttpDelete]
         [Route("{poiId:int}")]
         public async Task<IHttpActionResult> Delete(int poiId)
         {
+            var poi = await _poisService.GetPoiAsync(poiId);
+            if (poi == null) {
+                return NotFound();
+            }
+
             await _poisService.DeletePoiAsync(poiId);
-            return Ok();
+            return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent));
         }
 
         [HttpGet]

@@ -69,24 +69,56 @@ namespace GeoChallenger.Services
             }
         }
 
-        public async Task UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto)
+        public async Task<PoiDto> CreatePoiAsync(PoiUpdateDto poiUpdateDto)
         {
-            var poi = PoisStubList.SingleOrDefault(p => p.Id == poiId);
-            if (poi == null) {
-                throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
-            }
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-            _mapper.Map(poiUpdateDto, poi);
+                var poi = _mapper.Map<Poi>(poiUpdateDto);
+
+                context.Pois.Add(poi);
+
+                // TODO: minify and make preview.
+
+                await dbContextScope.SaveChangesAsync();
+                return _mapper.Map<PoiDto>(poi);
+            }
+        }
+
+        public async Task<PoiDto> UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var poi = await context.Pois.FindAsync(poiId);
+                if (poi == null) {
+                    throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
+                }
+
+                _mapper.Map(poiUpdateDto, poi);
+
+                // TODO: minify and make preview.
+
+                await dbContextScope.SaveChangesAsync();
+
+                return _mapper.Map<PoiDto>(poi);
+            }
         }
 
         public async Task DeletePoiAsync(int poiId)
         {
-            var poi = PoisStubList.SingleOrDefault(p => p.Id == poiId);
-            if (poi == null) {
-                throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
-            }
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-            PoisStubList.Remove(poi);
+                var poi = await context.Pois.FindAsync(poiId);
+                if (poi == null) {
+                    throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
+                }
+
+                context.Pois.Remove(poi);
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

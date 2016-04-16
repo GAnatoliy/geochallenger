@@ -24,12 +24,19 @@ namespace GeoChallenger.Services.Interfaces
         Task<PoiDto> GetPoiAsync(int poiId);
 
         /// <summary>
+        /// Create new poi.
+        /// </summary>
+        /// <param name="poiUpdateDto">Data of new poi.</param>
+        /// <returns>Returns new created poi.</returns>
+        Task<PoiDto> CreatePoiAsync(PoiUpdateDto poiUpdateDto);
+
+        /// <summary>
         ///     Update poi by Id
         /// </summary>
         /// <param name="poiId">Poi id</param>
         /// <param name="poiUpdateDto">Updated content for poi</param>
         /// <returns></returns>
-        Task UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto);
+        Task<PoiDto> UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto);
 
         /// <summary>
         ///     Delete poi by Id
