@@ -20,9 +20,9 @@ namespace GeoChallenger.Services
     public class PoisService: IPoisService
     {
         static readonly List<Poi> PoisStubList = new List<Poi> {
-            new Poi { PoiId = 1, Title = "Stub POI 1", Address = "Dobrovolskogo St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.534159, 32.275574) },
-            new Poi { PoiId = 2, Title = "Stub POI 2", Address = "Shevchenka St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.515507, 32.262109) },
-            new Poi { PoiId = 3, Title = "Stub POI 3", Address = "Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.500530, 32.232154) }
+            new Poi { Id = 1, Title = "Stub POI 1", Address = "Dobrovolskogo St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.534159, 32.275574) },
+            new Poi { Id = 2, Title = "Stub POI 2", Address = "Shevchenka St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.515507, 32.262109) },
+            new Poi { Id = 3, Title = "Stub POI 3", Address = "Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.500530, 32.232154) }
         };
 
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
@@ -71,7 +71,7 @@ namespace GeoChallenger.Services
 
         public async Task UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto)
         {
-            var poi = PoisStubList.SingleOrDefault(p => p.PoiId == poiId);
+            var poi = PoisStubList.SingleOrDefault(p => p.Id == poiId);
             if (poi == null) {
                 throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
             }
@@ -81,7 +81,7 @@ namespace GeoChallenger.Services
 
         public async Task DeletePoiAsync(int poiId)
         {
-            var poi = PoisStubList.SingleOrDefault(p => p.PoiId == poiId);
+            var poi = PoisStubList.SingleOrDefault(p => p.Id == poiId);
             if (poi == null) {
                 throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
             }

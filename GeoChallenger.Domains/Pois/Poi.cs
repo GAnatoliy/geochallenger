@@ -10,7 +10,7 @@ namespace GeoChallenger.Domains.Pois
         /// <summary>
         ///     POI Id
         /// </summary>
-        public int PoiId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         ///     POI title

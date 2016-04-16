@@ -10,7 +10,7 @@ namespace GeoChallenger.Domains.Users
         /// <summary>
         ///     Social account Id
         /// </summary>
-        public int AccountId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         ///     Social network account unique identificator
