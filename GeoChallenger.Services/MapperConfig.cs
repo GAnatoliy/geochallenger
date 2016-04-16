@@ -2,7 +2,6 @@
 using GeoChallenger.Domains;
 using GeoChallenger.Services.Interfaces.DTO;
 
-
 namespace GeoChallenger.Services
 {
     public class MapperConfig
@@ -15,7 +14,7 @@ namespace GeoChallenger.Services
 
         private static void MapFromDomainsToContracts(IMapperConfiguration config)
         {
-            config.CreateMap<Tag, TagDto>();
+            config.CreateMap<Poi, PoiDto>();
         }
 
         private static void MapFromContractsToDomains(IMapperConfiguration config)

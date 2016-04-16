@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GeoChallenger.Services.Interfaces.DTO;
-
 
 namespace GeoChallenger.Services.Interfaces
 {
     /// <summary>
-    /// Provide access to the tags.
+    ///     Provide access to the tags.
     /// </summary>
-    public interface ITagsService
+    public interface IPoisService
     {
         /// <summary>
-        /// Returns all tags in system.
+        ///     Returns all POIs in system
         /// </summary>
         /// <returns></returns>
-        Task<IList<TagDto>> GetTagsAsync();
+        Task<IList<PoiDto>> GetPoisAsync();
     }
 }

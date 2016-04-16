@@ -49,8 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\TagDto.cs" />
-    <Compile Include="ITagsService.cs" />
+    <Compile Include="DTO\PoiDto.cs" />
+    <Compile Include="IPoisService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

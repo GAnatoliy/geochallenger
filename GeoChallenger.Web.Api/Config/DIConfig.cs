@@ -22,7 +22,7 @@ namespace GeoChallenger.Web.Api.Config
             builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>();
 
             // Register services.
-            var assembly = typeof(TagsService).Assembly;
+            var assembly = typeof(PoisService).Assembly;
             builder.RegisterAssemblyTypes(assembly)
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces();

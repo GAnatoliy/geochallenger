@@ -20,7 +20,7 @@ namespace GeoChallenger.Web.Api.Filters
 
             actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError) {
                 Content = new ObjectContent(typeof(object), new {
-                    error_description = actionExecutedContext.Exception.Message
+                    errorDescription = actionExecutedContext.Exception.Message
                 }, new JsonMediaTypeFormatter())
             };
             return Task.FromResult(string.Empty);

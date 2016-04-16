@@ -6,14 +6,19 @@ using GeoChallenger.Domains;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
 
-
 namespace GeoChallenger.Services
 {
-    public class TagsService: ITagsService
+    public class PoisService: IPoisService
     {
+        static readonly List<Poi> PoisStubList = new List<Poi> {
+            new Poi { PoiId = 1, Title = "Stub POI 1" },
+            new Poi { PoiId = 2, Title = "Stub POI 2" },
+            new Poi { PoiId = 3, Title = "Stub POI 3" }
+        };
+
         private readonly IMapper _mapper;
 
-        public TagsService(IMapper mapper)
+        public PoisService(IMapper mapper)
         {
             if (mapper == null) {
                 throw new ArgumentNullException(nameof(mapper));
@@ -21,10 +26,9 @@ namespace GeoChallenger.Services
             _mapper = mapper;
         }
 
-        public async Task<IList<TagDto>> GetTagsAsync()
+        public async Task<IList<PoiDto>> GetPoisAsync()
         {
-            var tags = new List<Tag> { new Tag { Title = "First"} };
-            return _mapper.Map<IList<TagDto>>(tags);
+            return _mapper.Map<IList<PoiDto>>(PoisStubList);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace GeoChallenger.Web.Api.Config
 
         private static void MapFromContractsToViewModels(IMapperConfiguration config)
         {
-            config.CreateMap<TagDto, TagViewModel>();
+            config.CreateMap<PoiDto, PoiReadViewModel>();
         }
 
         private static void MapFromViewModelsToContracts(IMapperConfiguration config)
