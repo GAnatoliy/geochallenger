@@ -9,9 +9,9 @@ using GeoChallenger.Web.Api.Models;
 namespace GeoChallenger.Web.Api.Controllers
 {
     /// <summary>
-    ///     Geo tags controller
+    ///     Point of Interests controller
     /// </summary>
-    [RoutePrefix("api/tags")]
+    [RoutePrefix("api/pois")]
     public class PoisController : ApiController
     {
         private readonly IPoisService _poisService;
