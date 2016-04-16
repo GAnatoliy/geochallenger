@@ -10,6 +10,8 @@ using GeoChallenger.Domains;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
+using Mehdime.Entity;
+
 
 namespace GeoChallenger.Services
 {
@@ -21,19 +23,26 @@ namespace GeoChallenger.Services
             new Poi { PoiId = 3, Title = "Stub POI 3", Address = "Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.500530, 32.232154) }
         };
 
+        private readonly IDbContextScopeFactory _dbContextScopeFactory;
         private readonly IMapper _mapper;
 
-        public PoisService(IMapper mapper)
+        public PoisService(IMapper mapper, IDbContextScopeFactory dbContextScopeFactory)
         {
             if (mapper == null) {
                 throw new ArgumentNullException(nameof(mapper));
             }
+            if (dbContextScopeFactory == null) {
+                throw new ArgumentNullException(nameof(dbContextScopeFactory));
+            }
             _mapper = mapper;
+            _dbContextScopeFactory = dbContextScopeFactory;
         }
 
         public async Task<IList<PoiDto>> GetPoisAsync()
         {
-            using (var context = new GeoChallengerContext()) {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
                 var pois = context.Pois.ToList();
 
                 return _mapper.Map<IList<PoiDto>>(pois);

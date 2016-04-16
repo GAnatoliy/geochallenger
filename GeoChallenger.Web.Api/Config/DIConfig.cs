@@ -7,6 +7,8 @@ using GeoChallenger.Services;
 using GeoChallenger.Web.Api.Filters;
 using GeoChallenger.Web.Api.Providers;
 using GeoChallenger.Web.Api.Providers.Interfaces;
+using Mehdime.Entity;
+
 
 namespace GeoChallenger.Web.Api.Config
 {
@@ -16,6 +18,10 @@ namespace GeoChallenger.Web.Api.Config
         public static void RegisterDI(HttpConfiguration configuration, MapperConfiguration mapperConfiguration)
         {
             var builder = new ContainerBuilder();
+
+            // Register database.
+            builder.RegisterType<DbContextScopeFactory>()
+                .As<IDbContextScopeFactory>();
 
             // Register automapper.
             builder.Register(ctx => mapperConfiguration);
