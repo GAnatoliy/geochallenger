@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\UserEntityConfiguration.cs" />
     <Compile Include="Extensions\GeoExtensions.cs" />
     <Compile Include="GeoChallengerContext.cs" />
     <Compile Include="GeoChallengerInitializer.cs" />
@@ -67,9 +68,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoChallenger.Domains\GeoChallenger.Domains.csproj">

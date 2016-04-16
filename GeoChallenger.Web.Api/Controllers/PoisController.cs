@@ -6,7 +6,9 @@ using System.Web.Http;
 using AutoMapper;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
+using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Web.Api.Models;
+using GeoChallenger.Web.Api.Models.Pois;
 
 namespace GeoChallenger.Web.Api.Controllers
 {

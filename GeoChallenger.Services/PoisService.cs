@@ -10,6 +10,7 @@ using GeoChallenger.Domains;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
+using GeoChallenger.Services.Interfaces.DTO.Pois;
 using Mehdime.Entity;
 
 

@@ -35,7 +35,7 @@ namespace GeoChallenger.Web.Api.Config
 
             // Register OAuth authentication provider
             builder.RegisterType<GeoChallengerOAuthProvider>()
-                .As<IGeoChallengerOAuthProvider>()
+                .AsSelf()
                 .SingleInstance();  
 
             // TODO: check possible issue with IIS and decide if it is actual for our case

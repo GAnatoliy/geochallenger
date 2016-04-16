@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-
-namespace GeoChallenger.Domains.Users
+﻿namespace GeoChallenger.Web.Api.Models.Users
 {
     /// <summary>
-    ///     User
+    ///     Simple user view model
     /// </summary>
-    public class User
+    public class UserReadViewModel
     {
         /// <summary>
         ///     User Id
@@ -30,23 +26,18 @@ namespace GeoChallenger.Domains.Users
         public string LastName { get; set; }
 
         /// <summary>
-        ///     User created date in UTC
-        /// </summary>
-        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
-
-        /// <summary>
         ///     User geo-location address
         /// </summary>
         public string Address { get; set; }
 
         /// <summary>
-        ///     User geo-location longitude / latitude data
+        ///     User geo-location latitude
         /// </summary>
-        public DbGeography Location { get; set; }
+        public double? Latitude { get; set; }
 
         /// <summary>
-        ///     User Accounts. Relationship property
+        ///     User geo-location longitude
         /// </summary>
-        public virtual ICollection<Account> Accounts { get; set; } = new HashSet<Account>();
+        public double? Longitude { get; set; }
     }
 }

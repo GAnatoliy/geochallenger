@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Spatial;
 
-namespace GeoChallenger.Domains.Users
+namespace GeoChallenger.Services.Interfaces.DTO.Users
 {
     /// <summary>
-    ///     User
+    ///     Carry User enttiy
     /// </summary>
-    public class User
+    public class UserDto
     {
         /// <summary>
         ///     User Id
@@ -32,7 +31,7 @@ namespace GeoChallenger.Domains.Users
         /// <summary>
         ///     User created date in UTC
         /// </summary>
-        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAtUtc { get; set; }
 
         /// <summary>
         ///     User geo-location address
@@ -40,13 +39,18 @@ namespace GeoChallenger.Domains.Users
         public string Address { get; set; }
 
         /// <summary>
-        ///     User geo-location longitude / latitude data
+        ///     User geo-location latitude
         /// </summary>
-        public DbGeography Location { get; set; }
+        public double? Latitude { get; set; }
+
+        /// <summary>
+        ///     User geo-location longitude
+        /// </summary>
+        public double? Longitude { get; set; }
 
         /// <summary>
         ///     User Accounts. Relationship property
         /// </summary>
-        public virtual ICollection<Account> Accounts { get; set; } = new HashSet<Account>();
+        public List<AccountDto> Accounts { get; set; }
     }
 }

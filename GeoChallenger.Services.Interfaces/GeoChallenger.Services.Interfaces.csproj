@@ -49,8 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\PoiDto.cs" />
-    <Compile Include="DTO\PoiUpdateDto.cs" />
+    <Compile Include="DTO\Pois\PoiDto.cs" />
+    <Compile Include="DTO\Pois\PoiUpdateDto.cs" />
+    <Compile Include="DTO\Users\AccountDto.cs" />
+    <Compile Include="DTO\Users\AccountTypeDto.cs" />
+    <Compile Include="DTO\Users\UserDto.cs" />
     <Compile Include="IPoisService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

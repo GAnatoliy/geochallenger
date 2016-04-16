@@ -1,4 +1,4 @@
-﻿namespace GeoChallenger.Web.Api.Models
+﻿namespace GeoChallenger.Web.Api.Models.Pois
 {
     /// <summary>
     ///     POI read view model

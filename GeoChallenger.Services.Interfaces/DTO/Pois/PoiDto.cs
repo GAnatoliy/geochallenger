@@ -1,12 +1,17 @@
-﻿namespace GeoChallenger.Web.Api.Models
+﻿namespace GeoChallenger.Services.Interfaces.DTO.Pois
 {
     /// <summary>
-    ///     View model for update poi by user
+    ///     Contains information about tag, e.g. location, data, etc.
     /// </summary>
-    public class PoiUpdateViewModel
+    public class PoiDto
     {
         /// <summary>
-        ///     Poi title
+        ///     POI Id
+        /// </summary>
+        public int PoiId { get; set; }
+
+        /// <summary>
+        ///     POI title
         /// </summary>
         public string Title { get; set; }
 

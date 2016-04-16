@@ -1,17 +1,12 @@
-﻿namespace GeoChallenger.Services.Interfaces.DTO
+﻿namespace GeoChallenger.Services.Interfaces.DTO.Pois
 {
     /// <summary>
-    ///     Contains information about tag, e.g. location, data, etc.
+    ///     Carry updated poi information
     /// </summary>
-    public class PoiDto
+    public class PoiUpdateDto
     {
         /// <summary>
-        ///     POI Id
-        /// </summary>
-        public int PoiId { get; set; }
-
-        /// <summary>
-        ///     POI title
+        ///     Poi title
         /// </summary>
         public string Title { get; set; }
 

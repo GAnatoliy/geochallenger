@@ -1,9 +1,9 @@
-﻿namespace GeoChallenger.Services.Interfaces.DTO
+﻿namespace GeoChallenger.Web.Api.Models.Pois
 {
     /// <summary>
-    ///     Carry updated poi information
+    ///     View model for update poi by user
     /// </summary>
-    public class PoiUpdateDto
+    public class PoiUpdateViewModel
     {
         /// <summary>
         ///     Poi title

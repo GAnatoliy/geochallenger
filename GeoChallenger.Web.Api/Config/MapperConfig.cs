@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using GeoChallenger.Services.Interfaces.DTO;
-using GeoChallenger.Web.Api.Models;
+using GeoChallenger.Services.Interfaces.DTO.Pois;
+using GeoChallenger.Services.Interfaces.DTO.Users;
+using GeoChallenger.Web.Api.Models.Pois;
+using GeoChallenger.Web.Api.Models.Users;
 
 namespace GeoChallenger.Web.Api.Config
 {
@@ -26,6 +29,10 @@ namespace GeoChallenger.Web.Api.Config
         private static void MapFromContractsToViewModels(IMapperConfiguration config)
         {
             config.CreateMap<PoiDto, PoiReadViewModel>();
+
+            config.CreateMap<AccountTypeDto, AccountTypeViewModel>();
+
+            config.CreateMap<UserDto, UserReadViewModel>();
         }
 
         private static void MapFromViewModelsToContracts(IMapperConfiguration config)

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GeoChallenger.Services.Interfaces.DTO;
+using GeoChallenger.Services.Interfaces.DTO.Pois;
 
 namespace GeoChallenger.Services.Interfaces
 {
