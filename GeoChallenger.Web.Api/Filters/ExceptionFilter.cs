@@ -8,22 +8,13 @@ using NLog;
 
 namespace GeoChallenger.Web.Api.Filters
 {
-    public class ExceptionFilter : IExceptionFilter
+    public class ExceptionFilter : ExceptionFilterAttribute
     {
         private readonly ILogger _log = LogManager.GetCurrentClassLogger();
 
-        public bool AllowMultiple { get; }
-
-        public Task ExecuteExceptionFilterAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
+        public override void OnException(HttpActionExecutedContext filterContext)
         {
-            _log.Fatal(actionExecutedContext.Exception);
-
-            actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError) {
-                Content = new ObjectContent(typeof(object), new {
-                    errorDescription = actionExecutedContext.Exception.Message
-                }, new JsonMediaTypeFormatter())
-            };
-            return Task.FromResult(string.Empty);
+            _log.Error(filterContext.Exception, "Unhandled exception");
         }
     }
 }
