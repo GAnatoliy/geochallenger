@@ -87,12 +87,11 @@ namespace GeoChallenger.Web.Api.Controllers
 
             var poi = await _poisService.GetPoiAsync(poiId);
             if (poi == null) {
-                var createdPoi = await _poisService.CreatePoiAsync(_mapper.Map<PoiUpdateDto>(model));
-                return Created(Url.Link("GetPoiById", new { poiId = createdPoi.Id }), createdPoi);
-            } else {
-                var updatedPoi = await _poisService.UpdatePoiAsync(poiId, _mapper.Map<PoiUpdateDto>(model));
-                return Ok(updatedPoi);
+                return NotFound();
             }
+
+            var updatedPoi = await _poisService.UpdatePoiAsync(poiId, _mapper.Map<PoiUpdateDto>(model));
+            return Ok(updatedPoi);
         }
 
         [HttpDelete]
