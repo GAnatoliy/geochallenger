@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using GeoChallenger.Services.Settings.SocialNetworks;
 
 namespace GeoChallenger.Services.Settings

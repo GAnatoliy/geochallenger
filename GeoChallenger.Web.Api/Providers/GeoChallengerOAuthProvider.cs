@@ -21,11 +21,12 @@ namespace GeoChallenger.Web.Api.Providers
         private readonly IUsersService _usersService;
         private readonly IMapper _mapper;
         private readonly AuthenticationSettings _authenticationSettings;
-
+        
         private readonly Dictionary<string, AccountTypeViewModel> _accountTypes;
 
-        public GeoChallengerOAuthProvider(IMapper mapper, AuthenticationSettings authenticationSettings)
+        public GeoChallengerOAuthProvider(IUsersService usersService, IMapper mapper, AuthenticationSettings authenticationSettings)
         {
+            _usersService = usersService;
             _mapper = mapper;
             _authenticationSettings = authenticationSettings;
             _accountTypes = GetAccountTypes();
@@ -33,12 +34,18 @@ namespace GeoChallenger.Web.Api.Providers
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
+            // Inject additional request parameters to OWIN context
+            var authProvider = context.Parameters.Get(AuthProviderKeyName)
+                ?? AccountTypeViewModel.Google.ToString();
+
+            context.OwinContext.Set(AuthProviderKeyName, authProvider);
+
             context.Validated();
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var authProvider = GetAccountTypes().Keys
+            var authProvider = _accountTypes.Keys
                 .SingleOrDefault(a => a.Equals(context.OwinContext.Get<string>(AuthProviderKeyName), StringComparison.OrdinalIgnoreCase));
 
             if (string.IsNullOrEmpty(authProvider)) {
@@ -47,13 +54,13 @@ namespace GeoChallenger.Web.Api.Providers
                 return;
             }
 
-            if (string.IsNullOrEmpty(context.UserName) || string.IsNullOrEmpty(context.Password)) {
+            if (string.IsNullOrEmpty(context.Password)) {
                 context.Rejected();
                 context.SetError("invalidGrant", "Wrong username or password combination.");
                 return;
             }
 
-            var userDto = await GetUserAsync(context, authProvider);
+            var userDto = await _usersService.GetUserAsync(context.Password, _mapper.Map<AccountTypeDto>(_accountTypes[authProvider]));
             if (userDto == null) {
                 context.Rejected();
                 context.SetError("invalidGrant", "Wrong username or password combination.");
@@ -70,13 +77,6 @@ namespace GeoChallenger.Web.Api.Providers
         {
             return Enum.GetNames(typeof(AccountTypeViewModel))
                 .ToDictionary(name => name, name => (AccountTypeViewModel)Enum.Parse(typeof(AccountTypeViewModel), name));
-        }
-
-        private async Task<UserDto> GetUserAsync(OAuthGrantResourceOwnerCredentialsContext context, string authProvider)
-        {
-            var userDto = await _usersService.GetUserAsync(context.Password, _mapper.Map<AccountTypeDto>(_accountTypes[authProvider]));
-            
-            return userDto;
         }
 
         private void AuthenticateUser(OAuthGrantResourceOwnerCredentialsContext context, UserDto user)

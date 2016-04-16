@@ -11,7 +11,6 @@ using GeoChallenger.Services.Providers.Interfaces;
 using GeoChallenger.Services.Providers.SocialNetworks;
 using GeoChallenger.Services.Settings;
 using GeoChallenger.Services.Settings.SocialNetworks;
-using GeoChallenger.Web.Api.Filters;
 using GeoChallenger.Web.Api.Providers;
 using Mehdime.Entity;
 
@@ -20,14 +19,9 @@ namespace GeoChallenger.Web.Api.Config
 {
     public class DIConfig
     {
-        private static FacebookSettings _facebookSettings;
-        private static GoogleSettings _googleSettings;
-
-        public DIConfig()
-        {
-            _facebookSettings = SettingsFactory.GetFacebookSettings();
-            _googleSettings = SettingsFactory.GetGoogleSettings();
-        }
+        //private static readonly FacebookSettings FacebookSettings = SettingsFactory.GetFacebookSettings();
+        //private static readonly GoogleSettings GoogleSettings = SettingsFactory.GetGoogleSettings();
+        //private static readonly AuthenticationSettings AuthenticationSettings = SettingsFactory.GetAuthenticationSettings();
 
         // Register all related DI.
         public static void RegisterDI(HttpConfiguration configuration, MapperConfiguration mapperConfiguration)
@@ -35,8 +29,9 @@ namespace GeoChallenger.Web.Api.Config
             var builder = new ContainerBuilder();
 
             // Register settings
-            builder.RegisterInstance(_facebookSettings);
-            builder.RegisterInstance(_googleSettings);
+            builder.RegisterInstance(SettingsFactory.GetFacebookSettings());
+            builder.RegisterInstance(SettingsFactory.GetGoogleSettings());
+            builder.RegisterInstance(SettingsFactory.GetAuthenticationSettings());
 
             // Register database.
             builder.RegisterType<DbContextScopeFactory>()
@@ -61,7 +56,7 @@ namespace GeoChallenger.Web.Api.Config
                 .AsSelf()
                 .SingleInstance();
 
-            // Social providers
+            // Social network providers
             builder.RegisterType<FacebookProvider>().AsSelf();
 
             builder.RegisterType<GoogleProvider>().AsSelf();

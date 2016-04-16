@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Configuration;
 using System.Web.Http;
-using GeoChallenger.Web.Api.Providers.Interfaces;
+using GeoChallenger.Services.Settings;
+using GeoChallenger.Web.Api.Providers;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
@@ -20,17 +20,14 @@ namespace GeoChallenger.Web.Api.Config
         public static void ConfigureOAuth(IAppBuilder app, HttpConfiguration configuration)
         {
             // Init oauth bearer token lifetime in days
-            int tokenLifeTimeInDays;
-            if (!int.TryParse(ConfigurationManager.AppSettings["UserTokenLifetimeInDays"], out tokenLifeTimeInDays)) {
-                tokenLifeTimeInDays = 7;
-            }
+            var authenticationSettings = SettingsFactory.GetAuthenticationSettings();
 
             // Init auth server options
             var authServerOptions = new OAuthAuthorizationServerOptions {
                 TokenEndpointPath = new PathString(TokenRelativeUrl),
                 AllowInsecureHttp = true,
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(tokenLifeTimeInDays),
-                Provider = (IGeoChallengerOAuthProvider)configuration.DependencyResolver.GetService(typeof(IGeoChallengerOAuthProvider))
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(authenticationSettings.UserTokenLifetimeInDays),
+                Provider = (GeoChallengerOAuthProvider)configuration.DependencyResolver.GetService(typeof(GeoChallengerOAuthProvider))
             };
 
             app.UseOAuthAuthorizationServer(authServerOptions);

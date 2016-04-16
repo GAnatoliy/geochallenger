@@ -1,4 +1,6 @@
-﻿namespace GeoChallenger.Services.Settings.SocialNetworks
+﻿using System.Collections.Generic;
+
+namespace GeoChallenger.Services.Settings.SocialNetworks
 {
     /// <summary>
     ///     Application authentication settings
