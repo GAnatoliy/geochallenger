@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.DTO.Users;
 using GeoChallenger.Web.Api.Models.Pois;

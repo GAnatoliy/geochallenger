@@ -34,21 +34,6 @@ namespace GeoChallenger.Services.Interfaces.DTO.Users
         public DateTime CreatedAtUtc { get; set; }
 
         /// <summary>
-        ///     User geo-location address
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        ///     User geo-location latitude
-        /// </summary>
-        public double? Latitude { get; set; }
-
-        /// <summary>
-        ///     User geo-location longitude
-        /// </summary>
-        public double? Longitude { get; set; }
-
-        /// <summary>
         ///     User Accounts. Relationship property
         /// </summary>
         public List<AccountDto> Accounts { get; set; }

@@ -35,16 +35,6 @@ namespace GeoChallenger.Domains.Users
         public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
         /// <summary>
-        ///     User geo-location address
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        ///     User geo-location longitude / latitude data
-        /// </summary>
-        public DbGeography Location { get; set; }
-
-        /// <summary>
         ///     User Accounts. Relationship property
         /// </summary>
         public virtual ICollection<Account> Accounts { get; set; } = new HashSet<Account>();

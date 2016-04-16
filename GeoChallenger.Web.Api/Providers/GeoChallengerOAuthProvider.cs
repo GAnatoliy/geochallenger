@@ -16,7 +16,7 @@ namespace GeoChallenger.Web.Api.Providers
 {
     public class GeoChallengerOAuthProvider : OAuthAuthorizationServerProvider
     {
-        private const string AuthProviderKeyName = "authProvider";
+        private const string AuthProviderKeyName = "auth_provider";
 
         private readonly IUsersService _usersService;
         private readonly IMapper _mapper;

@@ -288,7 +288,6 @@
     <Compile Include="Models\Users\UserReadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\GeoChallengerOAuthProvider.cs" />
-    <Compile Include="Providers\Interfaces\IGeoChallengerOAuthProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

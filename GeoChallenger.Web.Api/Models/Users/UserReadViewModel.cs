@@ -24,20 +24,5 @@
         ///     User Last Name
         /// </summary>
         public string LastName { get; set; }
-
-        /// <summary>
-        ///     User geo-location address
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        ///     User geo-location latitude
-        /// </summary>
-        public double? Latitude { get; set; }
-
-        /// <summary>
-        ///     User geo-location longitude
-        /// </summary>
-        public double? Longitude { get; set; }
     }
 }

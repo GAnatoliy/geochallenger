@@ -31,17 +31,8 @@ namespace GeoChallenger.Services
             config.CreateMap<AccountType, AccountTypeDto>();
 
             config.CreateMap<Account, AccountDto>();
-            
-            config.CreateMap<User, UserDto>()
-                .ForMember(dst => dst.Latitude, opt => opt.Ignore())
-                .ForMember(dst => dst.Longitude, opt => opt.Ignore())
-                .AfterMap((src, dst) => {
-                    if (src.Location?.Latitude != null && src.Location.Longitude.HasValue) {
-                        dst.Latitude = src.Location.Latitude.Value;
-                        dst.Longitude = src.Location.Longitude.Value;
-                    }
-                });
 
+            config.CreateMap<User, UserDto>();
         }
 
         private static void MapFromContractsToDomains(IMapperConfiguration config)
