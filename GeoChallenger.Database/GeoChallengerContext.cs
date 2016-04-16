@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using GeoChallenger.Domains;
 using GeoChallenger.Domains.Pois;
 
 

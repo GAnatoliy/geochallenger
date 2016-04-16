@@ -6,7 +6,7 @@ using GeoChallenger.Domains.Pois;
 namespace GeoChallenger.Database
 {
     /// <summary>
-    /// Seed base data.
+    ///     Seed base data.
     /// </summary>
     public class GeoChallengerInitializer: DropCreateDatabaseIfModelChanges<GeoChallengerContext>
     {

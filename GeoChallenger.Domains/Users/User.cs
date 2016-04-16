@@ -32,7 +32,7 @@ namespace GeoChallenger.Domains.Users
         /// <summary>
         ///     User created date in UTC
         /// </summary>
-        public DateTime CreatedAtUtc { get; set; }
+        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         ///     User geo-location longitude / latitude data

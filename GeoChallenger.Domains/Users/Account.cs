@@ -2,6 +2,9 @@
 
 namespace GeoChallenger.Domains.Users
 {
+    /// <summary>
+    ///     Account
+    /// </summary>
     public class Account
     {
         /// <summary>
