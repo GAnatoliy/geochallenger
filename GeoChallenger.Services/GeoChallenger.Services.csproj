@@ -68,6 +68,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GeoChallenger.Database\GeoChallenger.Database.csproj">
+      <Project>{044401c1-6bfa-482e-9ead-bde09317ebcf}</Project>
+      <Name>GeoChallenger.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeoChallenger.Domains\GeoChallenger.Domains.csproj">
       <Project>{67A4BB61-4802-48C9-B364-1D468E6EAF68}</Project>
       <Name>GeoChallenger.Domains</Name>

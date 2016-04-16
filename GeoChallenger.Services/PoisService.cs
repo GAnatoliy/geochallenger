@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GeoChallenger.Database;
 using GeoChallenger.Domains;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
@@ -30,7 +31,11 @@ namespace GeoChallenger.Services
 
         public async Task<IList<PoiDto>> GetPoisAsync()
         {
-            return _mapper.Map<IList<PoiDto>>(PoisStubList);
+            using (var context = new GeoChallengerContext()) {
+                var pois = context.Pois.ToList();
+
+                return _mapper.Map<IList<PoiDto>>(pois);
+            }
         }
 
         public async Task<PoiDto> GetPoiAsync(int poiId)
