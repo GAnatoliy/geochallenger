@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Domains;
@@ -29,6 +31,21 @@ namespace GeoChallenger.Services
         public async Task<IList<PoiDto>> GetPoisAsync()
         {
             return _mapper.Map<IList<PoiDto>>(PoisStubList);
+        }
+
+        public async Task<PoiDto> GetPoiAsync(int poiId)
+        {
+            return _mapper.Map<PoiDto>(PoisStubList.SingleOrDefault(p => p.PoiId == poiId));
+        }
+
+        public async Task UpdatePoiAsync(PoiUpdateDto poiUpdateDto)
+        {
+            var poi = PoisStubList.SingleOrDefault(p => p.PoiId == poiUpdateDto.PoiId);
+            if (poi == null) {
+                throw new ObjectNotFoundException($"Poi with id {poiUpdateDto.PoiId} is not found");
+            }
+
+            _mapper.Map(poiUpdateDto, poi);
         }
     }
 }

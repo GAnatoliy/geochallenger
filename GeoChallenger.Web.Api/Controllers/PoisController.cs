@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
 using GeoChallenger.Services.Interfaces;
+using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Web.Api.Models;
 
 namespace GeoChallenger.Web.Api.Controllers
@@ -40,5 +42,36 @@ namespace GeoChallenger.Web.Api.Controllers
         {
             return _mapper.Map<IList<PoiReadViewModel>>(await _poisService.GetPoisAsync());
         }
+
+        /// <summary>
+        ///     Get poi stub by id
+        /// </summary>
+        /// <param name="poiId">Poi Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{poiId:int}")]
+        public async Task<PoiReadViewModel> Get(int poiId)
+        {
+            var poiDto = await _poisService.GetPoiAsync(poiId);
+            if (poiDto == null) {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return _mapper.Map<PoiReadViewModel>(poiDto);
+        }
+
+        [HttpPut]
+        [Route("")]
+        public async Task<IHttpActionResult> Update(PoiUpdateViewModel model)
+        {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            _poisService.UpdatePoiAsync(_mapper.Map<PoiUpdateDto>(model));
+            return Ok();
+        }
+
+
     }
 }

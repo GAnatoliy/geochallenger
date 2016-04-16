@@ -30,7 +30,7 @@ namespace GeoChallenger.Web.Api.Config
 
         private static void MapFromViewModelsToContracts(IMapperConfiguration config)
         {
-
+            config.CreateMap<PoiUpdateViewModel, PoiUpdateDto>();
         }
     }
 }

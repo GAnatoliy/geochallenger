@@ -262,6 +262,7 @@
     <Compile Include="Controllers\PoisController.cs" />
     <Compile Include="Filters\ExceptionFilter.cs" />
     <Compile Include="Models\PoiReadViewModel.cs" />
+    <Compile Include="Models\PoiUpdateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\GeoChallengerOAuthProvider.cs" />
     <Compile Include="Providers\Interfaces\IGeoChallengerOAuthProvider.cs" />
