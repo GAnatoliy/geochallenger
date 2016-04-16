@@ -22,6 +22,8 @@ namespace GeoChallenger.Web.Api
 
             HttpConfiguration = new HttpConfiguration();
 
+            FilterConfig.RegisterHttpFilters(GlobalConfiguration.Configuration.Filters);
+
             DIConfig.RegisterDI(HttpConfiguration, MapperConfig.CreateMapperConfiguration());
 
             OAuthConfig.ConfigureOAuth(app, HttpConfiguration);

@@ -242,6 +242,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\DIConfig.cs" />
+    <Compile Include="Config\FilterConfig.cs" />
     <Compile Include="Config\MapperConfig.cs" />
     <Compile Include="Config\OAuthConfig.cs" />
     <Compile Include="Config\RouteConfig.cs" />
