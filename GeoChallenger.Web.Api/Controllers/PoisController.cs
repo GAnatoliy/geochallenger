@@ -79,5 +79,12 @@ namespace GeoChallenger.Web.Api.Controllers
             await _poisService.DeletePoiAsync(poiId);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("testexception")]
+        public async Task TestExceptionAsync()
+        {
+            throw new Exception("See inner", new Exception("Some exception"));
+        }
     }
 }
