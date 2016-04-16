@@ -46,9 +46,13 @@ namespace GeoChallenger.Services
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
                 // TODO: add full text search.
-                var pois = await context.Pois
-                    .Where(p => p.Content.ToLower().Contains(query))
-                    .ToListAsync();
+                var poisQuery = context.Pois.AsQueryable();
+
+                if (!string.IsNullOrEmpty(query)) {
+                    poisQuery = poisQuery.Where(p => p.Content.ToLower().Contains(query));
+                }
+                    
+                var pois = await poisQuery.ToListAsync();
 
                 return _mapper.Map<IList<PoiDto>>(pois);
             }
