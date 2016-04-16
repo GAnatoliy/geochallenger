@@ -8,7 +8,7 @@ namespace GeoChallenger.Database
     /// <summary>
     ///     Seed base data.
     /// </summary>
-    public class GeoChallengerInitializer: DropCreateDatabaseIfModelChanges<GeoChallengerContext>
+    public class GeoChallengerInitializer: DropCreateDatabaseAlways<GeoChallengerContext>
     {
         protected override void Seed(GeoChallengerContext context)
         {
