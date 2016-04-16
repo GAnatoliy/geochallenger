@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
 using GeoChallenger.Domains;
+using GeoChallenger.Domains.Pois;
+using GeoChallenger.Services.Extensions;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
 
@@ -14,9 +16,9 @@ namespace GeoChallenger.Services
     public class PoisService: IPoisService
     {
         static readonly List<Poi> PoisStubList = new List<Poi> {
-            new Poi { PoiId = 1, Title = "Stub POI 1" },
-            new Poi { PoiId = 2, Title = "Stub POI 2" },
-            new Poi { PoiId = 3, Title = "Stub POI 3" }
+            new Poi { PoiId = 1, Title = "Stub POI 1", Address = "Dobrovolskogo St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.534159, 32.275574) },
+            new Poi { PoiId = 2, Title = "Stub POI 2", Address = "Shevchenka St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.515507, 32.262109) },
+            new Poi { PoiId = 3, Title = "Stub POI 3", Address = "Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.500530, 32.232154) }
         };
 
         private readonly IMapper _mapper;

@@ -5,5 +5,6 @@ namespace GeoChallenger.Web.Api.Providers
 {
     public class GeoChallengerOAuthProvider : OAuthAuthorizationServerProvider, IGeoChallengerOAuthProvider
     {
+
     }
 }

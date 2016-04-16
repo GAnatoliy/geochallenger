@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\GeoExtensions.cs" />
     <Compile Include="MapperConfig.cs" />
     <Compile Include="PoisService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

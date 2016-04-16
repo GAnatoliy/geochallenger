@@ -1,9 +1,11 @@
-﻿namespace GeoChallenger.Web.Api.Models
+﻿using System.Data.Entity.Spatial;
+
+namespace GeoChallenger.Domains.Pois
 {
     /// <summary>
-    ///     POI read view model
+    ///     Point of Interests
     /// </summary>
-    public class PoiReadViewModel
+    public class Poi
     {
         /// <summary>
         ///     POI Id
@@ -23,11 +25,6 @@
         /// <summary>
         ///     POI location latitude
         /// </summary>
-        public double Latitude { get; set; }
-
-        /// <summary>
-        ///     POI location Longitude
-        /// </summary>
-        public double Longitude { get; set; }
+        public DbGeography Location { get; set; }
     }
 }
