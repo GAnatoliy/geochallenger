@@ -82,7 +82,7 @@ namespace GeoChallenger.Web.Api.Providers
         private void AuthenticateUser(OAuthGrantResourceOwnerCredentialsContext context, UserDto user)
         {
             var identity = new ClaimsIdentity(new List<Claim> {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             },
             DefaultAuthenticationTypes.ExternalBearer);
 

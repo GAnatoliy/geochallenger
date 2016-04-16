@@ -8,7 +8,7 @@
         /// <summary>
         ///     User Id
         /// </summary>
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         ///     User Email
