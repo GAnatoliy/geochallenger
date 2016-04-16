@@ -60,7 +60,13 @@ namespace GeoChallenger.Services
 
         public async Task<PoiDto> GetPoiAsync(int poiId)
         {
-            return _mapper.Map<PoiDto>(PoisStubList.SingleOrDefault(p => p.PoiId == poiId));
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var poi = await context.Pois.FindAsync(poiId);
+
+                return _mapper.Map<PoiDto>(poi);
+            }
         }
 
         public async Task UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto)
