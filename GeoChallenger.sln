@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoChallenger.Services", "GeoChallenger.Services\GeoChallenger.Services.csproj", "{C52EA7B0-7325-4475-B63E-76F95E89A2D0}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoChallenger.Web.Api.Test", "GeoChallenger.Web.Api.Test\GeoChallenger.Web.Api.Test.csproj", "{6D85AE71-0B23-4013-B3EB-41819AD48F84}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoChallenger.Web.Api", "GeoChallenger.Web.Api\GeoChallenger.Web.Api.csproj", "{96F541D2-8960-4742-A823-CF417F7B2F2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoChallenger.Database", "GeoChallenger.Database\GeoChallenger.Database.csproj", "{044401C1-6BFA-482E-9EAD-BDE09317EBCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,12 @@ Global
 		{96F541D2-8960-4742-A823-CF417F7B2F2C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96F541D2-8960-4742-A823-CF417F7B2F2C}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{96F541D2-8960-4742-A823-CF417F7B2F2C}.Test|Any CPU.Build.0 = Test|Any CPU
+		{044401C1-6BFA-482E-9EAD-BDE09317EBCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{044401C1-6BFA-482E-9EAD-BDE09317EBCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{044401C1-6BFA-482E-9EAD-BDE09317EBCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{044401C1-6BFA-482E-9EAD-BDE09317EBCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{044401C1-6BFA-482E-9EAD-BDE09317EBCF}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{044401C1-6BFA-482E-9EAD-BDE09317EBCF}.Test|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
