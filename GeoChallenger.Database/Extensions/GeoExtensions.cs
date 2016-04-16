@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity.Spatial;
 using System.Globalization;
 
-namespace GeoChallenger.Services.Extensions
+namespace GeoChallenger.Database.Extensions
 {
     public static class GeoExtensions
     {

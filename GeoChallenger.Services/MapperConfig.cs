@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
-using GeoChallenger.Services.Extensions;
 using GeoChallenger.Services.Interfaces.DTO;
 
 namespace GeoChallenger.Services

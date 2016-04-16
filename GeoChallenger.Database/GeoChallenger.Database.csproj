@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\GeoExtensions.cs" />
     <Compile Include="GeoChallengerContext.cs" />
     <Compile Include="GeoChallengerInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

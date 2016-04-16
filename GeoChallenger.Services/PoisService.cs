@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
+using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains;
 using GeoChallenger.Domains.Pois;
-using GeoChallenger.Services.Extensions;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
 
