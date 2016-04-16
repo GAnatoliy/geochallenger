@@ -36,5 +36,15 @@ namespace GeoChallenger.Domains.Pois
         ///     POI location latitude
         /// </summary>
         public DbGeography Location { get; set; }
+
+        /// <summary>
+        /// Indicates that POI is deleted and shouldn't shown for user.
+        /// </summary>
+        public bool IsDeleted { get; protected set; }
+
+        public void Delete()
+        {
+            IsDeleted = true;
+        }
     }
 }

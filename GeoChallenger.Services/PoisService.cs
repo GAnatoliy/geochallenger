@@ -46,7 +46,8 @@ namespace GeoChallenger.Services
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
                 // TODO: add full text search.
-                var poisQuery = context.Pois.AsQueryable();
+                var poisQuery = context.Pois
+                    .Where(p => !p.IsDeleted);
 
                 if (!string.IsNullOrEmpty(query)) {
                     poisQuery = poisQuery.Where(p => p.Content.ToLower().Contains(query));
@@ -63,7 +64,9 @@ namespace GeoChallenger.Services
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-                var poi = await context.Pois.FindAsync(poiId);
+                var poi = await context.Pois
+                    .Where(p => !p.IsDeleted && p.Id == poiId)
+                    .SingleOrDefaultAsync();
 
                 return _mapper.Map<PoiDto>(poi);
             }
@@ -91,7 +94,7 @@ namespace GeoChallenger.Services
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
                 var poi = await context.Pois.FindAsync(poiId);
-                if (poi == null) {
+                if (poi == null || poi.IsDeleted) {
                     throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
                 }
 
@@ -111,11 +114,11 @@ namespace GeoChallenger.Services
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
                 var poi = await context.Pois.FindAsync(poiId);
-                if (poi == null) {
+                if (poi == null || poi.IsDeleted) {
                     throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
                 }
 
-                context.Pois.Remove(poi);
+                poi.Delete();
 
                 await context.SaveChangesAsync();
             }

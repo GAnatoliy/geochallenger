@@ -42,7 +42,7 @@ namespace GeoChallenger.Web.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<IList<PoiPreviewViewModel>> Get(string query)
+        public async Task<IList<PoiPreviewViewModel>> Get(string query = null)
         {
             return _mapper.Map<IList<PoiPreviewViewModel>>(await _poisService.SearchPoisAsync(query));
         }
