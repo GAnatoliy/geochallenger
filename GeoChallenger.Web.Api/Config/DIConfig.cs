@@ -45,9 +45,6 @@ namespace GeoChallenger.Web.Api.Config
 
             var container = builder.Build();
             configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-
-            // Register filters
-            configuration.Filters.Add(new ExceptionFilter());
         }
     }
 }

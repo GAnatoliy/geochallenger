@@ -22,7 +22,7 @@ namespace GeoChallenger.Web.Api
 
             HttpConfiguration = new HttpConfiguration();
 
-            FilterConfig.RegisterHttpFilters(GlobalConfiguration.Configuration.Filters);
+            FilterConfig.RegisterHttpFilters(HttpConfiguration.Filters);
 
             DIConfig.RegisterDI(HttpConfiguration, MapperConfig.CreateMapperConfiguration());
 
