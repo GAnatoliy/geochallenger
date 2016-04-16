@@ -61,17 +61,23 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         [HttpPut]
-        [Route("")]
-        public async Task<IHttpActionResult> Update(PoiUpdateViewModel model)
+        [Route("{poiId:int}")]
+        public async Task<IHttpActionResult> Update(int poiId, PoiUpdateViewModel model)
         {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
-            _poisService.UpdatePoiAsync(_mapper.Map<PoiUpdateDto>(model));
+            await _poisService.UpdatePoiAsync(poiId, _mapper.Map<PoiUpdateDto>(model));
             return Ok();
         }
 
-
+        [HttpDelete]
+        [Route("{poiId:int}")]
+        public async Task<IHttpActionResult> Delete(int poiId)
+        {
+            await _poisService.DeletePoiAsync(poiId);
+            return Ok();
+        }
     }
 }

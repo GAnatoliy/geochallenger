@@ -38,14 +38,24 @@ namespace GeoChallenger.Services
             return _mapper.Map<PoiDto>(PoisStubList.SingleOrDefault(p => p.PoiId == poiId));
         }
 
-        public async Task UpdatePoiAsync(PoiUpdateDto poiUpdateDto)
+        public async Task UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto)
         {
-            var poi = PoisStubList.SingleOrDefault(p => p.PoiId == poiUpdateDto.PoiId);
+            var poi = PoisStubList.SingleOrDefault(p => p.PoiId == poiId);
             if (poi == null) {
-                throw new ObjectNotFoundException($"Poi with id {poiUpdateDto.PoiId} is not found");
+                throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
             }
 
             _mapper.Map(poiUpdateDto, poi);
+        }
+
+        public async Task DeletePoiAsync(int poiId)
+        {
+            var poi = PoisStubList.SingleOrDefault(p => p.PoiId == poiId);
+            if (poi == null) {
+                throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
+            }
+
+            PoisStubList.Remove(poi);
         }
     }
 }

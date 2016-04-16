@@ -19,7 +19,8 @@ namespace GeoChallenger.Services
 
         private static void MapFromContractsToDomains(IMapperConfiguration config)
         {
-            config.CreateMap<PoiUpdateDto, Poi>();
+            config.CreateMap<PoiUpdateDto, Poi>()
+                .ForMember(dst => dst.PoiId, opt => opt.Ignore());
         }
     }
 }
