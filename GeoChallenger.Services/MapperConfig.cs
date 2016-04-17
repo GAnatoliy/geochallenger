@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Users;
 using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.DTO.Users;
+using GeoChallenger.Services.Providers.DTO;
 
 namespace GeoChallenger.Services
 {
@@ -45,6 +47,14 @@ namespace GeoChallenger.Services
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });
+
+            config.CreateMap<SocialNetworkValidationData, Account>()
+                .ForMember(dst => dst.Id, opt => opt.Ignore())
+                .ForMember(dst => dst.Uid, opt => opt.MapFrom(src => src.Uid))
+                .ForMember(dst => dst.AttachedAtUtc, opt => opt.UseValue(DateTime.UtcNow))
+                .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.Type))
+                .ForMember(dst => dst.UserId, opt => opt.Ignore())
+                .ForMember(dst => dst.User, opt => opt.Ignore());
         }
     }
 }

@@ -19,14 +19,9 @@ namespace GeoChallenger.Services.Interfaces.DTO.Users
         public string Email { get; set; }
 
         /// <summary>
-        ///     User Firts Name
+        ///     User Full Name
         /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        ///     User Last Name
-        /// </summary>
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         ///     User created date in UTC

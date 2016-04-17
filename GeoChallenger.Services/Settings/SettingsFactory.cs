@@ -26,7 +26,7 @@ namespace GeoChallenger.Services.Settings
         public static FacebookSettings GetFacebookSettings()
         {
             return new FacebookSettings {
-                FacebookVerificationUrl = "https://graph.facebook.com/me?fields=id,first_name,last_name,picture,email&access_token="
+                FacebookVerificationUrl = "https://graph.facebook.com/me?fields=id,first_name,last_name,name,picture,email&access_token="
             };
         }
 

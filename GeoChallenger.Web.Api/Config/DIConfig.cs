@@ -10,19 +10,13 @@ using GeoChallenger.Services.Providers;
 using GeoChallenger.Services.Providers.Interfaces;
 using GeoChallenger.Services.Providers.SocialNetworks;
 using GeoChallenger.Services.Settings;
-using GeoChallenger.Services.Settings.SocialNetworks;
 using GeoChallenger.Web.Api.Providers;
 using Mehdime.Entity;
-
 
 namespace GeoChallenger.Web.Api.Config
 {
     public class DIConfig
     {
-        //private static readonly FacebookSettings FacebookSettings = SettingsFactory.GetFacebookSettings();
-        //private static readonly GoogleSettings GoogleSettings = SettingsFactory.GetGoogleSettings();
-        //private static readonly AuthenticationSettings AuthenticationSettings = SettingsFactory.GetAuthenticationSettings();
-
         // Register all related DI.
         public static void RegisterDI(HttpConfiguration configuration, MapperConfiguration mapperConfiguration)
         {
