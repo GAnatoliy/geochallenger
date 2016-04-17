@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using GeoChallenger.Search;
+using GeoChallenger.Services.Interfaces;
 using NLog;
 
 
@@ -9,21 +10,21 @@ namespace GeoChallenger.Commands.Commands
     public class ReindexCommand
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly ISearchConfigurationManager _searchConfigurationManager;
+        private readonly ICommands _commands;
 
-        public ReindexCommand(ISearchConfigurationManager searchConfigurationManager)
+        public ReindexCommand(ICommands commands)
         {
-            if (searchConfigurationManager == null) {
-                throw new ArgumentNullException(nameof(searchConfigurationManager));
+            if (commands == null) {
+                throw new ArgumentNullException(nameof(commands));
             }
-            _searchConfigurationManager = searchConfigurationManager;
+            _commands = commands;
         }
 
         public async Task RunAsync()
         {
             _log.Info("Reindex command is run.");
 
-            await _searchConfigurationManager.IncreaseIndexVersionAsync();
+            await _commands.ReindexAsync();
 
             _log.Info("Reindex command is finished.");    
         }

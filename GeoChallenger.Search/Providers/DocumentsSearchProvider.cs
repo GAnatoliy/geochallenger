@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Elasticsearch.Net;
+using GeoChallenger.Search.Documents;
 using Nest;
 using NLog;
 
@@ -13,7 +14,7 @@ namespace GeoChallenger.Search.Providers
     /// <summary>
     /// Base class with common methods for search provider.
     /// </summary>
-    public abstract class DocumentsSearchProvider<T>: IDocumentsSearchProvider<T> where T: class
+    public abstract class DocumentsSearchProvider<T>: IDocumentsSearchProvider<T> where T: BaseDocument
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly SearchSettings _searchSettings;

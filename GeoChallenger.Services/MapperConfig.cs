@@ -3,6 +3,7 @@ using AutoMapper;
 using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Users;
+using GeoChallenger.Search.Documents;
 using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.DTO.Users;
@@ -16,6 +17,7 @@ namespace GeoChallenger.Services
         {
             MapFromDomainsToContracts(config);
             MapFromContractsToDomains(config);
+            MapSearchDocuments(config);
         }
 
         private static void MapFromDomainsToContracts(IMapperConfiguration config)
@@ -44,6 +46,7 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.Location, opt => opt.Ignore())
                 .ForMember(dst => dst.ContentPreview, opt => opt.Ignore())
                 .ForMember(dst => dst.Content, opt => opt.Ignore())
+                .ForMember(dst => dst.IsDeleted, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });
@@ -55,6 +58,12 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dst => dst.UserId, opt => opt.Ignore())
                 .ForMember(dst => dst.User, opt => opt.Ignore());
+        }
+
+        private static void MapSearchDocuments(IMapperConfiguration config)
+        {
+            config.CreateMap<Poi, PoiDocument>();
+            config.CreateMap<PoiDocument, SearchPoiResultDto>();
         }
     }
 }

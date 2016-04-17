@@ -14,7 +14,7 @@ namespace GeoChallenger.Services.Interfaces
         ///     Returns all pois in system
         /// </summary>
         /// <returns></returns>
-        Task<IList<PoiDto>> SearchPoisAsync(string query);
+        Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query);
 
         /// <summary>
         ///     Get poi by Id
@@ -44,5 +44,11 @@ namespace GeoChallenger.Services.Interfaces
         /// <param name="poiId">Poi Id</param>
         /// <returns></returns>
         Task DeletePoiAsync(int poiId);
+
+        /// <summary>
+        /// Update search index of all poi.
+        /// </summary>
+        /// <returns></returns>
+        Task UpdatePoisSearchIndexAsync();
     }
 }

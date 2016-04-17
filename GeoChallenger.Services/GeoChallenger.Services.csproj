@@ -88,6 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands.cs" />
+    <Compile Include="Core\ISearchIndexer.cs" />
+    <Compile Include="Core\SearchIndexer.cs" />
     <Compile Include="Helpers\HtmlHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="MapperConfig.cs" />
@@ -114,6 +117,10 @@
     <ProjectReference Include="..\GeoChallenger.Domains\GeoChallenger.Domains.csproj">
       <Project>{67A4BB61-4802-48C9-B364-1D468E6EAF68}</Project>
       <Name>GeoChallenger.Domains</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoChallenger.Search\GeoChallenger.Search.csproj">
+      <Project>{75ebadab-62d0-4793-a934-a72066c54b7d}</Project>
+      <Name>GeoChallenger.Search</Name>
     </ProjectReference>
     <ProjectReference Include="..\GeoChallenger.Services.Interfaces\GeoChallenger.Services.Interfaces.csproj">
       <Project>{7A235C54-45EB-40DD-A99D-E44801B7E43E}</Project>

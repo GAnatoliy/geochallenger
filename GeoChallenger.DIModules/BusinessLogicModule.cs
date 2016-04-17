@@ -3,6 +3,8 @@ using Autofac;
 using GeoChallenger.Search;
 using GeoChallenger.Search.Providers;
 using GeoChallenger.Services;
+using GeoChallenger.Services.Core;
+using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Users;
 using GeoChallenger.Services.Providers;
 using GeoChallenger.Services.Providers.Interfaces;
@@ -48,6 +50,17 @@ namespace GeoChallenger.DIModules
             // Register search.
             builder.RegisterType<SearchConfigurationManager>()
                 .As<ISearchConfigurationManager>();
+
+            builder.RegisterType<PoisSearchProvider>()
+                .As<IPoisSearchProvider>();
+
+            builder.RegisterType<SearchIndexer>()
+                .As<ISearchIndexer>();
+
+            // Register commands.
+            builder.RegisterType<Commands>()
+                .As<ICommands>();
+            
         }
     }
 }

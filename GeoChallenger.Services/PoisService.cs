@@ -8,6 +8,9 @@ using AutoMapper;
 using GeoChallenger.Database;
 using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
+using GeoChallenger.Search.Documents;
+using GeoChallenger.Search.Providers;
+using GeoChallenger.Services.Core;
 using GeoChallenger.Services.Helpers;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
@@ -26,8 +29,10 @@ namespace GeoChallenger.Services
 
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
         private readonly IMapper _mapper;
+        private readonly ISearchIndexer _searchIndexer;
+        private readonly IPoisSearchProvider _poisSearchProvider;
 
-        public PoisService(IMapper mapper, IDbContextScopeFactory dbContextScopeFactory)
+        public PoisService(IMapper mapper, IDbContextScopeFactory dbContextScopeFactory, ISearchIndexer searchIndexer, IPoisSearchProvider poisSearchProvider)
         {
             if (mapper == null) {
                 throw new ArgumentNullException(nameof(mapper));
@@ -35,11 +40,19 @@ namespace GeoChallenger.Services
             if (dbContextScopeFactory == null) {
                 throw new ArgumentNullException(nameof(dbContextScopeFactory));
             }
+            if (searchIndexer == null) {
+                throw new ArgumentNullException(nameof(searchIndexer));
+            }
+            if (poisSearchProvider == null) {
+                throw new ArgumentNullException(nameof(poisSearchProvider));
+            }
             _mapper = mapper;
             _dbContextScopeFactory = dbContextScopeFactory;
+            _searchIndexer = searchIndexer;
+            _poisSearchProvider = poisSearchProvider;
         }
 
-        public async Task<IList<PoiDto>> SearchPoisAsync(string query)
+        public async Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
@@ -54,7 +67,7 @@ namespace GeoChallenger.Services
                     
                 var pois = await poisQuery.ToListAsync();
 
-                return _mapper.Map<IList<PoiDto>>(pois);
+                return _mapper.Map<IList<SearchPoiResultDto>>(pois);
             }
         }
 
@@ -125,6 +138,19 @@ namespace GeoChallenger.Services
 
                 await context.SaveChangesAsync();
             }
+        }
+
+        public async Task UpdatePoisSearchIndexAsync()
+        {
+            await _searchIndexer.UpdateSearchIndexAsync<Poi, PoiDocument>(
+                poi => true,
+                poi => poi.Id,
+                poi => {
+                    var poiDocument = new PoiDocument();
+                    _mapper.Map(poi, poiDocument);
+                    return Task.FromResult(poiDocument);
+                },
+                _poisSearchProvider);
         }
 
         /// <summary>

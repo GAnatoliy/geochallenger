@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DTO\Pois\PoiDto.cs" />
     <Compile Include="DTO\Pois\PoiUpdateDto.cs" />
+    <Compile Include="DTO\Pois\SearchPoiResultDto.cs" />
     <Compile Include="DTO\Users\AccountDto.cs" />
     <Compile Include="DTO\Users\AccountTypeDto.cs" />
     <Compile Include="DTO\Users\UserDto.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Exceptions\BusinessLogicException.cs" />
     <Compile Include="Exceptions\InternalErrorException.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
+    <Compile Include="ICommands.cs" />
     <Compile Include="IPoisService.cs" />
     <Compile Include="IUsersService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
