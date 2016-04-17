@@ -95,6 +95,7 @@
     <Compile Include="Providers\Interfaces\ISocialNetworksProvider.cs" />
     <Compile Include="Providers\SocialNetworks\FacebookProvider.cs" />
     <Compile Include="Providers\SocialNetworks\GoogleProvider.cs" />
+    <Compile Include="Queries\UsersQueries.cs" />
     <Compile Include="Settings\SettingsFactory.cs" />
     <Compile Include="Settings\SocialNetworks\AuthenticationSettings.cs" />
     <Compile Include="Settings\SocialNetworks\FacebookSettings.cs" />

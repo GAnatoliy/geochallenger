@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,7 +6,9 @@ using GeoChallenger.Database;
 using GeoChallenger.Domains.Users;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Users;
+using GeoChallenger.Services.Providers.DTO;
 using GeoChallenger.Services.Providers.Interfaces;
+using GeoChallenger.Services.Queries;
 using Mehdime.Entity;
 
 namespace GeoChallenger.Services
@@ -17,6 +18,8 @@ namespace GeoChallenger.Services
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
         private readonly Dictionary<AccountTypeDto, ISocialNetworksProvider> _socialNetworksProviders;
         private readonly IMapper _mapper;
+
+        const string DefaultUserNameStub = "GeoChallenger User";
 
         public UsersService(IDbContextScopeFactory dbContextScopeFactory, Dictionary<AccountTypeDto, ISocialNetworksProvider> socialNetworksProviders, IMapper mapper)
         {
@@ -30,32 +33,53 @@ namespace GeoChallenger.Services
             var accountType = _mapper.Map<AccountType>(accountTypeDto);
             var socialNetworkValidationData = await _socialNetworksProviders[accountTypeDto].ValidateCredentialsAsync(oauthToken);
 
-            var account = await GetAccountAsync(socialNetworkValidationData.Uid, accountType);
-            if (account == null) {
-                return null;
-            }
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var user = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Users
+                    .GetUser(socialNetworkValidationData.Email)
+                    .SingleOrDefaultAsync();
 
-            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
-                return _mapper.Map<UserDto>(await dbContextScope.DbContexts.Get<GeoChallengerContext>().Users.FindAsync(account.UserId));
+                // User exist
+                if (user != null) {
+                    var account = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Accounts
+                        .GetAccount(socialNetworkValidationData.Uid, accountType)
+                        .SingleOrDefaultAsync();
+
+                    // User exist, account exist
+                    if (account != null) {
+                        return _mapper.Map<UserDto>(user);
+                    }
+
+                    // User exist, create new account
+                    dbContextScope.DbContexts.Get<GeoChallengerContext>().Accounts
+                        .Add(CreateUserAccount(socialNetworkValidationData, user));
+
+                    await dbContextScope.SaveChangesAsync();
+                    return _mapper.Map<UserDto>(user);
+                }
+
+                user = new User {
+                    Email = socialNetworkValidationData.Email,
+                    Name = !string.IsNullOrEmpty(socialNetworkValidationData.Name) ? socialNetworkValidationData.Name : DefaultUserNameStub
+                };
+
+                dbContextScope.DbContexts.Get<GeoChallengerContext>().Accounts
+                    .Add(CreateUserAccount(socialNetworkValidationData, user));
+                dbContextScope.DbContexts.Get<GeoChallengerContext>().Users
+                    .Add(user);
+
+                await dbContextScope.SaveChangesAsync();
+                return _mapper.Map<UserDto>(user);
             }
         }
 
         #region Private Methods
 
-        private async Task<Account> GetAccountAsync(string uid, AccountType type)
+        private Account CreateUserAccount(SocialNetworkValidationData socialNetworkValidationData, User user)
         {
-            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
-                return await dbContextScope.DbContexts.Get<GeoChallengerContext>().Accounts
-                    .SingleOrDefaultAsync(a => a.Uid.Equals(uid, StringComparison.OrdinalIgnoreCase) && a.Type == type);
-            }
-        }
-
-        private async Task VerifyAccountUniquess(string uniqueAccountSignature, AccountType accountType)
-        {
-            var account = await GetAccountAsync(uniqueAccountSignature, accountType);
-            if (account != null) {
-                throw new Exception($"User's {accountType} account already exist.");
-            }
+            var account = _mapper.Map<Account>(socialNetworkValidationData);
+            account.UserId = user.Id;
+            account.User = user;
+            return account;
         }
 
         #endregion

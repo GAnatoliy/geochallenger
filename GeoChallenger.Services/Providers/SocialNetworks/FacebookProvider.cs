@@ -25,6 +25,7 @@ namespace GeoChallenger.Services.Providers.SocialNetworks
             return new SocialNetworkValidationData {
                 Uid = facebookUserData.FacebookId,
                 Email = facebookUserData.Email,
+                Name = facebookUserData.Name,
                 Type = AccountType.Facebook
             };
         }
@@ -70,6 +71,12 @@ namespace GeoChallenger.Services.Providers.SocialNetworks
             /// </summary>
             [JsonProperty("email")]
             public string Email { get; set; }
+
+            /// <summary>
+            ///     User name on Facebook
+            /// </summary>
+            [JsonProperty("name")]
+            public string Name { get; set; }
         }
 
         #endregion

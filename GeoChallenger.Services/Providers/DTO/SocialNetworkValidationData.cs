@@ -18,6 +18,11 @@ namespace GeoChallenger.Services.Providers.DTO
         public string Email { get; set; }
 
         /// <summary>
+        ///     Social network user full name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         ///     Social network type
         /// </summary>
         public AccountType Type { get; set; }
