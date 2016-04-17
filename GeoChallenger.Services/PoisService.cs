@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
-using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Search.Documents;
 using GeoChallenger.Search.Providers;
@@ -15,12 +14,14 @@ using GeoChallenger.Services.Helpers;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using Mehdime.Entity;
+using NLog;
 
 
 namespace GeoChallenger.Services
 {
     public class PoisService: IPoisService
     {
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
         private readonly IMapper _mapper;
         private readonly ISearchIndexer _searchIndexer;
@@ -67,29 +68,39 @@ namespace GeoChallenger.Services
 
         public async Task<PoiDto> CreatePoiAsync(PoiUpdateDto poiUpdateDto)
         {
+            Poi poi;
+
             using (var dbContextScope = _dbContextScopeFactory.Create()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-                var poi = _mapper.Map<Poi>(poiUpdateDto);
+                poi = _mapper.Map<Poi>(poiUpdateDto);
 
                 poi.Content = HtmlHelper.SanitizeHtml(poiUpdateDto.Content);
                 poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
 
                 context.Pois.Add(poi);
-
-                // TODO: minify and make preview.
                 
                 await dbContextScope.SaveChangesAsync();
-                return _mapper.Map<PoiDto>(poi);
             }
+
+            // Create search index.
+            try {
+                await _poisSearchProvider.IndexAsync(_mapper.Map<PoiDocument>(poi));
+            } catch (Exception ex) {
+                _log.Warn(ex, $"Can't create search index for poi with id {poi.Id}");
+            }
+
+            return _mapper.Map<PoiDto>(poi);
         }
 
         public async Task<PoiDto> UpdatePoiAsync(int poiId, PoiUpdateDto poiUpdateDto)
         {
+            Poi poi;
+
             using (var dbContextScope = _dbContextScopeFactory.Create()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-                var poi = await context.Pois.FindAsync(poiId);
+                poi = await context.Pois.FindAsync(poiId);
                 if (poi == null || poi.IsDeleted) {
                     throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
                 }
@@ -100,9 +111,16 @@ namespace GeoChallenger.Services
                 poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
 
                 await dbContextScope.SaveChangesAsync();
-
-                return _mapper.Map<PoiDto>(poi);
             }
+
+            // Update search index.
+            try {
+                await _poisSearchProvider.IndexAsync(_mapper.Map<PoiDocument>(poi));
+            } catch (Exception ex) {
+                _log.Warn(ex, $"Can't update search index for poi with id {poi.Id}");
+            }
+
+            return _mapper.Map<PoiDto>(poi);
         }
 
         public async Task DeletePoiAsync(int poiId)
@@ -118,6 +136,13 @@ namespace GeoChallenger.Services
                 poi.Delete();
 
                 await context.SaveChangesAsync();
+            }
+
+            // Delete search index.
+            try {
+                await _poisSearchProvider.DeleteAsync(poiId);
+            } catch (Exception ex) {
+                _log.Warn(ex, $"Can't delete search index for poi with id {poiId}");
             }
         }
 
