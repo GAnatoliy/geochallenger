@@ -10,6 +10,6 @@ namespace GeoChallenger.Search.Providers
         /// <summary>
         /// Returns all found poi.
         /// </summary>
-        Task<IList<PoiDocument>> SearchAllAsync(string searchText, int offset, int limit);
+        Task<IList<PoiDocument>> SearchAllAsync(string searchText);
     }
 }

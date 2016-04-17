@@ -21,12 +21,6 @@ namespace GeoChallenger.Services
 {
     public class PoisService: IPoisService
     {
-        static readonly List<Poi> PoisStubList = new List<Poi> {
-            new Poi { Id = 1, Title = "Stub POI 1", Address = "Dobrovolskogo St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.534159, 32.275574) },
-            new Poi { Id = 2, Title = "Stub POI 2", Address = "Shevchenka St, 1, Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.515507, 32.262109) },
-            new Poi { Id = 3, Title = "Stub POI 3", Address = "Kirovohrad, Kirovohrads'ka oblast, 25000", Location = GeoExtensions.CreateLocationPoint(48.500530, 32.232154) }
-        };
-
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
         private readonly IMapper _mapper;
         private readonly ISearchIndexer _searchIndexer;
@@ -54,21 +48,8 @@ namespace GeoChallenger.Services
 
         public async Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query)
         {
-            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
-                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
-
-                // TODO: add full text search.
-                var poisQuery = context.Pois
-                    .Where(p => !p.IsDeleted);
-
-                if (!string.IsNullOrEmpty(query)) {
-                    poisQuery = poisQuery.Where(p => p.Content.ToLower().Contains(query));
-                }
-                    
-                var pois = await poisQuery.ToListAsync();
-
-                return _mapper.Map<IList<SearchPoiResultDto>>(pois);
-            }
+            var pois = await _poisSearchProvider.SearchAllAsync(query);
+            return _mapper.Map<IList<SearchPoiResultDto>>(pois);
         }
 
         public async Task<PoiDto> GetPoiAsync(int poiId)
@@ -143,7 +124,7 @@ namespace GeoChallenger.Services
         public async Task UpdatePoisSearchIndexAsync()
         {
             await _searchIndexer.UpdateSearchIndexAsync<Poi, PoiDocument>(
-                poi => true,
+                poi => !poi.IsDeleted,
                 poi => poi.Id,
                 poi => {
                     var poiDocument = new PoiDocument();
