@@ -15,49 +15,6 @@ namespace GeoChallenger.Search.Providers
     /// </summary>
     public abstract class DocumentsSearchProvider<T>: IDocumentsSearchProvider<T> where T: class
     {
-        private class SearchSettings
-        {
-            private const int DEFAULT_PING_TIMEOUT = 1000;
-            private const int DEFAULT_MAXIMUM_RETRIES = 0;
-
-            public SearchSettings()
-            {
-                ElasticSearchHost = ConfigurationManager.AppSettings["Search.ElasticSearchHost"];
-                Index = ConfigurationManager.AppSettings["Search.Index"];
-
-
-                bool isParsed;
-                int pingTimeout;
-                isParsed = int.TryParse(ConfigurationManager.AppSettings["Search.PingTimeout"], out pingTimeout);
-                if (isParsed) {
-                    PingTimeout = pingTimeout;
-                } else {
-                    PingTimeout = DEFAULT_PING_TIMEOUT;
-                    _log.Warn("Can't parse setting 'Search.PingTimeout', default value is used.");
-                }
-
-                int maximumRetries;
-                isParsed = int.TryParse(ConfigurationManager.AppSettings["Search.MaximumRetries"], out maximumRetries);
-                if (isParsed) {
-                    MaximumRetries = maximumRetries;
-                } else {
-                    MaximumRetries = DEFAULT_MAXIMUM_RETRIES;
-                    _log.Warn("Can't parse setting 'Search.MaximumRetries', default value is used.");
-                }
-            }
-
-            public string ElasticSearchHost { get; set; }
-
-            public string Index { get; set; }
-
-            /// <summary>
-            /// Ping timeout in miliseconds.
-            /// </summary>
-            public int PingTimeout { get; set; }
-
-            public int MaximumRetries { get; set; }
-        }
-
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly SearchSettings _searchSettings;
 
@@ -142,12 +99,12 @@ namespace GeoChallenger.Search.Providers
         /// </summary>
         protected ElasticClient GetClient()
         {
-            var node = new Uri(ConfigurationManager.AppSettings["Search.ElasticSearchHost"]);
+            var node = new Uri(_searchSettings.ElasticSearchHost);
             var connectionPool = new SniffingConnectionPool(new[] { node });
             var settings = new ConnectionSettings(connectionPool);
             settings.PingTimeout(new TimeSpan(0, 0, 0, 0, _searchSettings.PingTimeout));
             settings.MaximumRetries(_searchSettings.MaximumRetries);
-            settings.DefaultIndex(_searchSettings.Index);
+            settings.DefaultIndex(_searchSettings.IndexAlias);
 
             // TODO: Decide if it is ok to create client for each call.
             return new ElasticClient(settings);
