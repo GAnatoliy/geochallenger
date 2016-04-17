@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Mehdime.Entity;
 
 
 namespace GeoChallenger.DIModules
@@ -7,7 +8,9 @@ namespace GeoChallenger.DIModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            base.Load(builder);
+            // Register database.
+            builder.RegisterType<DbContextScopeFactory>()
+                .As<IDbContextScopeFactory>();
         }
     }
 }

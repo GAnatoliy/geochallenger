@@ -18,9 +18,12 @@ namespace GeoChallenger.Search.Providers
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly SearchSettings _searchSettings;
 
-        protected DocumentsSearchProvider()
+        protected DocumentsSearchProvider(SearchSettings searchSettings)
         {
-            _searchSettings = new SearchSettings();
+            if (searchSettings == null) {
+                throw new ArgumentNullException(nameof(searchSettings));
+            }
+            _searchSettings = searchSettings;
         }
 
         public async Task<bool> IndexAsync(T document)

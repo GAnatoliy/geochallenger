@@ -325,6 +325,10 @@
     <Folder Include="App_Start\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GeoChallenger.DIModules\GeoChallenger.DIModules.csproj">
+      <Project>{ad2789c9-636e-4ef2-baec-559a3dc82501}</Project>
+      <Name>GeoChallenger.DIModules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeoChallenger.Services.Interfaces\GeoChallenger.Services.Interfaces.csproj">
       <Project>{7a235c54-45eb-40dd-a99d-e44801b7e43e}</Project>
       <Name>GeoChallenger.Services.Interfaces</Name>

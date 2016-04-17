@@ -16,9 +16,12 @@ namespace GeoChallenger.Search
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly SearchSettings _searchSettings;
 
-        public SearchConfigurationManager()
+        public SearchConfigurationManager(SearchSettings searchSettings)
         {
-            _searchSettings = new SearchSettings();
+            if (searchSettings == null) {
+                throw new ArgumentNullException(nameof(searchSettings));
+            }
+            _searchSettings = searchSettings;
         }
 
         public async Task IncreaseIndexVersionAsync()
