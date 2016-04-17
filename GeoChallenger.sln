@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoChallenger.Web.Api.Test"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoChallenger.Database", "GeoChallenger.Database\GeoChallenger.Database.csproj", "{F246A74F-E3B9-4A94-B77C-436095EFC104}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoChallenger.Search", "GeoChallenger.Search\GeoChallenger.Search.csproj", "{75EBADAB-62D0-4793-A934-A72066C54B7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{F246A74F-E3B9-4A94-B77C-436095EFC104}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F246A74F-E3B9-4A94-B77C-436095EFC104}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F246A74F-E3B9-4A94-B77C-436095EFC104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75EBADAB-62D0-4793-A934-A72066C54B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75EBADAB-62D0-4793-A934-A72066C54B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75EBADAB-62D0-4793-A934-A72066C54B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75EBADAB-62D0-4793-A934-A72066C54B7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
