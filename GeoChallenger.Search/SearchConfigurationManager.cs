@@ -63,7 +63,7 @@ namespace GeoChallenger.Search
             }
 
             var removeAliasResponse = await client.AliasAsync(
-                s => s.Remove(r => r.Alias(_searchSettings.IndexAlias)));
+                s => s.Remove(r => r.Alias(_searchSettings.IndexAlias).Index(indexName)));
             if (!removeAliasResponse.IsValid) {
                 throw new Exception(
                     $"Can't delete alias '{_searchSettings.IndexAlias}' for index '{indexName}', error '{removeAliasResponse.ServerError.Error}'");
@@ -74,6 +74,13 @@ namespace GeoChallenger.Search
             if (!aliasCreationResponse.IsValid) {
                 throw new Exception(
                     $"Can't add alias '{_searchSettings.IndexAlias}' for index '{newIndexName}', error '{removeAliasResponse.ServerError.Error}'");
+            }
+
+            // Delete old index.
+            var deleteIndexResponse = client.DeleteIndex(indexName);
+            if (!deleteIndexResponse.IsValid) {
+                throw new Exception(
+                    $"Can't delete old index index '{indexName}', error '{removeAliasResponse.ServerError.Error}'");
             }
 
             _log.Info("End create new index version, old index is '{0}' index, new index is '{1}'", indexName, newIndexName);

@@ -18,7 +18,6 @@ namespace GeoChallenger.Commands
         // NOTE: Only one command is supported at this moement.
         static void Main(string[] args)
         {
-            _log.Info("test");
             try {
                 var mapperConfiguration = MapperConfig.CreateMapperConfiguration();
                 var container = DIConfig.RegisterDI(mapperConfiguration);
@@ -26,7 +25,7 @@ namespace GeoChallenger.Commands
                 // All components have single instance scope.
                 using (var scope = container.BeginLifetimeScope()) {
                     var command = scope.Resolve<ReindexCommand>();
-                    command.Run();
+                    command.RunAsync().Wait();
                 }
             } catch (Exception ex) {
                 _log.Error(ex, "Command is failed.");

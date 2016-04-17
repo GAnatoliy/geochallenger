@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using GeoChallenger.Search;
+using GeoChallenger.Search.Providers;
 using GeoChallenger.Services;
 using GeoChallenger.Services.Interfaces.DTO.Users;
 using GeoChallenger.Services.Providers;
@@ -43,6 +44,10 @@ namespace GeoChallenger.DIModules
                 { AccountTypeDto.Facebook, context.Resolve<FacebookProvider>() },
                 { AccountTypeDto.Google, context.Resolve<GoogleProvider>() }
             });
+
+            // Register search.
+            builder.RegisterType<SearchConfigurationManager>()
+                .As<ISearchConfigurationManager>();
         }
     }
 }
