@@ -64,8 +64,17 @@ namespace GeoChallenger.Services
 
         private static void MapSearchDocuments(IMapperConfiguration config)
         {
-            config.CreateMap<Poi, PoiDocument>();
-            config.CreateMap<PoiDocument, SearchPoiResultDto>();
+            config.CreateMap<Poi, PoiDocument>()
+                .ForMember(m => m.Location, opt => opt.Ignore())
+                .AfterMap((src, dst) => {
+                    if (src.Location != null && src.Location?.Latitude != null && src.Location.Longitude.HasValue) {
+                        dst.Location.Lat = src.Location.Latitude.Value;
+                        dst.Location.Lon = src.Location.Longitude.Value;
+                    }
+                });
+            config.CreateMap<PoiDocument, SearchPoiResultDto>()
+                .ForMember(dst => dst.Latitude, opt => opt.MapFrom(src => src.Location.Lat))
+                .ForMember(dst => dst.Longitude, opt => opt.MapFrom(src => src.Location.Lon));
         }
     }
 }

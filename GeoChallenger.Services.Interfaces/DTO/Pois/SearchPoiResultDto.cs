@@ -20,6 +20,21 @@
         /// <summary>
         /// Text content of the poi.
         /// </summary>
-        public string Content { get; set; } 
+        public string Content { get; set; }
+
+        /// <summary>
+        ///     POI location address
+        /// </summary>
+        public string Address { get; set; }
+
+        /// <summary>
+        ///     POI location latitude
+        /// </summary>
+        public double Latitude { get; set; }
+
+        /// <summary>
+        ///     POI location Longitude
+        /// </summary>
+        public double Longitude { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using GeoChallenger.Search.Providers;
 using GeoChallenger.Services.Core;
 using GeoChallenger.Services.Helpers;
 using GeoChallenger.Services.Interfaces;
+using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using Mehdime.Entity;
 using NLog;
@@ -47,9 +48,9 @@ namespace GeoChallenger.Services
             _poisSearchProvider = poisSearchProvider;
         }
 
-        public async Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query)
+        public async Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query = null, GeoBoundingBoxDto geoBoundingBox = null)
         {
-            var pois = await _poisSearchProvider.SearchAllAsync(query);
+            var pois = await _poisSearchProvider.SearchAllAsync(query, geoBoundingBox);
             return _mapper.Map<IList<SearchPoiResultDto>>(pois);
         }
 

@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Documents\BaseDocument.cs" />
+    <Compile Include="Documents\LocationDocument.cs" />
     <Compile Include="Documents\PoiDocument.cs" />
     <Compile Include="ISearchConfigurationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,7 +78,12 @@
     <Compile Include="SearchConfigurationManager.cs" />
     <Compile Include="SearchSettings.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GeoChallenger.Services.Interfaces\GeoChallenger.Services.Interfaces.csproj">
+      <Project>{7a235c54-45eb-40dd-a99d-e44801b7e43e}</Project>
+      <Name>GeoChallenger.Services.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

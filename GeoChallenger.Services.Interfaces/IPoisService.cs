@@ -14,7 +14,7 @@ namespace GeoChallenger.Services.Interfaces
         ///     Returns all pois in system
         /// </summary>
         /// <returns></returns>
-        Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query);
+        Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query = null, GeoBoundingBoxDto geoBoundingBox = null);
 
         /// <summary>
         ///     Get poi by Id

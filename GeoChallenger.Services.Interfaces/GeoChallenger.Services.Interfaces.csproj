@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\GeoBoundingBoxDto.cs" />
     <Compile Include="DTO\Pois\PoiDto.cs" />
     <Compile Include="DTO\Pois\PoiUpdateDto.cs" />
     <Compile Include="DTO\Pois\SearchPoiResultDto.cs" />

@@ -42,9 +42,17 @@ namespace GeoChallenger.Web.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<IList<PoiPreviewViewModel>> Get(string query = null)
+        public async Task<IList<PoiPreviewViewModel>> Get(string query = null, double? topLeftLatitude = null, double? topLeftLongitude = null,
+            double? bottomRightLatitude = null, double? bottomRightLongitude = null)
         {
-            return _mapper.Map<IList<PoiPreviewViewModel>>(await _poisService.SearchPoisAsync(query));
+            GeoBoundingBoxDto boundingBox = (topLeftLatitude.HasValue && topLeftLongitude.HasValue
+                && bottomRightLatitude.HasValue && bottomRightLongitude.HasValue) ?
+                new GeoBoundingBoxDto(topLeftLatitude.Value, topLeftLongitude.Value, bottomRightLatitude.Value, bottomRightLongitude.Value) :
+                null;
+             
+            var pois = await _poisService.SearchPoisAsync(query, boundingBox);
+
+            return _mapper.Map<IList<PoiPreviewViewModel>>(pois);
         }
 
         /// <summary>
