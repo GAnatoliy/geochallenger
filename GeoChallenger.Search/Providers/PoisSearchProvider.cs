@@ -18,20 +18,19 @@ namespace GeoChallenger.Search.Providers
         {
             var client = GetClient();
 
-            // TODO: check how to run one of two queries.
             var result = await client.SearchAsync<PoiDocument>(s => s
-              // Use filter since for geo location isn't important result order.
-             .Query(q => +q
-                 .MultiMatch(m => m
-                     .Query(searchText)
-                     .Type(TextQueryType.BestFields)
-                     .Fields(f => f.Field(p => p.Title).Field(p => p.Content))
-                     .TieBreaker(0.3)
-                     .MinimumShouldMatch("75%"))
-                 && +q.GeoBoundingBox(b => b
-                    .BoundingBox(geoBoundingBox.TopLeftLatitude, geoBoundingBox.TopLeftLongitude, geoBoundingBox.BottomRightLatitude, geoBoundingBox.BottomRightLongitude)
-                    .Field(p => p.Location))));
-
+                // Use filter since for geo location isn't important result order.
+                .Query(q => +q.Bool(bs => bs
+                    .Must(mq => string.IsNullOrEmpty(searchText) ? mq : mq.MultiMatch(m => m
+                        .Query(searchText)
+                        .Type(TextQueryType.BestFields)
+                        .Fields(f => f.Field(p => p.Title).Field(p => p.Content))
+                        .TieBreaker(0.3)
+                        .MinimumShouldMatch("75%")),
+                        mq => geoBoundingBox == null ? mq : mq.GeoBoundingBox(b => b
+                            .BoundingBox(geoBoundingBox.TopLeftLatitude, geoBoundingBox.TopLeftLongitude, geoBoundingBox.BottomRightLatitude, geoBoundingBox.BottomRightLongitude)
+                            .Field(p => p.Location))))
+                ));
             return result.Documents.ToList();
         }
     }
