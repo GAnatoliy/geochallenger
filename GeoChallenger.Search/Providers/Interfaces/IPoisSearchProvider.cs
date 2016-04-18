@@ -12,5 +12,10 @@ namespace GeoChallenger.Search.Providers
         /// Returns all found poi.
         /// </summary>
         Task<IList<PoiDocument>> SearchAllAsync(string searchText = null, GeoBoundingBoxDto geoBoundingBox = null);
+
+        /// <summary>
+        /// Returns similar poi to the sample (priority is given for near pois).
+        /// </summary>
+        Task<IList<PoiDocument>> SearchSimilarPoiAsync(int samplePoiId, double samplePoiLatitude, double samplePoiLongitude, int limit);
     }
 }

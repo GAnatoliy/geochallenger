@@ -59,9 +59,10 @@ namespace GeoChallenger.Services
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-                var poi = await context.Pois
-                    .Where(p => !p.IsDeleted && p.Id == poiId)
-                    .SingleOrDefaultAsync();
+                var poi = await context.Pois.FindAsync(poiId);
+                if (poi == null || poi.IsDeleted) {
+                    return null;
+                }
 
                 return _mapper.Map<PoiDto>(poi);
             }
@@ -158,6 +159,23 @@ namespace GeoChallenger.Services
                     return Task.FromResult(poiDocument);
                 },
                 _poisSearchProvider);
+        }
+
+        public async Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var poi = await context.Pois.FindAsync(samplePoiId);
+                if (poi == null || poi.IsDeleted) {
+                    return new List<PoiDto>();
+                }
+
+                var similarPois = await _poisSearchProvider.SearchSimilarPoiAsync(
+                    samplePoiId, poi.Location.Latitude.Value, poi.Location.Longitude.Value, limit);
+
+                return _mapper.Map<IList<PoiDto>>(similarPois);
+            }
         }
 
         /// <summary>

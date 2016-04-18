@@ -29,6 +29,7 @@ namespace GeoChallenger.Web.Api.Config
         {
             config.CreateMap<PoiDto, PoiReadViewModel>();
             config.CreateMap<SearchPoiResultDto, PoiPreviewViewModel>();
+            config.CreateMap<PoiDto, PoiPreviewViewModel>();
 
             config.CreateMap<AccountTypeDto, AccountTypeViewModel>();
 

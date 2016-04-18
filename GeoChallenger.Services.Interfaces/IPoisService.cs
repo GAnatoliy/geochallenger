@@ -50,5 +50,10 @@ namespace GeoChallenger.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         Task UpdatePoisSearchIndexAsync();
+
+        /// <summary>
+        /// Returns similar poi to the sample (priority is given for near pois).
+        /// </summary>
+        Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit);
     }
 }

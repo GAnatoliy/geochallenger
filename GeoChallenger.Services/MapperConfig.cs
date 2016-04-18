@@ -75,6 +75,10 @@ namespace GeoChallenger.Services
             config.CreateMap<PoiDocument, SearchPoiResultDto>()
                 .ForMember(dst => dst.Latitude, opt => opt.MapFrom(src => src.Location.Lat))
                 .ForMember(dst => dst.Longitude, opt => opt.MapFrom(src => src.Location.Lon));
+
+            config.CreateMap<PoiDocument, PoiDto>()
+                .ForMember(dst => dst.Latitude, opt => opt.MapFrom(src => src.Location.Lat))
+                .ForMember(dst => dst.Longitude, opt => opt.MapFrom(src => src.Location.Lon));
         }
     }
 }

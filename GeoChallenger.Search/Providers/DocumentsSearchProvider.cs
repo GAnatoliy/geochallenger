@@ -106,6 +106,10 @@ namespace GeoChallenger.Search.Providers
             var node = new Uri(_searchSettings.ElasticSearchHost);
             var connectionPool = new SniffingConnectionPool(new[] { node });
             var settings = new ConnectionSettings(connectionPool);
+
+            // TODO: use this only for debugging.
+            settings.DisableDirectStreaming();
+
             settings.PingTimeout(new TimeSpan(0, 0, 0, 0, _searchSettings.PingTimeout));
             settings.MaximumRetries(_searchSettings.MaximumRetries);
             settings.DefaultIndex(_searchSettings.IndexAlias);
