@@ -54,13 +54,21 @@ namespace GeoChallenger.Web.Api.Providers
                 return;
             }
 
+            if (!string.IsNullOrEmpty(context.UserName)) {
+                var stubUserDto = await _usersService.GetUserAsync(context.UserName, _mapper.Map<AccountTypeDto>(_accountTypes[authProvider]));
+                if (stubUserDto != null) {
+                    AuthenticateUser(context, stubUserDto);
+                    return;
+                }
+            }
+
             if (string.IsNullOrEmpty(context.Password)) {
                 context.Rejected();
                 context.SetError("invalidGrant", "Wrong username or password combination.");
                 return;
             }
 
-            var userDto = await _usersService.GetUserAsync(context.Password, _mapper.Map<AccountTypeDto>(_accountTypes[authProvider]));
+            var userDto = await _usersService.GetOrGetWithCreatingUserAsync(context.Password, _mapper.Map<AccountTypeDto>(_accountTypes[authProvider]));
             if (userDto == null) {
                 context.Rejected();
                 context.SetError("invalidGrant", "Wrong username or password combination.");
@@ -68,7 +76,6 @@ namespace GeoChallenger.Web.Api.Providers
             }
 
             AuthenticateUser(context, userDto);
-
         }
 
         #region Private methods
@@ -86,7 +93,7 @@ namespace GeoChallenger.Web.Api.Providers
             },
             DefaultAuthenticationTypes.ExternalBearer);
 
-            var properties = new AuthenticationProperties() {
+            var properties = new AuthenticationProperties {
                 IssuedUtc = DateTime.UtcNow,
                 ExpiresUtc = DateTime.UtcNow.AddDays(_authenticationSettings.UserTokenLifetimeInDays)
             };

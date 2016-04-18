@@ -10,7 +10,6 @@ using GeoChallenger.Search.Providers;
 using Mehdime.Entity;
 using NLog;
 
-
 namespace GeoChallenger.Services.Core
 {
     public class SearchIndexer : ISearchIndexer
@@ -50,7 +49,8 @@ namespace GeoChallenger.Services.Core
                         .Where(where)
                         .OrderBy(order)
                         .Skip(i)
-                        .Take(PAGE_SIZE).ToListAsync();
+                        .Take(PAGE_SIZE)
+                        .ToListAsync();
 
                     // Maps teams document.
                     // NOTE: we can't map list to list since data will be overridden.

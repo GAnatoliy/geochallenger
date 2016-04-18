@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
+using GeoChallenger.Database.Config;
 using GeoChallenger.Domains.Users;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Users;
@@ -28,7 +30,7 @@ namespace GeoChallenger.Services
             _mapper = mapper;
         }
 
-        public async Task<UserDto> GetUserAsync(string oauthToken, AccountTypeDto accountTypeDto)
+        public async Task<UserDto> GetOrGetWithCreatingUserAsync(string oauthToken, AccountTypeDto accountTypeDto)
         {
             var accountType = _mapper.Map<AccountType>(accountTypeDto);
             var socialNetworkValidationData = await _socialNetworksProviders[accountTypeDto].ValidateCredentialsAsync(oauthToken);
@@ -69,6 +71,21 @@ namespace GeoChallenger.Services
 
                 await dbContextScope.SaveChangesAsync();
                 return _mapper.Map<UserDto>(user);
+            }
+        }
+
+        public async Task<UserDto> GetUserAsync(string accountUid, AccountTypeDto accountTypeDto)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var account = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Accounts
+                    .GetAccount(accountUid, _mapper.Map<AccountType>(accountTypeDto))
+                    .SingleOrDefaultAsync();
+
+                if (account == null) {
+                    return null;
+                }
+
+                return _mapper.Map<UserDto>(await dbContextScope.DbContexts.Get<GeoChallengerContext>().Users.SingleOrDefaultAsync(u => u.Id == account.UserId));
             }
         }
 

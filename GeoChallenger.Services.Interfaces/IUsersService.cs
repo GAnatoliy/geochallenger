@@ -11,6 +11,14 @@ namespace GeoChallenger.Services.Interfaces
         /// <param name="oauthToken">Social network account oauth verification token</param>
         /// <param name="accountTypeDto">Social network account type</param>
         /// <returns>Return user</returns>
-        Task<UserDto> GetUserAsync(string oauthToken, AccountTypeDto accountTypeDto);
+        Task<UserDto> GetOrGetWithCreatingUserAsync(string oauthToken, AccountTypeDto accountTypeDto);
+
+        /// <summary>
+        ///     Get stub users by uid
+        /// </summary>
+        /// <param name="accountUid">Social network account uid</param>
+        /// <param name="accountTypeDto">Social network account type</param>
+        /// <returns></returns>
+        Task<UserDto> GetUserAsync(string accountUid, AccountTypeDto accountTypeDto);
     }
 }

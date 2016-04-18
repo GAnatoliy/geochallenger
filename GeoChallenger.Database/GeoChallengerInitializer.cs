@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
+using GeoChallenger.Domains.Users;
 
 namespace GeoChallenger.Database
 {
@@ -22,7 +23,36 @@ namespace GeoChallenger.Database
                 context.Pois.Add(poi);
             }
 
+            UsersFactory(5, ref context);
+
             base.Seed(context);
         }
+        
+        #region Private methods
+
+        private static void UsersFactory(int index, ref GeoChallengerContext context)
+        {
+            var users = new List<User>();
+            for (var i = 1; i <= index; ++i) {
+                users.Add(CreateUser(i, AccountType.Google));
+                users.Add(CreateUser(i, AccountType.Facebook));
+            }
+            context.Users.AddRange(users);
+        }
+
+        private static User CreateUser(int i, AccountType accountType)
+        {
+            var accounts = new Dictionary<AccountType, Account> {
+                {AccountType.Google, new Account { Uid = $"{nameof(accountType)}uid{i}".ToLower(), Type = AccountType.Google} },
+                {AccountType.Facebook, new Account { Uid = $"{nameof(accountType)}uid{i}".ToLower(), Type = AccountType.Facebook} }
+            };
+            return new User {
+                Email = $"testuser{nameof(accountType)}{i}@example.com",
+                Name = $"John Doe{i}",
+                Accounts = new List<Account> { accounts[accountType] }
+            };
+        }
+
+        #endregion
     }
 }

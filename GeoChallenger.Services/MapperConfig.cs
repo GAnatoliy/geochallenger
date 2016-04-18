@@ -51,6 +51,8 @@ namespace GeoChallenger.Services
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });
 
+            config.CreateMap<AccountTypeDto, AccountType>();
+
             config.CreateMap<SocialNetworkValidationData, Account>()
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Uid, opt => opt.MapFrom(src => src.Uid))
