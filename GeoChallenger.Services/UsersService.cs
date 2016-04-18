@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
-using GeoChallenger.Database.Config;
 using GeoChallenger.Domains.Users;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Users;

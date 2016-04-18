@@ -4,6 +4,9 @@ using GeoChallenger.Domains.Users;
 
 namespace GeoChallenger.Services.Queries
 {
+    /// <summary>
+    ///     Users queries
+    /// </summary>
     public static class UsersQueries
     {
         /// <summary>

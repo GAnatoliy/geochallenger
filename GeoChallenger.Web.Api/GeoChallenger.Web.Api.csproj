@@ -280,6 +280,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\PoisController.cs" />
+    <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Filters\ExceptionFilter.cs" />
     <Compile Include="Models\Pois\PoiPreviewViewModel.cs" />
     <Compile Include="Models\Pois\PoiReadViewModel.cs" />

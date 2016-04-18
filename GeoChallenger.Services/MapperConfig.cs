@@ -2,10 +2,11 @@
 using AutoMapper;
 using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
+using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
 using GeoChallenger.Search.Documents;
-using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
+using GeoChallenger.Services.Interfaces.DTO.Routes;
 using GeoChallenger.Services.Interfaces.DTO.Users;
 using GeoChallenger.Services.Providers.DTO;
 
@@ -29,6 +30,22 @@ namespace GeoChallenger.Services
                     if (src.Location?.Latitude != null && src.Location.Longitude.HasValue) {
                         dst.Latitude = src.Location.Latitude.Value;
                         dst.Longitude = src.Location.Longitude.Value;
+                    }
+                });
+
+            config.CreateMap<Route, RouteDto>()
+                .ForMember(dst => dst.StartPointLatitude, opt => opt.Ignore())
+                .ForMember(dst => dst.StartPointLongitude, opt => opt.Ignore())
+                .ForMember(dst => dst.EndPointLatitude, opt => opt.Ignore())
+                .ForMember(dst => dst.EndPointLongitude, opt => opt.Ignore())
+                .AfterMap((src, dst) => {
+                    if (src.StartPoint?.Latitude != null && src.StartPoint.Longitude.HasValue) {
+                        dst.StartPointLatitude = src.StartPoint.Latitude.Value;
+                        dst.StartPointLongitude = src.StartPoint.Longitude.Value;
+                    }
+                    if (src.EndPoint?.Latitude != null && src.EndPoint.Longitude.HasValue) {
+                        dst.EndPointLatitude = src.EndPoint.Latitude.Value;
+                        dst.EndPointLongitude = src.EndPoint.Longitude.Value;
                     }
                 });
 
