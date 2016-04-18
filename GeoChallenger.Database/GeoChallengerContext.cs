@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using GeoChallenger.Database.Config;
 using GeoChallenger.Domains.Pois;
+using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
 
 namespace GeoChallenger.Database
@@ -18,6 +18,8 @@ namespace GeoChallenger.Database
         public DbSet<User> Users { get; set; }
 
         public DbSet<Account> Accounts { get; set; }
+
+        public DbSet<Route> Routes { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

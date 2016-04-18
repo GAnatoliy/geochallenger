@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Pois\Poi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routes\Route.cs" />
     <Compile Include="Users\Account.cs" />
     <Compile Include="Users\AccountType.cs" />
     <Compile Include="Users\User.cs" />

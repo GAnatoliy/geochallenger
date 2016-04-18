@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\RouteEntityConfiguration.cs" />
     <Compile Include="Config\UserEntityConfiguration.cs" />
     <Compile Include="Extensions\GeoExtensions.cs" />
     <Compile Include="GeoChallengerContext.cs" />

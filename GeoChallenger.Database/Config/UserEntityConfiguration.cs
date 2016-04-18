@@ -11,6 +11,11 @@ namespace GeoChallenger.Database.Config
             HasMany(u => u.Accounts)
                 .WithRequired(a => a.User)
                 .HasForeignKey(a => a.UserId);
+
+            // One-to-many relationship (User-Route)
+            HasMany(u => u.Routes)
+                .WithRequired(a => a.User)
+                .HasForeignKey(a => a.UserId);
         }
     }
 }

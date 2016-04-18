@@ -1,4 +1,6 @@
-﻿using System.Data.Entity.Spatial;
+﻿using System.Collections.Generic;
+using System.Data.Entity.Spatial;
+using GeoChallenger.Domains.Routes;
 
 namespace GeoChallenger.Domains.Pois
 {
@@ -42,6 +44,14 @@ namespace GeoChallenger.Domains.Pois
         /// </summary>
         public bool IsDeleted { get; protected set; }
 
+        /// <summary>
+        ///     Poi routes. Relationship property
+        /// </summary>
+        public ICollection<Route> Routes { get; set; } = new HashSet<Route>();
+
+        /// <summary>
+        ///     Mark current poi deleted
+        /// </summary>
         public void Delete()
         {
             IsDeleted = true;
