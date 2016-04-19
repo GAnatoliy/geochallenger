@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
@@ -45,11 +46,49 @@ namespace GeoChallenger.Services
             }
         }
 
+        public async Task UpdateRouteAsync(int routeId, RouteUpdateDto routeUpdateDto)
+        {
+            /*
+            Poi poi;
+
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                poi = await context.Pois.FindAsync(poiId);
+                if (poi == null || poi.IsDeleted) {
+                    throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
+                }
+
+                _mapper.Map(poiUpdateDto, poi);
+
+                poi.Content = HtmlHelper.SanitizeHtml(poiUpdateDto.Content);
+                poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
+
+                await dbContextScope.SaveChangesAsync();
+            }
+
+            // Update search index.
+            try {
+                await _poisSearchProvider.IndexAsync(_mapper.Map<PoiDocument>(poi));
+            } catch (Exception ex) {
+                _log.Warn(ex, $"Can't update search index for poi with id {poi.Id}");
+            }
+
+            return _mapper.Map<PoiDto>(poi);            
+             */
+        }
+
         private async Task LoadPoisForListAsync(IList<Route> routes)
         {
-            // TODO: Refactor roughly solution
-            foreach (var route in routes) {
-                await LoadPoisAsync(route);
+            using (var dbScopeContext = _dbContextScopeFactory.CreateReadOnly()) {
+                var pois = await dbScopeContext.DbContexts.Get<GeoChallengerContext>().Pois
+                    .Include(p => p.Routes)
+                    .GetPois(routes.Select(r => r.Id).ToList())
+                    .ToListAsync();
+
+                foreach (var route in routes) {
+                    route.Pois = pois.Where(p => p.Routes.Any(r => !r.IsDeleted && r.Id == route.Id)).ToList();
+                }
             }
         }
 
