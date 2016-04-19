@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using GeoChallenger.Services.Interfaces.DTO.Pois;
+using GeoChallenger.Web.Api.Models.Pois;
 
-namespace GeoChallenger.Services.Interfaces.DTO.Routes
+namespace GeoChallenger.Web.Api.Models.Routes
 {
     /// <summary>
-    ///     Carry route
+    ///     View model for route
     /// </summary>
-    public class RouteDto
+    public class RouteReadViewModel
     {
         /// <summary>
         ///     Route Id
@@ -31,6 +31,6 @@ namespace GeoChallenger.Services.Interfaces.DTO.Routes
         /// <summary>
         ///     Route POIs
         /// </summary>
-        public List<PoiDto> Pois { get; set; }
+        public List<PoiReadViewModel> Pois { get; set; }
     }
 }

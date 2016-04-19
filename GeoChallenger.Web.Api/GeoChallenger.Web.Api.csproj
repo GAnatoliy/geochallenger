@@ -285,6 +285,7 @@
     <Compile Include="Models\Pois\PoiPreviewViewModel.cs" />
     <Compile Include="Models\Pois\PoiReadViewModel.cs" />
     <Compile Include="Models\Pois\PoiUpdateViewModel.cs" />
+    <Compile Include="Models\Routes\RouteReadViewModel.cs" />
     <Compile Include="Models\Users\AccountTypeViewModel.cs" />
     <Compile Include="Models\Users\UserReadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

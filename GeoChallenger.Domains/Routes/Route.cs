@@ -22,14 +22,14 @@ namespace GeoChallenger.Domains.Routes
         public string Name { get; set; }
 
         /// <summary>
-        ///     Route start point
+        ///     Route start point coordinates 
         /// </summary>
-        public DbGeography StartPoint { get; set; }
+        public string StartPoint { get; set; }
 
         /// <summary>
-        ///     Route end point
+        ///     Route end point coordinates
         /// </summary>
-        public DbGeography EndPoint { get; set; }
+        public string EndPoint { get; set; }
 
         /// <summary>
         ///     Route creation date at UTC

@@ -33,21 +33,7 @@ namespace GeoChallenger.Services
                     }
                 });
 
-            config.CreateMap<Route, RouteDto>()
-                .ForMember(dst => dst.StartPointLatitude, opt => opt.Ignore())
-                .ForMember(dst => dst.StartPointLongitude, opt => opt.Ignore())
-                .ForMember(dst => dst.EndPointLatitude, opt => opt.Ignore())
-                .ForMember(dst => dst.EndPointLongitude, opt => opt.Ignore())
-                .AfterMap((src, dst) => {
-                    if (src.StartPoint?.Latitude != null && src.StartPoint.Longitude.HasValue) {
-                        dst.StartPointLatitude = src.StartPoint.Latitude.Value;
-                        dst.StartPointLongitude = src.StartPoint.Longitude.Value;
-                    }
-                    if (src.EndPoint?.Latitude != null && src.EndPoint.Longitude.HasValue) {
-                        dst.EndPointLatitude = src.EndPoint.Latitude.Value;
-                        dst.EndPointLongitude = src.EndPoint.Longitude.Value;
-                    }
-                });
+            config.CreateMap<Route, RouteDto>();
 
             config.CreateMap<AccountType, AccountTypeDto>();
 

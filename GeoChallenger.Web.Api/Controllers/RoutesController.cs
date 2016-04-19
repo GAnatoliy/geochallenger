@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
 using GeoChallenger.Services.Interfaces;
+using GeoChallenger.Web.Api.Models.Routes;
 using Microsoft.AspNet.Identity;
 
 namespace GeoChallenger.Web.Api.Controllers
@@ -26,15 +28,30 @@ namespace GeoChallenger.Web.Api.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        ///     Get user routes
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> GetRoutesAsync()
+        public async Task<IList<RouteReadViewModel>> GetRoutesAsync()
         {
-            var routes = await _routesService.GetRoutesAsync(User.Identity.GetUserId<int>());
-            return Ok();
+            return _mapper.Map<IList<RouteReadViewModel>>(await _routesService.GetRoutesAsync(User.Identity.GetUserId<int>()));
         }
 
-        public async Task<IHttpActionResult> Get
+        /// <summary>
+        ///     Get user route
+        /// </summary>
+        /// <param name="routeId">Route Id</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        [Route("{routeId:int}")]
+        public async Task<RouteReadViewModel> GetRouteAsync(int routeId)
+        {
+            return _mapper.Map<RouteReadViewModel>(await _routesService.GetRouteAsync(User.Identity.GetUserId<int>(), routeId));
+        }
 
     }
 }

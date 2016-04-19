@@ -28,25 +28,38 @@ namespace GeoChallenger.Services
                 var routes = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Routes
                     .GetRoutes(userId)
                     .ToListAsync();
-                await LoadPoisForListAsync(routes, dbContextScope);
+                await LoadPoisForListAsync(routes);
                 return _mapper.Map<List<RouteDto>>(routes);
             }
         }
 
-        private async Task LoadPoisForListAsync(IList<Route> routes, IDbContextReadOnlyScope dbContextScope)
+        public async Task<RouteDto> GetRouteAsync(int userId, int routeId)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var route = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Routes
+                    .GetRoute(userId, routeId)
+                    .SingleOrDefaultAsync();
+
+                await LoadPoisAsync(route);
+                return _mapper.Map<RouteDto>(route);
+            }
+        }
+
+        private async Task LoadPoisForListAsync(IList<Route> routes)
         {
             // TODO: Refactor roughly solution
             foreach (var route in routes) {
-                await LoadPoisAsync(route, dbContextScope);
+                await LoadPoisAsync(route);
             }
-
         }
 
-        private async Task LoadPoisAsync(Route route, IDbContextReadOnlyScope dbContextScope)
+        private async Task LoadPoisAsync(Route route)
         {
-            route.Pois = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Pois
-                .GetPois(route.Id)
-                .ToListAsync();
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                route.Pois = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Pois
+                   .GetPois(route.Id)
+                   .ToListAsync();
+            }
         }
     }
 }

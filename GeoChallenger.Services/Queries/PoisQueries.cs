@@ -28,7 +28,7 @@ namespace GeoChallenger.Services.Queries
         /// <returns></returns>
         public static IQueryable<Poi> GetPois(this IQueryable<Poi> query, List<int> routesIds)
         {
-            return query.Where(p => !p.IsDeleted && p.Routes(r => routesIds.Contains(r.Id)));
+            return query.Where(p => !p.IsDeleted && p.Routes.Any(r => routesIds.Contains(r.Id)));
         }
     }
 }
