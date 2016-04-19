@@ -1,18 +1,12 @@
 ﻿using System.Collections.Generic;
-using GeoChallenger.Web.Api.Models.Pois;
 
 namespace GeoChallenger.Web.Api.Models.Routes
 {
     /// <summary>
-    ///     View model for route
+    ///     View model for update route
     /// </summary>
-    public class RouteReadViewModel
+    public class RouteUpdateViewModel
     {
-        /// <summary>
-        ///     Route Id
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         ///     Route name
         /// </summary>
@@ -29,8 +23,8 @@ namespace GeoChallenger.Web.Api.Models.Routes
         public string EndPoint { get; set; }
 
         /// <summary>
-        ///     Route POIs
+        ///     New route POIs ids
         /// </summary>
-        public IList<PoiReadViewModel> Pois { get; set; }
+        public IList<int> PoisIds { get; set; }
     }
 }

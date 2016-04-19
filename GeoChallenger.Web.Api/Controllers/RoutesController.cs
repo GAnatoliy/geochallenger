@@ -53,5 +53,31 @@ namespace GeoChallenger.Web.Api.Controllers
             return _mapper.Map<RouteReadViewModel>(await _routesService.GetRouteAsync(User.Identity.GetUserId<int>(), routeId));
         }
 
+        /// <summary>
+        ///     Update user's route
+        /// </summary>
+        /// <param name="routeId">Route Id</param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut]
+        [Route("{routeId:int}")]
+        public async Task<IHttpActionResult> EditRouteAsync(int routeId, RouteUpdateViewModel model)
+        {
+            return Ok();
+        }
+
+        /// <summary>
+        ///     Update user's route
+        /// </summary>
+        /// <param name="routeId">Route Id</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpDelete]
+        [Route("{routeId:int}")]
+        public async Task<IHttpActionResult> DeleteRouteAsync(int routeId)
+        {
+            return Ok();
+        }
     }
 }
