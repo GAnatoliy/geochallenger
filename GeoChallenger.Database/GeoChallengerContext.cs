@@ -25,6 +25,7 @@ namespace GeoChallenger.Database
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserEntityConfiguration());
+            modelBuilder.Configurations.Add(new RouteEntityConfiguration());
         }
     }
 }

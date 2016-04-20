@@ -30,15 +30,18 @@ namespace GeoChallenger.Database
                 new KeyValuePair<string, DbGeography>("Korolenka St, 1, Kirovohrad", GeoExtensions.CreateLocationPoint(48.530827, 32.289544))
             };
 
-            UsersFactory(5, ref context);
-            PoisFactory(coordinates, ref context);
+            var users = CreateUsers(5);
+            var pois = CreatePois(coordinates, users.First());
+
+            context.Users.AddRange(users);
+            context.Pois.AddRange(pois);
+            
             context.SaveChanges();
 
-            var users = context.Users.ToList();
+            
             var routes = new HashSet<Route>();
             foreach (var user in users) {
-                var pois = context.Pois.Take(5).ToList();
-                routes.Add(CreateRoute($"{user.Name}_Route", user, pois));
+                routes.Add(CreateRoute($"{user.Name}_Route", user, pois.Take(5).ToList()));
             }
             context.Routes.AddRange(routes);
 
@@ -47,23 +50,25 @@ namespace GeoChallenger.Database
         
         #region Private methods
 
-        private static void UsersFactory(int count, ref GeoChallengerContext context)
+        private static IList<User> CreateUsers(int count)
         {
             var users = new List<User>();
             for (var i = 1; i <= count; ++i) {
                 users.Add(CreateUser(i, AccountType.Google));
                 users.Add(CreateUser(i, AccountType.Facebook));
             }
-            context.Users.AddRange(users);
+
+            return users;
         }
 
-        private static void PoisFactory(List<KeyValuePair<string, DbGeography>> coordinates, ref GeoChallengerContext context)
+        private static IList<Poi> CreatePois(List<KeyValuePair<string, DbGeography>> coordinates, User user)
         {
             var pois = new List<Poi>();
             for (var i = 1; i <= coordinates.Count; ++i) {
-                pois.Add(CreatePoi(i, coordinates[i-1].Key, coordinates[i-1].Value));
+                pois.Add(CreatePoi(i, coordinates[i-1].Key, coordinates[i-1].Value, user));
             }
-            context.Pois.AddRange(pois);
+
+            return pois;
         }
 
         private static Route CreateRoute(string name, User user, IList<Poi> pois)
@@ -77,15 +82,19 @@ namespace GeoChallenger.Database
             };
         }
 
-        private static Poi CreatePoi(int i, string address, DbGeography coordinates)
+        private static Poi CreatePoi(int i, string address, DbGeography coordinates, User user)
         {
-            return new Poi {
+            var poi = new Poi {
                 Title = $"Stub POI {i}",
                 ContentPreview = $"Lorem {i} ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut",
                 Content = $"Lorem {i} ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 Address = address,
                 Location = coordinates
             };
+
+            poi.AddUser(user);
+
+            return poi;
         }
 
         private static User CreateUser(int i, AccountType accountType)

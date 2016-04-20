@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using GeoChallenger.Domains.Routes;
+using GeoChallenger.Domains.Users;
+
 
 namespace GeoChallenger.Domains.Pois
 {
@@ -9,13 +12,15 @@ namespace GeoChallenger.Domains.Pois
     /// </summary>
     public class Poi
     {
+        #region Data
+
         /// <summary>
-        ///     POI Id
+        /// POI Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        ///     POI title
+        /// POI title
         /// </summary>
         public string Title { get; set; }
 
@@ -30,7 +35,7 @@ namespace GeoChallenger.Domains.Pois
         public string Content { get; set; }
 
         /// <summary>
-        ///     POI location address
+        /// POI location address
         /// </summary>
         public string Address { get; set; }
 
@@ -44,13 +49,39 @@ namespace GeoChallenger.Domains.Pois
         /// </summary>
         public bool IsDeleted { get; protected set; }
 
+        #endregion
+
+        #region Relations
+
         /// <summary>
-        ///     Poi routes. Relationship property
+        /// Poi routes. Relationship property
         /// </summary>
         public ICollection<Route> Routes { get; set; } = new HashSet<Route>();
 
         /// <summary>
-        ///     Mark current poi deleted
+        /// Poi owner id.
+        /// </summary>
+        public int UserId { get; protected set; }
+
+        /// <summary>
+        /// Poi owner user.
+        /// </summary>
+        public virtual User User { get; protected set; }
+
+        #endregion
+
+        public void AddUser(User user)
+        {
+            if (UserId != 0 || User != null) {
+                throw new Exception($"Poi {Id} already has user.");
+            }
+
+            UserId = user.Id;
+            User = user;
+        }
+
+        /// <summary>
+        /// Mark current poi deleted
         /// </summary>
         public void Delete()
         {
