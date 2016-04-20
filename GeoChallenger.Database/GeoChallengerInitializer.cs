@@ -74,7 +74,7 @@ namespace GeoChallenger.Database
         private static Route CreateRoute(string name, User user, IList<Poi> pois)
         {
             return new Route {
-                Name = $"{nameof(Route)}{nameof(Route.Name)}_{name}",
+                Name = $"{nameof(Route.Name)}_{name}",
                 StartPoint = $"{nameof(Route.StartPoint)}{name}",
                 EndPoint = $"{nameof(Route.EndPoint)}{name}",
                 User = user,
