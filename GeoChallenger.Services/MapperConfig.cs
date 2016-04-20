@@ -50,6 +50,9 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.ContentPreview, opt => opt.Ignore())
                 .ForMember(dst => dst.Content, opt => opt.Ignore())
                 .ForMember(dst => dst.IsDeleted, opt => opt.Ignore())
+                .ForMember(dst => dst.OwnerId, opt => opt.Ignore())
+                .ForMember(dst => dst.Owner, opt => opt.Ignore())
+                .ForMember(dst => dst.Routes, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });

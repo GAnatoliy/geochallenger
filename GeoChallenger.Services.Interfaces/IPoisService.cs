@@ -28,7 +28,7 @@ namespace GeoChallenger.Services.Interfaces
         /// </summary>
         /// <param name="poiUpdateDto">Data of new poi.</param>
         /// <returns>Returns new created poi.</returns>
-        Task<PoiDto> CreatePoiAsync(PoiUpdateDto poiUpdateDto);
+        Task<PoiDto> CreatePoiAsync(int userId, PoiUpdateDto poiUpdateDto);
 
         /// <summary>
         ///     Update poi by Id
@@ -43,7 +43,7 @@ namespace GeoChallenger.Services.Interfaces
         /// </summary>
         /// <param name="poiId">Poi Id</param>
         /// <returns></returns>
-        Task DeletePoiAsync(int poiId);
+        Task DeletePoiAsync(int userId, int poiId);
 
         /// <summary>
         /// Update search index of all poi.

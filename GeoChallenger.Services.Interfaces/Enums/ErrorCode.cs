@@ -5,6 +5,6 @@
     /// </summary>
     public enum ErrorCode
     {
-        
+        DeletePermissionRequired = 0
     }
 }

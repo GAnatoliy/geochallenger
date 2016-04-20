@@ -14,6 +14,8 @@ using GeoChallenger.Services.Helpers;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
+using GeoChallenger.Services.Interfaces.Enums;
+using GeoChallenger.Services.Interfaces.Exceptions;
 using Mehdime.Entity;
 using NLog;
 
@@ -68,15 +70,21 @@ namespace GeoChallenger.Services
             }
         }
 
-        public async Task<PoiDto> CreatePoiAsync(PoiUpdateDto poiUpdateDto)
+        public async Task<PoiDto> CreatePoiAsync(int userId, PoiUpdateDto poiUpdateDto)
         {
             Poi poi;
 
             using (var dbContextScope = _dbContextScopeFactory.Create()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
+                var user = await context.Users.FindAsync(userId);
+                if (user == null) {
+                    throw new Exception($"Can't create poi by user with id {userId}, user doesn't exist.");
+                }
+
                 poi = _mapper.Map<Poi>(poiUpdateDto);
 
+                poi.AddOwner(user);
                 poi.Content = HtmlHelper.SanitizeHtml(poiUpdateDto.Content);
                 poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
 
@@ -125,16 +133,26 @@ namespace GeoChallenger.Services
             return _mapper.Map<PoiDto>(poi);
         }
 
-        public async Task DeletePoiAsync(int poiId)
+        public async Task DeletePoiAsync(int userId, int poiId)
         {
             using (var dbContextScope = _dbContextScopeFactory.Create()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var user = await context.Users.FindAsync(userId);
+                if (user == null) {
+                    throw new ObjectNotFoundException($"Can't delete poi by user with id {userId}, user doesn't exist.");
+                }
 
                 var poi = await context.Pois.FindAsync(poiId);
                 if (poi == null || poi.IsDeleted) {
                     throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
                 }
 
+                if (poi.OwnerId != userId) {
+                    throw new BusinessLogicException(ErrorCode.DeletePermissionRequired,
+                        $"Can't delete poi with id '{poiId}', user '{userId}' should be owner.");
+                }
+                
                 poi.Delete();
 
                 await context.SaveChangesAsync();

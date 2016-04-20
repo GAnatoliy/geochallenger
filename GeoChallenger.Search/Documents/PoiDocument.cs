@@ -38,5 +38,10 @@ namespace GeoChallenger.Search.Documents
         // TODO: use GeoHashPrecision = 7, GeoHashPrefix = true when aggregation will be needed.
         [GeoPoint(LatLon = true)]
         public LocationDocument Location { get; set; }
+
+        /// <summary>
+        /// Poi owner id.
+        /// </summary>
+        public int OwnerId { get; set; }
     }
 }

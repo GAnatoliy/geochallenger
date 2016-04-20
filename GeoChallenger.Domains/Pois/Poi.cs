@@ -61,23 +61,23 @@ namespace GeoChallenger.Domains.Pois
         /// <summary>
         /// Poi owner id.
         /// </summary>
-        public int UserId { get; protected set; }
+        public int OwnerId { get; protected set; }
 
         /// <summary>
         /// Poi owner user.
         /// </summary>
-        public virtual User User { get; protected set; }
+        public virtual User Owner { get; protected set; }
 
         #endregion
 
-        public void AddUser(User user)
+        public void AddOwner(User user)
         {
-            if (UserId != 0 || User != null) {
+            if (OwnerId != 0 || Owner != null) {
                 throw new Exception($"Poi {Id} already has user.");
             }
 
-            UserId = user.Id;
-            User = user;
+            OwnerId = user.Id;
+            Owner = user;
         }
 
         /// <summary>

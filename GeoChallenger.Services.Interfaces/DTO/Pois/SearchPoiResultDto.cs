@@ -36,5 +36,10 @@
         ///     POI location Longitude
         /// </summary>
         public double Longitude { get; set; }
+
+        /// <summary>
+        /// Poi owner id.
+        /// </summary>
+        public int OwnerId { get; set; }
     }
 }

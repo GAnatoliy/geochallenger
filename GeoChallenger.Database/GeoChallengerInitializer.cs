@@ -92,7 +92,7 @@ namespace GeoChallenger.Database
                 Location = coordinates
             };
 
-            poi.AddUser(user);
+            poi.AddOwner(user);
 
             return poi;
         }

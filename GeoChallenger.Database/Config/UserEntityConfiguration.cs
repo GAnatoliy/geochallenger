@@ -20,8 +20,8 @@ namespace GeoChallenger.Database.Config
 
             // User has created by him pois.
             HasMany(u => u.Pois)
-                .WithRequired(a => a.User)
-                .HasForeignKey(a => a.UserId)
+                .WithRequired(a => a.Owner)
+                .HasForeignKey(a => a.OwnerId)
                 .WillCascadeOnDelete(false);
         }
     }

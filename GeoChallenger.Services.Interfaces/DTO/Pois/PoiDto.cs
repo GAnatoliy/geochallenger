@@ -3,7 +3,7 @@
     /// <summary>
     ///     Contains information about tag, e.g. location, data, etc.
     /// </summary>
-    public class PoiDto
+    public class  PoiDto
     {
         /// <summary>
         ///     POI Id
@@ -39,5 +39,10 @@
         ///     POI location Longitude
         /// </summary>
         public double Longitude { get; set; }
+
+        /// <summary>
+        /// Poi owner id.
+        /// </summary>
+        public int OwnerId { get; set; }
     }
 }
