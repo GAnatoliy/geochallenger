@@ -19,5 +19,10 @@
         ///     User Full Name
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Points earned by user.
+        /// </summary>
+        public uint Points { get; set; }
     }
 }

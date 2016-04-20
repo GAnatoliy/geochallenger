@@ -71,7 +71,7 @@ namespace GeoChallenger.Services
             return _mapper.Map<IList<SearchPoiResultDto>>(pois);
         }
 
-        public async Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit)
+        public async Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int take)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
@@ -82,7 +82,7 @@ namespace GeoChallenger.Services
                 }
 
                 var similarPois = await _poisSearchProvider.SearchSimilarPoiAsync(
-                    samplePoiId, poi.Location.Latitude.Value, poi.Location.Longitude.Value, limit);
+                    samplePoiId, poi.Location.Latitude.Value, poi.Location.Longitude.Value, take);
 
                 return _mapper.Map<IList<PoiDto>>(similarPois);
             }

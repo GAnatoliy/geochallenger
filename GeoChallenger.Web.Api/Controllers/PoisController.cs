@@ -75,10 +75,10 @@ namespace GeoChallenger.Web.Api.Controllers
 
         [HttpGet]
         [Route("similar")]
-        public async Task<IList<PoiPreviewViewModel>> SearchSimilarPoiAsync(int samplePoiId, int limit)
+        public async Task<IList<PoiPreviewViewModel>> SearchSimilarPoiAsync(int samplePoiId, int take)
         {
             return _mapper.Map<List<PoiPreviewViewModel>>(
-                await _poisService.SearchSimilarPoiAsync(samplePoiId, limit));
+                await _poisService.SearchSimilarPoiAsync(samplePoiId, take));
         }
 
         [HttpGet]

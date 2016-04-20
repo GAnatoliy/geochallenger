@@ -108,6 +108,7 @@ namespace GeoChallenger.Database
                 Email = $"testuser{nameof(accountType)}{i}@example.com",
                 Name = $"John Doe{i}",
                 Accounts = new List<Account> { accounts[accountType] },
+                Points = (uint)i * 10
             };
         }
 

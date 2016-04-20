@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Database;
@@ -27,6 +28,8 @@ namespace GeoChallenger.Services
             _socialNetworksProviders = socialNetworksProviders;
             _mapper = mapper;
         }
+
+        #region Queries
 
         public async Task<UserDto> GetOrGetWithCreatingUserAsync(string oauthToken, AccountTypeDto accountTypeDto)
         {
@@ -86,6 +89,21 @@ namespace GeoChallenger.Services
                 return _mapper.Map<UserDto>(await dbContextScope.DbContexts.Get<GeoChallengerContext>().Users.SingleOrDefaultAsync(u => u.Id == account.UserId));
             }
         }
+
+        public async Task<UserDto> GetLeaderboardAsync(int take)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var users = await context.Users
+                    .OrderByDescending(u => u.Points)
+                    .Take(take)
+                    .ToListAsync();
+
+                return _mapper.Map<UserDto>(users);
+            }
+        }
+        #endregion
 
         #region Private Methods
 

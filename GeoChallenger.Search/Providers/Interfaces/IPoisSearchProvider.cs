@@ -16,6 +16,6 @@ namespace GeoChallenger.Search.Providers
         /// <summary>
         /// Returns similar poi to the sample (priority is given for near pois).
         /// </summary>
-        Task<IList<PoiDocument>> SearchSimilarPoiAsync(int samplePoiId, double samplePoiLatitude, double samplePoiLongitude, int limit);
+        Task<IList<PoiDocument>> SearchSimilarPoiAsync(int samplePoiId, double samplePoiLatitude, double samplePoiLongitude, int take);
     }
 }

@@ -34,6 +34,10 @@ namespace GeoChallenger.Domains.Users
         /// </summary>
         public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
+        /// <summary>
+        /// Points earned by user.
+        /// </summary>
+        public uint Points { get; set; }
         #endregion
 
         #region Relations 

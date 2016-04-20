@@ -27,7 +27,7 @@ namespace GeoChallenger.Services.Interfaces
         /// <summary>
         /// Returns similar poi to the sample (priority is given for near pois).
         /// </summary>
-        Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit);
+        Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int take);
 
         /// <summary>
         /// Returns pois created by current user.

@@ -41,7 +41,7 @@ namespace GeoChallenger.Search.Providers
             return result.Documents.ToList();
         }
 
-        public async Task<IList<PoiDocument>> SearchSimilarPoiAsync(int samplePoiId, double samplePoiLatitude, double samplePoiLongitude, int limit)
+        public async Task<IList<PoiDocument>> SearchSimilarPoiAsync(int samplePoiId, double samplePoiLatitude, double samplePoiLongitude, int take)
         {
             const int MAX_QUERY_TERM = 12;
             const int MIN_TEM_FREQUENCY = 1;
@@ -69,7 +69,7 @@ namespace GeoChallenger.Search.Providers
                 // TODO: rescore by distance.
                 // https://www.elastic.co/guide/en/elasticsearch/guide/current/sorting-by-distance.html#scoring-by-distance
                 // .Rescore(rs => rs.RescoreQuery(rq => rq.Query(q => q.GeoDistance())))
-                .Size(limit));
+                .Size(take));
 
             _log.Info(Encoding.UTF8.GetString(result.CallDetails.RequestBodyInBytes));
             return result.Documents.ToList();
