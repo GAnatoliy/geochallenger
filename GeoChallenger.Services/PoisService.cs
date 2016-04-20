@@ -212,6 +212,13 @@ namespace GeoChallenger.Services
                 _poisSearchProvider);
         }
 
+        public async Task CheckinPoiAsync(int userId, int poiId)
+        {
+            // Check if poi already checkedin.
+            // If no write checin record.
+            // Update user's pois.
+            await Task.Delay(0);
+        }
         #endregion
 
         /// <summary>
