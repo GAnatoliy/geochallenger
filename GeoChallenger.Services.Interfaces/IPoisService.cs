@@ -10,6 +10,7 @@ namespace GeoChallenger.Services.Interfaces
     /// </summary>
     public interface IPoisService
     {
+        #region Queries
         /// <summary>
         ///     Returns all pois in system
         /// </summary>
@@ -23,6 +24,18 @@ namespace GeoChallenger.Services.Interfaces
         /// <returns>Return poi</returns>
         Task<PoiDto> GetPoiAsync(int poiId);
 
+        /// <summary>
+        /// Returns similar poi to the sample (priority is given for near pois).
+        /// </summary>
+        Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit);
+
+        /// <summary>
+        /// Returns pois created by current user.
+        /// </summary>
+        Task<IList<PoiDto>> GetUserPoisAsync(int ownerId);
+        #endregion
+
+        #region Commands 
         /// <summary>
         /// Create new poi.
         /// </summary>
@@ -50,10 +63,6 @@ namespace GeoChallenger.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         Task UpdatePoisSearchIndexAsync();
-
-        /// <summary>
-        /// Returns similar poi to the sample (priority is given for near pois).
-        /// </summary>
-        Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit);
+        #endregion
     }
 }

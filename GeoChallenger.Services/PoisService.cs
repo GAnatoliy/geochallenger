@@ -50,12 +50,7 @@ namespace GeoChallenger.Services
             _poisSearchProvider = poisSearchProvider;
         }
 
-        public async Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query = null, GeoBoundingBoxDto geoBoundingBox = null)
-        {
-            var pois = await _poisSearchProvider.SearchAllAsync(query, geoBoundingBox);
-            return _mapper.Map<IList<SearchPoiResultDto>>(pois);
-        }
-
+        #region Queries
         public async Task<PoiDto> GetPoiAsync(int poiId)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
@@ -70,6 +65,44 @@ namespace GeoChallenger.Services
             }
         }
 
+        public async Task<IList<SearchPoiResultDto>> SearchPoisAsync(string query = null, GeoBoundingBoxDto geoBoundingBox = null)
+        {
+            var pois = await _poisSearchProvider.SearchAllAsync(query, geoBoundingBox);
+            return _mapper.Map<IList<SearchPoiResultDto>>(pois);
+        }
+
+        public async Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var poi = await context.Pois.FindAsync(samplePoiId);
+                if (poi == null || poi.IsDeleted) {
+                    return new List<PoiDto>();
+                }
+
+                var similarPois = await _poisSearchProvider.SearchSimilarPoiAsync(
+                    samplePoiId, poi.Location.Latitude.Value, poi.Location.Longitude.Value, limit);
+
+                return _mapper.Map<IList<PoiDto>>(similarPois);
+            }
+        }
+
+        public async Task<IList<PoiDto>> GetUserPoisAsync(int ownerId)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var pois = await context.Pois
+                    .Where(p => p.OwnerId == ownerId)
+                    .ToListAsync();
+
+                return _mapper.Map<IList<PoiDto>>(pois);
+            }
+        }
+        #endregion
+
+        #region Commands
         public async Task<PoiDto> CreatePoiAsync(int userId, PoiUpdateDto poiUpdateDto)
         {
             Poi poi;
@@ -179,22 +212,7 @@ namespace GeoChallenger.Services
                 _poisSearchProvider);
         }
 
-        public async Task<IList<PoiDto>> SearchSimilarPoiAsync(int samplePoiId, int limit)
-        {
-            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
-                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
-
-                var poi = await context.Pois.FindAsync(samplePoiId);
-                if (poi == null || poi.IsDeleted) {
-                    return new List<PoiDto>();
-                }
-
-                var similarPois = await _poisSearchProvider.SearchSimilarPoiAsync(
-                    samplePoiId, poi.Location.Latitude.Value, poi.Location.Longitude.Value, limit);
-
-                return _mapper.Map<IList<PoiDto>>(similarPois);
-            }
-        }
+        #endregion
 
         /// <summary>
         /// Process string by left plain text (removing html) and strip it to the limited length.

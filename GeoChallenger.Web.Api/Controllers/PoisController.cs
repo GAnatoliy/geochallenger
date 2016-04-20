@@ -82,6 +82,14 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         [HttpGet]
+        [Route("my")]
+        [Authorize]
+        public async Task<IList<PoiPreviewViewModel>> GetUserPoisAsync()
+        {
+            return _mapper.Map<IList<PoiPreviewViewModel>>(
+                await _poisService.GetUserPoisAsync(User.Identity.GetUserId<int>()));
+        }
+        [HttpGet]
         [Route("testexception")]
         public async Task TestExceptionAsync()
         {
