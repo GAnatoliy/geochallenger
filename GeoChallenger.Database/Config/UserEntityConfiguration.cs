@@ -15,12 +15,14 @@ namespace GeoChallenger.Database.Config
             // One-to-many relationship (User-Route)
             HasMany(u => u.Routes)
                 .WithRequired(a => a.User)
-                .HasForeignKey(a => a.UserId);
+                .HasForeignKey(a => a.UserId)
+                .WillCascadeOnDelete(false);
 
             // User has created by him pois.
             HasMany(u => u.Pois)
                 .WithRequired(a => a.User)
-                .HasForeignKey(a => a.UserId);
+                .HasForeignKey(a => a.UserId)
+                .WillCascadeOnDelete(false);
         }
     }
 }
