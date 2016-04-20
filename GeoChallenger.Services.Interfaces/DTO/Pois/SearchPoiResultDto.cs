@@ -1,4 +1,7 @@
-﻿namespace GeoChallenger.Services.Interfaces.DTO.Pois
+﻿using System;
+
+
+namespace GeoChallenger.Services.Interfaces.DTO.Pois
 {
     public class SearchPoiResultDto
     {
@@ -36,6 +39,11 @@
         ///     POI location Longitude
         /// </summary>
         public double Longitude { get; set; }
+
+        /// <summary>
+        /// POI creation date at UTC
+        /// </summary>
+        public DateTime CreatedAtUtc { get; set; }
 
         /// <summary>
         /// Poi owner id.

@@ -1,4 +1,7 @@
-﻿namespace GeoChallenger.Web.Api.Models.Pois
+﻿using System;
+
+
+namespace GeoChallenger.Web.Api.Models.Pois
 {
     /// <summary>
     /// Preview of the poi.
@@ -35,6 +38,11 @@
         /// </summary>
         public double Longitude { get; set; }
 
+        /// <summary>
+        /// POI creation date at UTC
+        /// </summary>
+        public DateTime CreatedAtUtc { get; set; }
+        
         /// <summary>
         /// Poi owner id.
         /// </summary>

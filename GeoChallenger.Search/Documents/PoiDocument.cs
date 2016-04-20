@@ -1,4 +1,5 @@
-﻿using Nest;
+﻿using System;
+using Nest;
 
 
 namespace GeoChallenger.Search.Documents
@@ -38,6 +39,11 @@ namespace GeoChallenger.Search.Documents
         // TODO: use GeoHashPrecision = 7, GeoHashPrefix = true when aggregation will be needed.
         [GeoPoint(LatLon = true)]
         public LocationDocument Location { get; set; }
+
+        /// <summary>
+        /// POI creation date at UTC
+        /// </summary>
+        public DateTime CreatedAtUtc { get; set; }
 
         /// <summary>
         /// Poi owner id.

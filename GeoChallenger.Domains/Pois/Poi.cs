@@ -49,6 +49,11 @@ namespace GeoChallenger.Domains.Pois
         /// </summary>
         public bool IsDeleted { get; protected set; }
 
+        /// <summary>
+        /// POI creation date at UTC
+        /// </summary>
+        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+
         #endregion
 
         #region Relations
