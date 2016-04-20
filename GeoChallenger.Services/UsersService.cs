@@ -90,7 +90,7 @@ namespace GeoChallenger.Services
             }
         }
 
-        public async Task<UserDto> GetLeaderboardAsync(int take)
+        public async Task<IList<UserDto>> GetLeaderboardAsync(int take)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
@@ -100,7 +100,7 @@ namespace GeoChallenger.Services
                     .Take(take)
                     .ToListAsync();
 
-                return _mapper.Map<UserDto>(users);
+                return _mapper.Map<List<UserDto>>(users);
             }
         }
         #endregion

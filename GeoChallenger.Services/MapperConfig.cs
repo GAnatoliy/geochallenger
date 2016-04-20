@@ -53,6 +53,7 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.OwnerId, opt => opt.Ignore())
                 .ForMember(dst => dst.Owner, opt => opt.Ignore())
                 .ForMember(dst => dst.Routes, opt => opt.Ignore())
+                .ForMember(dst => dst.CreatedAtUtc, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });

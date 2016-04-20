@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GeoChallenger.Services.Interfaces.DTO.Users;
 
 namespace GeoChallenger.Services.Interfaces
@@ -27,7 +28,7 @@ namespace GeoChallenger.Services.Interfaces
         /// Returns users with top stories.
         /// </summary>
         /// <returns></returns>
-        Task<UserDto> GetLeaderboardAsync(int take);
+        Task<IList<UserDto>> GetLeaderboardAsync(int take);
 
         #endregion
     }

@@ -37,7 +37,7 @@ namespace GeoChallenger.Domains.Users
         /// <summary>
         /// Points earned by user.
         /// </summary>
-        public uint Points { get; set; }
+        public int Points { get; set; }
         #endregion
 
         #region Relations 
