@@ -55,5 +55,13 @@ namespace GeoChallenger.Domains.Routes
         ///     Route POIs. Relationship property
         /// </summary>
         public virtual ICollection<Poi> Pois { get; set; } = new HashSet<Poi>();
+
+        /// <summary>
+        ///     Mark current route deleted
+        /// </summary>
+        public void Delete()
+        {
+            IsDeleted = true;
+        }
     }
 }

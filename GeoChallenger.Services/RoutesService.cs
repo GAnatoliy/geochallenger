@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -46,36 +47,41 @@ namespace GeoChallenger.Services
             }
         }
 
-        public async Task UpdateRouteAsync(int routeId, RouteUpdateDto routeUpdateDto)
+        public async Task<RouteDto> UpdateRouteAsync(int userId, int routeId, RouteUpdateDto routeUpdateDto)
         {
-            /*
-            Poi poi;
-
             using (var dbContextScope = _dbContextScopeFactory.Create()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
-                poi = await context.Pois.FindAsync(poiId);
-                if (poi == null || poi.IsDeleted) {
-                    throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
+                var route = await context.Routes.GetRoute(userId, routeId)
+                    .SingleOrDefaultAsync();
+
+                if (route == null) {
+                    throw new ObjectNotFoundException($"Route with id {routeId} is not found");
                 }
 
-                _mapper.Map(poiUpdateDto, poi);
-
-                poi.Content = HtmlHelper.SanitizeHtml(poiUpdateDto.Content);
-                poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
+                _mapper.Map(routeUpdateDto, route);
+                route.Pois = await context.Pois.GetPois(routeUpdateDto.PoisIds).ToListAsync();
 
                 await dbContextScope.SaveChangesAsync();
+                return _mapper.Map<RouteDto>(route);
             }
+        }
 
-            // Update search index.
-            try {
-                await _poisSearchProvider.IndexAsync(_mapper.Map<PoiDocument>(poi));
-            } catch (Exception ex) {
-                _log.Warn(ex, $"Can't update search index for poi with id {poi.Id}");
+        public async Task DeleteRouteAsync(int userId, int routeId)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var route = await context.Routes.GetRoute(userId, routeId)
+                    .SingleOrDefaultAsync();
+
+                if (route == null) {
+                    throw new ObjectNotFoundException($"Route with id {routeId} is not found");
+                }
+
+                route.Delete();
+                await context.SaveChangesAsync();
             }
-
-            return _mapper.Map<PoiDto>(poi);            
-             */
         }
 
         private async Task LoadPoisForListAsync(IList<Route> routes)

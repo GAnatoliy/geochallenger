@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
 using GeoChallenger.Services.Interfaces;
+using GeoChallenger.Services.Interfaces.DTO.Routes;
 using GeoChallenger.Web.Api.Models.Routes;
 using Microsoft.AspNet.Identity;
 
@@ -57,14 +58,18 @@ namespace GeoChallenger.Web.Api.Controllers
         ///     Update user's route
         /// </summary>
         /// <param name="routeId">Route Id</param>
-        /// <param name="model"></param>
+        /// <param name="model">Updated route information</param>
         /// <returns></returns>
         [Authorize]
         [HttpPut]
         [Route("{routeId:int}")]
         public async Task<IHttpActionResult> EditRouteAsync(int routeId, RouteUpdateViewModel model)
         {
-            return Ok();
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(_mapper.Map<RouteReadViewModel>(await _routesService.UpdateRouteAsync(User.Identity.GetUserId<int>(), routeId, _mapper.Map<RouteUpdateDto>(model))));
         }
 
         /// <summary>
@@ -77,6 +82,7 @@ namespace GeoChallenger.Web.Api.Controllers
         [Route("{routeId:int}")]
         public async Task<IHttpActionResult> DeleteRouteAsync(int routeId)
         {
+            await _routesService.DeleteRouteAsync(User.Identity.GetUserId<int>(), routeId);
             return Ok();
         }
     }

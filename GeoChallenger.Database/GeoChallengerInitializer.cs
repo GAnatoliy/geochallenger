@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
+using System.Linq;
 using GeoChallenger.Database.Extensions;
 using GeoChallenger.Domains.Pois;
+using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
 
 namespace GeoChallenger.Database
@@ -30,6 +32,15 @@ namespace GeoChallenger.Database
 
             UsersFactory(5, ref context);
             PoisFactory(coordinates, ref context);
+            context.SaveChanges();
+
+            var users = context.Users.ToList();
+            var routes = new HashSet<Route>();
+            foreach (var user in users) {
+                var pois = context.Pois.Take(5).ToList();
+                routes.Add(CreateRoute($"{user.Name}_Route", user, pois));
+            }
+            context.Routes.AddRange(routes);
 
             base.Seed(context);
         }
@@ -55,6 +66,17 @@ namespace GeoChallenger.Database
             context.Pois.AddRange(pois);
         }
 
+        private static Route CreateRoute(string name, User user, IList<Poi> pois)
+        {
+            return new Route {
+                Name = $"{nameof(Route)}{nameof(Route.Name)}_{name}",
+                StartPoint = $"{nameof(Route.StartPoint)}{name}",
+                EndPoint = $"{nameof(Route.EndPoint)}{name}",
+                User = user,
+                Pois = pois
+            };
+        }
+
         private static Poi CreatePoi(int i, string address, DbGeography coordinates)
         {
             return new Poi {
@@ -72,10 +94,11 @@ namespace GeoChallenger.Database
                 {AccountType.Google, new Account { Uid = $"{accountType}uid{i}".ToLower(), Type = AccountType.Google} },
                 {AccountType.Facebook, new Account { Uid = $"{accountType}uid{i}".ToLower(), Type = AccountType.Facebook} }
             };
+
             return new User {
                 Email = $"testuser{nameof(accountType)}{i}@example.com",
                 Name = $"John Doe{i}",
-                Accounts = new List<Account> { accounts[accountType] }
+                Accounts = new List<Account> { accounts[accountType] },
             };
         }
 
