@@ -30,7 +30,8 @@ namespace GeoChallenger.Search
 
             var response = await client.GetIndexAsync(_searchSettings.IndexAlias);
             if (!response.IsValid) {
-                throw new Exception($"Can't get index, error {response.ServerError.Error}");
+                var message = response.ServerError?.Error.ToString() ?? response.OriginalException?.Message;
+                throw new Exception($"Can't get index, error {message}");
             }
 
             var index = response.Indices.First();
@@ -53,34 +54,38 @@ namespace GeoChallenger.Search
                 s => s.InitializeUsing(indexSettings));
 
             if (!createIndexResponse.IsValid) {
-                var message = $"Can't create new index version, old name '{indexName}', new name '{newIndexName}', error details: {createIndexResponse.ServerError.Error}";
-                throw new Exception(message);
+                var errorMessage = createIndexResponse.ServerError?.Error.ToString() ?? createIndexResponse.OriginalException?.Message;
+                throw new Exception($"Can't create new index version, old name '{indexName}', new name '{newIndexName}', error details: {errorMessage}");
             }
 
             var mapResponse = await client.MapAsync<PoiDocument>(s => s.AutoMap().Index(newIndexName));
             if (!mapResponse.IsValid) {
-                throw new Exception($"Can't create mapping for type {typeof(PoiDocument)}");
+                var errorMessage = mapResponse.ServerError?.Error.ToString() ?? mapResponse.OriginalException?.Message;
+                throw new Exception($"Can't create mapping for type {typeof(PoiDocument)}, error '{errorMessage}'");
             }
 
             var removeAliasResponse = await client.AliasAsync(
                 s => s.Remove(r => r.Alias(_searchSettings.IndexAlias).Index(indexName)));
             if (!removeAliasResponse.IsValid) {
+                var errorMessage = removeAliasResponse.ServerError?.Error.ToString() ?? removeAliasResponse.OriginalException?.Message;
                 throw new Exception(
-                    $"Can't delete alias '{_searchSettings.IndexAlias}' for index '{indexName}', error '{removeAliasResponse.ServerError.Error}'");
+                    $"Can't delete alias '{_searchSettings.IndexAlias}' for index '{indexName}', error '{errorMessage}'");
             }
 
             var aliasCreationResponse = await client.AliasAsync(
                 s => s.Add(addSelector => addSelector.Index(newIndexName).Alias(_searchSettings.IndexAlias)));
             if (!aliasCreationResponse.IsValid) {
+                var errorMessage = aliasCreationResponse.ServerError?.Error.ToString() ?? aliasCreationResponse.OriginalException?.Message;
                 throw new Exception(
-                    $"Can't add alias '{_searchSettings.IndexAlias}' for index '{newIndexName}', error '{removeAliasResponse.ServerError.Error}'");
+                    $"Can't add alias '{_searchSettings.IndexAlias}' for index '{newIndexName}', error '{errorMessage}'");
             }
 
             // Delete old index.
             var deleteIndexResponse = client.DeleteIndex(indexName);
             if (!deleteIndexResponse.IsValid) {
+                var errorMessage = aliasCreationResponse.ServerError?.Error.ToString() ?? aliasCreationResponse.OriginalException?.Message;
                 throw new Exception(
-                    $"Can't delete old index index '{indexName}', error '{removeAliasResponse.ServerError.Error}'");
+                    $"Can't delete old index index '{indexName}', error '{errorMessage}'");
             }
 
             _log.Info("End create new index version, old index is '{0}' index, new index is '{1}'", indexName, newIndexName);
