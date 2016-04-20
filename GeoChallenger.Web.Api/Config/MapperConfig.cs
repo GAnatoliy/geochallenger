@@ -47,6 +47,8 @@ namespace GeoChallenger.Web.Api.Config
             config.CreateMap<PoiUpdateViewModel, PoiUpdateDto>();
 
             config.CreateMap<AccountTypeViewModel, AccountTypeDto>();
+
+            config.CreateMap<RouteUpdateViewModel, RouteUpdateDto>();
         }
     }
 }

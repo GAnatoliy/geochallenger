@@ -5,8 +5,8 @@ namespace GeoChallenger.Services.Settings.Storage
 {
     public class AzureStorageSettings
     {
-        public IDictionary<ImageTypeDto, string> ImageContainersName { get; set; }
+        public IDictionary<ImageType, string> ImageContainersName { get; set; }
 
-        public IDictionary<VideoTypeDto, string> videoContainersName { get; set; }
+        public IDictionary<VideoType, string> videoContainersName { get; set; }
     }
 }

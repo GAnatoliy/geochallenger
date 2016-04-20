@@ -48,10 +48,29 @@ namespace GeoChallenger.Web.Api.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet]
-        [Route("{routeId:int}")]
+        [Route("{routeId:int}", Name = "GetRouteById")]
         public async Task<RouteReadViewModel> GetRouteAsync(int routeId)
         {
             return _mapper.Map<RouteReadViewModel>(await _routesService.GetRouteAsync(User.Identity.GetUserId<int>(), routeId));
+        }
+
+        /// <summary>
+        ///     Create new user route
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [Route("")]
+        public async Task<IHttpActionResult> CreateRouteAsync(RouteUpdateViewModel model)
+        {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            var createdRoute = await _routesService.CreateRouteAsync(User.Identity.GetUserId<int>(), _mapper.Map<RouteUpdateDto>(model));
+
+            return Created(Url.Link("GetRouteById", new { routeId = createdRoute.Id }), createdRoute);
         }
 
         /// <summary>

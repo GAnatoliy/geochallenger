@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Spatial;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Users;
 
@@ -22,14 +21,34 @@ namespace GeoChallenger.Domains.Routes
         public string Name { get; set; }
 
         /// <summary>
-        ///     Route start point coordinates 
+        ///     Route start point latitude 
         /// </summary>
-        public string StartPoint { get; set; }
+        public double StartPointLatitude { get; set; }
 
         /// <summary>
-        ///     Route end point coordinates
+        ///     Route start point longitude 
         /// </summary>
-        public string EndPoint { get; set; }
+        public double StartPointLongitude { get; set; }
+
+        /// <summary>
+        ///     Route end point latitude
+        /// </summary>
+        public double EndPointLatitude { get; set; }
+
+        /// <summary>
+        ///     Route end point longitude
+        /// </summary>
+        public double EndPointLongitude { get; set; }
+
+        /// <summary>
+        ///     Route distance bewteen start and end points in meters
+        /// </summary>
+        public double DistanceInMeters { get; set; }
+
+        /// <summary>
+        ///     Route points path
+        /// </summary>
+        public string RoutePath { get; set; }
 
         /// <summary>
         ///     Route creation date at UTC

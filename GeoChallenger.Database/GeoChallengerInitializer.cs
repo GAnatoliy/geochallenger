@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace GeoChallenger.Database
                 new KeyValuePair<string, DbGeography>("Korolenka St, 1, Kirovohrad", GeoExtensions.CreateLocationPoint(48.530827, 32.289544))
             };
 
+            var startEndPointsCoordinates = new Tuple<double, double, double, double>(48.507823, 32.196734, 48.545406, 32.309503);
+
             var users = CreateUsers(5);
             var pois = CreatePois(coordinates, users.First());
 
@@ -39,9 +42,9 @@ namespace GeoChallenger.Database
             context.SaveChanges();
 
             
-            var routes = new HashSet<Route>();
+            var routes = new List<Route>();
             foreach (var user in users) {
-                routes.Add(CreateRoute($"{user.Name}_Route", user, pois.Take(5).ToList()));
+                routes.Add(CreateRoute($"{user.Name}_Route", user, pois.Take(5).ToList(), startEndPointsCoordinates));
             }
             context.Routes.AddRange(routes);
 
@@ -71,12 +74,16 @@ namespace GeoChallenger.Database
             return pois;
         }
 
-        private static Route CreateRoute(string name, User user, IList<Poi> pois)
+        private static Route CreateRoute(string name, User user, IList<Poi> pois, Tuple<double, double, double, double> startEndPoints)
         {
             return new Route {
                 Name = $"{nameof(Route.Name)}_{name}",
-                StartPoint = $"{nameof(Route.StartPoint)}{name}",
-                EndPoint = $"{nameof(Route.EndPoint)}{name}",
+                StartPointLatitude = startEndPoints.Item1,
+                StartPointLongitude = startEndPoints.Item2,
+                EndPointLatitude = startEndPoints.Item3,
+                EndPointLongitude = startEndPoints.Item4,
+                DistanceInMeters = 10000,
+                RoutePath = $"{nameof(Route.RoutePath)}{name}",
                 User = user,
                 Pois = pois
             };

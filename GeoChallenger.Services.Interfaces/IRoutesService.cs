@@ -22,6 +22,14 @@ namespace GeoChallenger.Services.Interfaces
         Task<RouteDto> GetRouteAsync(int userId, int routeId);
 
         /// <summary>
+        ///     Create route
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="routeUpdateDto"></param>
+        /// <returns></returns>
+        Task<RouteDto> CreateRouteAsync(int userId, RouteUpdateDto routeUpdateDto);
+
+        /// <summary>
         ///     Update route
         /// </summary>
         /// <param name="userId">User Id</param>

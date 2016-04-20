@@ -47,6 +47,24 @@ namespace GeoChallenger.Services
             }
         }
 
+        public async Task<RouteDto> CreateRouteAsync(int userId, RouteUpdateDto routeUpdateDto)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var route = _mapper.Map<Route>(routeUpdateDto);
+                route.Pois = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Pois
+                    .GetPois(routeUpdateDto.PoisIds)
+                    .ToListAsync();
+
+                route.User = await dbContextScope.DbContexts.Get<GeoChallengerContext>()
+                    .Users.FindAsync(userId);
+
+                route.User.Routes.Add(route);
+                await dbContextScope.SaveChangesAsync();
+
+                return _mapper.Map<RouteDto>(route);
+            }
+        }
+
         public async Task<RouteDto> UpdateRouteAsync(int userId, int routeId, RouteUpdateDto routeUpdateDto)
         {
             using (var dbContextScope = _dbContextScopeFactory.Create()) {

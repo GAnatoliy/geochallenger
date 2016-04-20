@@ -3,7 +3,7 @@
     /// <summary>
     /// Types of videos that's use in GeoChallenger
     /// </summary>
-    public enum VideoTypeDto : byte
+    public enum VideoType : byte
     {
         PoiVideo = 0
     }

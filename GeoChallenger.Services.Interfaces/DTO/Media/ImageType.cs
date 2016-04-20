@@ -3,7 +3,7 @@
     /// <summary>
     /// Types of images that's use in GeoChallenger
     /// </summary>
-    public enum ImageTypeDto : byte
+    public enum ImageType : byte
     {
         UserAvatar = 0,
         PoiImage
