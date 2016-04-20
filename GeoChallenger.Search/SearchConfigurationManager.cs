@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Elasticsearch.Net;
@@ -11,7 +9,15 @@ using NLog;
 
 namespace GeoChallenger.Search
 {
-    public class SearchConfigurationManager: ISearchConfigurationManager
+    public static class ResponseExtensions
+    {
+        public static string GetErrorMessage(this IResponse response)
+        {
+            return response.ServerError?.Error.ToString() ?? response.OriginalException?.Message + response.OriginalException;
+        }
+    }
+
+    public class SearchConfigurationManager : ISearchConfigurationManager
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly SearchSettings _searchSettings;
@@ -30,15 +36,14 @@ namespace GeoChallenger.Search
 
             var response = await client.GetIndexAsync(_searchSettings.IndexAlias);
             if (!response.IsValid) {
-                var message = response.ServerError?.Error.ToString() ?? response.OriginalException?.Message;
-                throw new Exception($"Can't get index, error {message}");
+                throw new Exception($"Can't get index, error {response.GetErrorMessage()}");
             }
 
             var index = response.Indices.First();
             var indexName = index.Key;
             var indexSettings = index.Value;
 
-             _log.Info("Start create new index version, old name is '{0}'", indexName);
+            _log.Info("Start create new index version, old name is '{0}'", indexName);
 
             // Creates new indexes.
             var newIndexName = GenerateNewIndexName(indexName);
@@ -50,42 +55,38 @@ namespace GeoChallenger.Search
             // Prevent copy aliases.
             indexSettings.Aliases = new Aliases();
 
-            var createIndexResponse = await client.CreateIndexAsync(newIndexName, 
+            var createIndexResponse = await client.CreateIndexAsync(newIndexName,
                 s => s.InitializeUsing(indexSettings));
 
             if (!createIndexResponse.IsValid) {
-                var errorMessage = createIndexResponse.ServerError?.Error.ToString() ?? createIndexResponse.OriginalException?.Message;
-                throw new Exception($"Can't create new index version, old name '{indexName}', new name '{newIndexName}', error details: {errorMessage}");
+                var message = $"Can't create new index version, old name '{indexName}', new name '{newIndexName}', error details: {createIndexResponse.GetErrorMessage()}";
+                throw new Exception(message);
             }
 
             var mapResponse = await client.MapAsync<PoiDocument>(s => s.AutoMap().Index(newIndexName));
             if (!mapResponse.IsValid) {
-                var errorMessage = mapResponse.ServerError?.Error.ToString() ?? mapResponse.OriginalException?.Message;
-                throw new Exception($"Can't create mapping for type {typeof(PoiDocument)}, error '{errorMessage}'");
+                throw new Exception($"Can't create mapping for type {typeof (PoiDocument)}, error '{mapResponse.GetErrorMessage()}");
             }
 
             var removeAliasResponse = await client.AliasAsync(
                 s => s.Remove(r => r.Alias(_searchSettings.IndexAlias).Index(indexName)));
             if (!removeAliasResponse.IsValid) {
-                var errorMessage = removeAliasResponse.ServerError?.Error.ToString() ?? removeAliasResponse.OriginalException?.Message;
                 throw new Exception(
-                    $"Can't delete alias '{_searchSettings.IndexAlias}' for index '{indexName}', error '{errorMessage}'");
+                    $"Can't delete alias '{_searchSettings.IndexAlias}' for index '{indexName}', error '{removeAliasResponse.GetErrorMessage()}'");
             }
 
             var aliasCreationResponse = await client.AliasAsync(
                 s => s.Add(addSelector => addSelector.Index(newIndexName).Alias(_searchSettings.IndexAlias)));
             if (!aliasCreationResponse.IsValid) {
-                var errorMessage = aliasCreationResponse.ServerError?.Error.ToString() ?? aliasCreationResponse.OriginalException?.Message;
                 throw new Exception(
-                    $"Can't add alias '{_searchSettings.IndexAlias}' for index '{newIndexName}', error '{errorMessage}'");
+                    $"Can't add alias '{_searchSettings.IndexAlias}' for index '{newIndexName}', error '{removeAliasResponse.GetErrorMessage()}'");
             }
 
             // Delete old index.
             var deleteIndexResponse = client.DeleteIndex(indexName);
             if (!deleteIndexResponse.IsValid) {
-                var errorMessage = aliasCreationResponse.ServerError?.Error.ToString() ?? aliasCreationResponse.OriginalException?.Message;
                 throw new Exception(
-                    $"Can't delete old index index '{indexName}', error '{errorMessage}'");
+                    $"Can't delete old index index '{indexName}', error '{removeAliasResponse.GetErrorMessage()}'");
             }
 
             _log.Info("End create new index version, old index is '{0}' index, new index is '{1}'", indexName, newIndexName);
@@ -97,7 +98,7 @@ namespace GeoChallenger.Search
         private ElasticClient GetClient()
         {
             var node = new Uri(_searchSettings.ElasticSearchHost);
-            var connectionPool = new SniffingConnectionPool(new[] { node });
+            var connectionPool = new SingleNodeConnectionPool(node);
             var settings = new ConnectionSettings(connectionPool);
             settings.PingTimeout(new TimeSpan(0, 0, 0, 0, _searchSettings.PingTimeout));
             settings.MaximumRetries(_searchSettings.MaximumRetries);

@@ -104,7 +104,7 @@ namespace GeoChallenger.Search.Providers
         protected ElasticClient GetClient()
         {
             var node = new Uri(_searchSettings.ElasticSearchHost);
-            var connectionPool = new SniffingConnectionPool(new[] { node });
+            var connectionPool = new SingleNodeConnectionPool(node);
             var settings = new ConnectionSettings(connectionPool);
 
             // TODO: use this only for debugging.
