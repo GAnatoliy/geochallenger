@@ -30,7 +30,7 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         /// <summary>
-        ///     Get user routes
+        /// Get user routes
         /// </summary>
         /// <returns></returns>
         [Authorize]
@@ -42,7 +42,7 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         /// <summary>
-        ///     Get user route
+        /// Get user route
         /// </summary>
         /// <param name="routeId">Route Id</param>
         /// <returns></returns>
@@ -55,7 +55,7 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         /// <summary>
-        ///     Create new user route
+        /// Create new user route
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -74,7 +74,7 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         /// <summary>
-        ///     Update user's route
+        /// Update user's route
         /// </summary>
         /// <param name="routeId">Route Id</param>
         /// <param name="model">Updated route information</param>

@@ -23,6 +23,11 @@ namespace GeoChallenger.Database.Config
                 .WithRequired(a => a.Owner)
                 .HasForeignKey(a => a.OwnerId)
                 .WillCascadeOnDelete(false);
+
+            // User has list of the checked in pois.
+            HasMany(u => u.Checkins)
+                .WithRequired(c => c.User)
+                .HasForeignKey(c => c.UserId);
         }
     }
 }

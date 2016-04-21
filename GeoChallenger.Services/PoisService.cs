@@ -30,6 +30,8 @@ namespace GeoChallenger.Services
         private readonly ISearchIndexer _searchIndexer;
         private readonly IPoisSearchProvider _poisSearchProvider;
 
+        const int DEFAULT_POINTS_FOR_CHECKIN = 10;
+
         public PoisService(IMapper mapper, IDbContextScopeFactory dbContextScopeFactory, ISearchIndexer searchIndexer, IPoisSearchProvider poisSearchProvider)
         {
             if (mapper == null) {
@@ -173,7 +175,7 @@ namespace GeoChallenger.Services
 
                 var user = await context.Users.FindAsync(userId);
                 if (user == null) {
-                    throw new ObjectNotFoundException($"Can't delete poi by user with id {userId}, user doesn't exist.");
+                    throw new ObjectNotFoundException($"Can't delete poi {poiId} by user with id {userId}, user doesn't exist.");
                 }
 
                 var poi = await context.Pois.FindAsync(poiId);
@@ -214,11 +216,44 @@ namespace GeoChallenger.Services
 
         public async Task CheckinPoiAsync(int userId, int poiId)
         {
-            // Check if poi already checkedin.
-            // If no write checin record.
-            // Update user's pois.
-            await Task.Delay(0);
+            using (var dbContextScope = _dbContextScopeFactory.Create()) {
+                var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
+
+                var user = context.Users.Find(userId);
+                if (user == null) {
+                    throw new ObjectNotFoundException($"Can't checkin poi {poiId} by user with id {userId}, user doesn't exist.");
+                }
+
+                var poi = context.Pois.Find(poiId);
+                if (poi == null || poi.IsDeleted) {
+                    throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
+                }
+
+                // Check if poi already checkedin.
+                // NOTE: if this selection will work without joins? 
+                var isCheckedIn = await context.PoiCheckins
+                    .AnyAsync(pc => pc.UserId == userId && pc.PoiId == poiId);
+
+                if (isCheckedIn) {
+                    _log.Warn($"Poi {poiId} is already checked in by user {userId}");
+                    return;
+                }
+
+                // If no write checkin record.
+                var checkin = new PoiCheckin(DEFAULT_POINTS_FOR_CHECKIN, user, poi);
+
+                // Update user's pois.
+                user.Points += DEFAULT_POINTS_FOR_CHECKIN;
+
+                context.PoiCheckins.Add(checkin);
+
+                // TODO: add unique constraint to poiId-userId, and use optimistic concurrency in order
+                // to prevent writing duplicated request. 
+
+                await context.SaveChangesAsync();
+            }
         }
+
         #endregion
 
         /// <summary>

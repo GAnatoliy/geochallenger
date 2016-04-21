@@ -21,6 +21,8 @@ namespace GeoChallenger.Database
 
         public DbSet<Route> Routes { get; set; }
 
+        public DbSet<PoiCheckin> PoiCheckins { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

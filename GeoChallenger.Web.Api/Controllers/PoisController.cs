@@ -43,7 +43,7 @@ namespace GeoChallenger.Web.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<IList<PoiPreviewViewModel>> Get(string query = null, double? topLeftLatitude = null, double? topLeftLongitude = null,
+        public async Task<IList<PoiPreviewViewModel>> GetAsync(string query = null, double? topLeftLatitude = null, double? topLeftLongitude = null,
             double? bottomRightLatitude = null, double? bottomRightLongitude = null)
         {
             GeoBoundingBoxDto boundingBox = (topLeftLatitude.HasValue && topLeftLongitude.HasValue
@@ -57,13 +57,13 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         /// <summary>
-        /// Get poi stub by id
+        /// GetAsync poi stub by id
         /// </summary>
         /// <param name="poiId">Poi Id</param>
         /// <returns></returns>
         [HttpGet]
         [Route("{poiId:int}", Name = "GetPoiById")]
-        public async Task<PoiReadViewModel> Get(int poiId)
+        public async Task<PoiReadViewModel> GetAsync(int poiId)
         {
             var poiDto = await _poisService.GetPoiAsync(poiId);
             if (poiDto == null) {
@@ -102,7 +102,7 @@ namespace GeoChallenger.Web.Api.Controllers
         [HttpPost]
         [Route("")]
         [Authorize]
-        public async Task<IHttpActionResult> Create(PoiUpdateViewModel model)
+        public async Task<IHttpActionResult> CreateAsync(PoiUpdateViewModel model)
         {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
@@ -112,13 +112,29 @@ namespace GeoChallenger.Web.Api.Controllers
 
             return Created(Url.Link("GetPoiById", new { poiId = createdPoi.Id }), createdPoi);
         }
+
+        [HttpPost]
+        [Route("{poiId:int}/checkin")]
+        [Authorize]
+        public async Task<IHttpActionResult> CheckInAsync(int poiId)
+        {
+            var poi = await _poisService.GetPoiAsync(poiId);
+            if (poi == null) {
+                return NotFound();
+            }
+
+            await _poisService.CheckinPoiAsync(User.Identity.GetUserId<int>(), poiId);
+
+            return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent));
+        }
+
         #endregion
 
         #region PUT
         [HttpPut]
         [Route("{poiId:int}")]
         [Authorize]
-        public async Task<IHttpActionResult> Update(int poiId, PoiUpdateViewModel model)
+        public async Task<IHttpActionResult> UpdateAsync(int poiId, PoiUpdateViewModel model)
         {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
@@ -138,7 +154,7 @@ namespace GeoChallenger.Web.Api.Controllers
         [HttpDelete]
         [Route("{poiId:int}")]
         [Authorize]
-        public async Task<IHttpActionResult> Delete(int poiId)
+        public async Task<IHttpActionResult> DeleteAsync(int poiId)
         {
             var poi = await _poisService.GetPoiAsync(poiId);
             if (poi == null) {

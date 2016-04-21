@@ -38,7 +38,7 @@ namespace GeoChallenger.Domains.Pois
         /// <summary>
         /// Time when poi was checked in.
         /// </summary>
-        public DateTime CheckedInAtUtc { get; set; }
+        public DateTime CheckedInAtUtc { get; set; } = DateTime.UtcNow;
 
         #endregion
 

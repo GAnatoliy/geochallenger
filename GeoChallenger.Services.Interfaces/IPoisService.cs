@@ -63,6 +63,13 @@ namespace GeoChallenger.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         Task UpdatePoisSearchIndexAsync();
+
+
+        /// <summary>
+        /// Checkin poi by user.
+        /// </summary>
+        Task CheckinPoiAsync(int userId, int poiId);
+
         #endregion
     }
 }

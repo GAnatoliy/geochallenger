@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Spatial;
 using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
@@ -61,7 +62,7 @@ namespace GeoChallenger.Domains.Pois
         /// <summary>
         /// Poi routes. Relationship property
         /// </summary>
-        public ICollection<Route> Routes { get; set; } = new HashSet<Route>();
+        public virtual ICollection<Route> Routes { get; set; } = new HashSet<Route>();
 
         /// <summary>
         /// Poi owner id.
@@ -72,6 +73,11 @@ namespace GeoChallenger.Domains.Pois
         /// Poi owner user.
         /// </summary>
         public virtual User Owner { get; protected set; }
+
+        /// <summary>
+        /// Checkins of this poi.
+        /// </summary>
+        public virtual ICollection<PoiCheckin> Checkins { get; protected set; } = new Collection<PoiCheckin>(); 
 
         #endregion
 

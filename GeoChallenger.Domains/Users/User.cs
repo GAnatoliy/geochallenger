@@ -56,6 +56,8 @@ namespace GeoChallenger.Domains.Users
         /// User's pois.
         /// </summary>
         public virtual ICollection<Poi> Pois { get; protected set; } = new Collection<Poi>();
+
+        public virtual ICollection<PoiCheckin> Checkins { get; protected set; } = new Collection<PoiCheckin>(); 
         #endregion
     }
 }
