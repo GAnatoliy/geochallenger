@@ -3,10 +3,19 @@ using GeoChallenger.Services.Interfaces.DTO.Media;
 
 namespace GeoChallenger.Services.Settings.Storage
 {
+    /// <summary>
+    ///     Azure storage settings with containers
+    /// </summary>
     public class AzureStorageSettings
     {
-        public IDictionary<ImageType, string> ImageContainersName { get; set; }
+        /// <summary>
+        ///     Azure storage security key
+        /// </summary>
+        public string AzureStorageConnectionString { get; set; }
 
-        public IDictionary<VideoType, string> videoContainersName { get; set; }
+        /// <summary>
+        ///     Availables Azure media containers  with settings
+        /// </summary>
+        public IDictionary<MediaType, MediaTypeDescriptor> MediaContainers { get; set; }
     }
 }

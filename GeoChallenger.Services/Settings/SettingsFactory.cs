@@ -1,5 +1,8 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using GeoChallenger.Services.Interfaces.DTO.Media;
 using GeoChallenger.Services.Settings.SocialNetworks;
+using GeoChallenger.Services.Settings.Storage;
 
 namespace GeoChallenger.Services.Settings
 {
@@ -38,6 +41,40 @@ namespace GeoChallenger.Services.Settings
         {
             return new GoogleSettings {
                 GoogleVerificationUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="
+            };
+        }
+
+        /// <summary>
+        ///     Azure storage settings factory
+        /// </summary>
+        /// <returns></returns>
+        public static AzureStorageSettings GetAzureStorageSettings()
+        {
+            return new AzureStorageSettings {
+                AzureStorageConnectionString = ConfigurationManager.ConnectionStrings["GeoChallengerStorageConnection"].ConnectionString,
+                MediaContainers = new Dictionary<MediaType, MediaTypeDescriptor> {
+                    {
+                        MediaType.UserAvatarImage, new MediaTypeDescriptor {
+                            ContainerName = $"{nameof(MediaType.UserAvatarImage).ToLower()}",
+                            ContentType = "image/jpeg",
+                            FileExtension = "jpg"
+                        }
+                    },
+                    {
+                        MediaType.PoiImage, new MediaTypeDescriptor {
+                            ContainerName = $"{nameof(MediaType.PoiImage).ToLower()}",
+                            ContentType = "image/jpeg",
+                            FileExtension = "jpg"
+                        }
+                    },
+                                        {
+                        MediaType.PoiVideo, new MediaTypeDescriptor {
+                            ContainerName = $"{nameof(MediaType.PoiVideo).ToLower()}",
+                            ContentType = "video/mp4",
+                            FileExtension = "mp4"
+                        }
+                    }
+                }
             };
         }
     }
