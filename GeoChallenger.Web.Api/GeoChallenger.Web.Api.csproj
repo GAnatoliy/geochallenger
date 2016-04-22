@@ -284,6 +284,8 @@
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\ExceptionFilter.cs" />
+    <Compile Include="Models\Pois\MediaTypeViewModel.cs" />
+    <Compile Include="Models\Pois\PoiMediaReadViewModel.cs" />
     <Compile Include="Models\Pois\PoiPreviewViewModel.cs" />
     <Compile Include="Models\Pois\PoiReadViewModel.cs" />
     <Compile Include="Models\Pois\PoiUpdateViewModel.cs" />

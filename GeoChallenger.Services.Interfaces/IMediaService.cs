@@ -12,6 +12,6 @@ namespace GeoChallenger.Services.Interfaces
         /// <param name="stream">Media stream</param>
         /// <param name="mediaType">Media type</param>
         /// <returns></returns>
-        Task<MediaUploadResultDto> UploadAsync(Stream stream, MediaType mediaType);
+        Task<MediaUploadResultDto> UploadAsync(Stream stream, MediaTypeDto mediaType);
     }
 }

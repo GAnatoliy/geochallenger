@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using GeoChallenger.Domains.Media;
 using GeoChallenger.Services.Interfaces.DTO.Media;
 using GeoChallenger.Services.Settings.SocialNetworks;
 using GeoChallenger.Services.Settings.Storage;

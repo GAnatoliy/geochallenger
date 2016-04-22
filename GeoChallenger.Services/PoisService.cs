@@ -8,7 +8,7 @@ using AutoMapper;
 using GeoChallenger.Database;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Search.Documents;
-using GeoChallenger.Search.Providers;
+using GeoChallenger.Search.Providers.Interfaces;
 using GeoChallenger.Services.Core;
 using GeoChallenger.Services.Helpers;
 using GeoChallenger.Services.Interfaces;
@@ -16,6 +16,7 @@ using GeoChallenger.Services.Interfaces.DTO;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.Enums;
 using GeoChallenger.Services.Interfaces.Exceptions;
+using GeoChallenger.Services.Queries;
 using Mehdime.Entity;
 using NLog;
 
@@ -102,6 +103,18 @@ namespace GeoChallenger.Services
                 return _mapper.Map<IList<PoiDto>>(pois);
             }
         }
+
+        public async Task<IList<PoiMediaDto>> GetPoiMediaAsync(int poiId)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var media = await dbContextScope.DbContexts.Get<GeoChallengerContext>().PoiMedia
+                    .GetPoiMedia(poiId)
+                    .ToListAsync();
+
+                return _mapper.Map<IList<PoiMediaDto>>(media);
+            }
+        }
+
         #endregion
 
         #region Commands

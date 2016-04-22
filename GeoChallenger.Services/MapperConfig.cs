@@ -1,10 +1,12 @@
 ﻿using System;
 using AutoMapper;
 using GeoChallenger.Database.Extensions;
+using GeoChallenger.Domains.Media;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
 using GeoChallenger.Search.Documents;
+using GeoChallenger.Services.Interfaces.DTO.Media;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.DTO.Routes;
 using GeoChallenger.Services.Interfaces.DTO.Users;
@@ -33,6 +35,8 @@ namespace GeoChallenger.Services
                     }
                 });
 
+            config.CreateMap<PoiMedia, PoiMediaDto>();
+
             config.CreateMap<Route, RouteDto>();
 
             config.CreateMap<AccountType, AccountTypeDto>();
@@ -40,6 +44,8 @@ namespace GeoChallenger.Services
             config.CreateMap<Account, AccountDto>();
 
             config.CreateMap<User, UserDto>();
+
+            config.CreateMap<MediaType, MediaTypeDto>();
         }
 
         private static void MapFromContractsToDomains(IMapperConfiguration config)
@@ -75,6 +81,8 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dst => dst.UserId, opt => opt.Ignore())
                 .ForMember(dst => dst.User, opt => opt.Ignore());
+
+            config.CreateMap<MediaTypeDto, MediaType>();
         }
 
         private static void MapSearchDocuments(IMapperConfiguration config)

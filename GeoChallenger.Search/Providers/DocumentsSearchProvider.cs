@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Elasticsearch.Net;
 using GeoChallenger.Search.Documents;
+using GeoChallenger.Search.Providers.Interfaces;
 using Nest;
 using NLog;
 

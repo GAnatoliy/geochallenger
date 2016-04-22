@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GeoChallenger.Database;
 using GeoChallenger.Search.Documents;
 using GeoChallenger.Search.Providers;
+using GeoChallenger.Search.Providers.Interfaces;
 using Mehdime.Entity;
 using NLog;
 

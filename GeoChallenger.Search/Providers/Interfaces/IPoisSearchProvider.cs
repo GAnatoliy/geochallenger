@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using GeoChallenger.Search.Documents;
 using GeoChallenger.Services.Interfaces.DTO;
 
-
-namespace GeoChallenger.Search.Providers
+namespace GeoChallenger.Search.Providers.Interfaces
 {
     public interface IPoisSearchProvider: IDocumentsSearchProvider<PoiDocument>
     {

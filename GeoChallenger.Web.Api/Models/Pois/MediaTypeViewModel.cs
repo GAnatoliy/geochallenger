@@ -1,9 +1,9 @@
-﻿namespace GeoChallenger.Services.Interfaces.DTO.Media
+﻿namespace GeoChallenger.Web.Api.Models.Pois
 {
     /// <summary>
     ///     Types of media that's use in GeoChallenger
     /// </summary>
-    public enum MediaType : byte
+    public enum MediaTypeViewModel : byte
     {
         UserAvatarImage = 0,
         PoiImage,

@@ -77,7 +77,12 @@ namespace GeoChallenger.Domains.Pois
         /// <summary>
         /// Checkins of this poi.
         /// </summary>
-        public virtual ICollection<PoiCheckin> Checkins { get; protected set; } = new Collection<PoiCheckin>(); 
+        public virtual ICollection<PoiCheckin> Checkins { get; protected set; } = new Collection<PoiCheckin>();
+
+        /// <summary>
+        /// Media of this poi
+        /// </summary>
+        public virtual ICollection<PoiMedia> Media { get; set; } = new HashSet<PoiMedia>();
 
         #endregion
 
@@ -89,6 +94,15 @@ namespace GeoChallenger.Domains.Pois
 
             OwnerId = user.Id;
             Owner = user;
+        }
+
+        /// <summary>
+        /// Add media to the poi 
+        /// </summary>
+        /// <param name="poiMedia"></param>
+        public void AddMedia(PoiMedia poiMedia)
+        {
+            Media.Add(poiMedia);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 namespace GeoChallenger.Web.Api.Models.Pois
@@ -52,5 +53,10 @@ namespace GeoChallenger.Web.Api.Models.Pois
         /// Poi owner id.
         /// </summary>
         public int OwnerId { get; set; }
+        
+        /// <summary>
+        /// Poi media
+        /// </summary>
+        public IList<PoiMediaReadViewModel> Media { get; set; }
     }
 }

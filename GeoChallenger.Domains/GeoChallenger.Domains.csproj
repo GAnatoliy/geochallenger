@@ -58,8 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Media\MediaType.cs" />
     <Compile Include="Pois\Poi.cs" />
     <Compile Include="Pois\PoiCheckin.cs" />
+    <Compile Include="Pois\PoiMedia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes\Route.cs" />
     <Compile Include="Users\Account.cs" />

@@ -23,6 +23,8 @@ namespace GeoChallenger.Database
 
         public DbSet<PoiCheckin> PoiCheckins { get; set; }
 
+        public DbSet<PoiMedia> PoiMedia { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

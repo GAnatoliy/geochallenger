@@ -30,5 +30,16 @@ namespace GeoChallenger.Services.Queries
         {
             return query.Where(p => !p.IsDeleted && p.Routes.Any(r => routesIds.Contains(r.Id)));
         }
+
+        /// <summary>
+        ///     Get poi's media
+        /// </summary>
+        /// <param name="query">IQueryable</param>
+        /// <param name="poiId">Poi Id</param>
+        /// <returns></returns>
+        public static IQueryable<PoiMedia> GetPoiMedia(this IQueryable<PoiMedia> query, int poiId)
+        {
+            return query.Where(m => m.PoiId == poiId);
+        }
     }
 }

@@ -3,8 +3,7 @@ using AutoMapper;
 using GeoChallenger.Commands.Commands;
 using GeoChallenger.DIModules;
 
-
-namespace GeoChallenger.Commands.Command
+namespace GeoChallenger.Commands.Config
 {
     public class DIConfig
     {

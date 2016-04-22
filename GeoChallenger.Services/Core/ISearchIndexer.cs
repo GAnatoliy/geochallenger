@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GeoChallenger.Search.Documents;
 using GeoChallenger.Search.Providers;
+using GeoChallenger.Search.Providers.Interfaces;
 
 
 namespace GeoChallenger.Services.Core

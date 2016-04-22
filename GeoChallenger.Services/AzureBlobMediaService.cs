@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using AutoMapper;
+using GeoChallenger.Domains.Media;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Media;
 using GeoChallenger.Services.Settings.Storage;
@@ -12,15 +14,17 @@ namespace GeoChallenger.Services
     public class AzureBlobMediaService : IMediaService
     {
         private readonly AzureStorageSettings _azureStorageSettings;
+        private readonly IMapper _mapper;
 
-        public AzureBlobMediaService(AzureStorageSettings azureStorageSettings)
+        public AzureBlobMediaService(AzureStorageSettings azureStorageSettings, IMapper mapper)
         {
             _azureStorageSettings = azureStorageSettings;
+            _mapper = mapper;
         }
 
-        public async Task<MediaUploadResultDto> UploadAsync(Stream stream, MediaType mediaType)
+        public async Task<MediaUploadResultDto> UploadAsync(Stream stream, MediaTypeDto mediaType)
         {
-            var mediaDescriptor = _azureStorageSettings.MediaContainers[mediaType];
+            var mediaDescriptor = _azureStorageSettings.MediaContainers[_mapper.Map<MediaType>(mediaType)];
             var blobContainer = await GetContainerAsync(_azureStorageSettings.AzureStorageConnectionString, mediaDescriptor.ContainerName);
 
             var blobName = $"{Guid.NewGuid()}.{mediaDescriptor.FileExtension}";

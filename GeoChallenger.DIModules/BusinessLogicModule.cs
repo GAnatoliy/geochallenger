@@ -2,6 +2,7 @@
 using Autofac;
 using GeoChallenger.Search;
 using GeoChallenger.Search.Providers;
+using GeoChallenger.Search.Providers.Interfaces;
 using GeoChallenger.Services;
 using GeoChallenger.Services.Core;
 using GeoChallenger.Services.Interfaces;

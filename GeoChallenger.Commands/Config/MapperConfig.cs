@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 
-
-namespace GeoChallenger.Commands.Command
+namespace GeoChallenger.Commands.Config
 {
     public class MapperConfig
     {

@@ -1,4 +1,6 @@
-﻿namespace GeoChallenger.Services.Interfaces.DTO.Pois
+﻿using System.Collections.Generic;
+
+namespace GeoChallenger.Services.Interfaces.DTO.Pois
 {
     /// <summary>
     ///     Carry updated poi information

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
-namespace GeoChallenger.Search.Providers
+namespace GeoChallenger.Search.Providers.Interfaces
 {
     /// <summary>
     /// Base interface for document search.

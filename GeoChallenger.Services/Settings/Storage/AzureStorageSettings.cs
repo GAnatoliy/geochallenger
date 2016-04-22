@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GeoChallenger.Domains.Media;
 using GeoChallenger.Services.Interfaces.DTO.Media;
 
 namespace GeoChallenger.Services.Settings.Storage

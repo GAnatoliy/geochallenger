@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GeoChallenger.Search.Documents;
+using GeoChallenger.Search.Providers.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO;
 using Nest;
 using NLog;

@@ -33,6 +33,14 @@ namespace GeoChallenger.Services.Interfaces
         /// Returns pois created by current user.
         /// </summary>
         Task<IList<PoiDto>> GetUserPoisAsync(int ownerId);
+
+        /// <summary>
+        /// Returns media of the poi
+        /// </summary>
+        /// <param name="poiId">Poi Id</param>
+        /// <returns></returns>
+        Task<IList<PoiMediaDto>> GetPoiMediaAsync(int poiId);
+
         #endregion
 
         #region Commands 
