@@ -42,10 +42,9 @@ namespace GeoChallenger.Database
             context.SaveChanges();
 
             
-            var routes = new List<Route>();
-            foreach (var user in users) {
-                routes.Add(CreateRoute($"{user.Name}_Route", user, pois.Take(5).ToList(), startEndPointsCoordinates));
-            }
+            var routes = users
+                .Select(user => CreateRoute($"{user.Name}_Route", user, pois.Take(5).ToList(), startEndPointsCoordinates))
+                .ToList();
             context.Routes.AddRange(routes);
 
             base.Seed(context);

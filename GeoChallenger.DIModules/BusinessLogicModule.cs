@@ -11,7 +11,6 @@ using GeoChallenger.Services.Providers.Interfaces;
 using GeoChallenger.Services.Providers.SocialNetworks;
 using GeoChallenger.Services.Settings;
 
-
 namespace GeoChallenger.DIModules
 {
     public class BusinessLogicModule: Module
@@ -32,6 +31,10 @@ namespace GeoChallenger.DIModules
                .AsImplementedInterfaces();
             // TODO: check possible issue with IIS and decide if it is actual for our case
             // http://docs.autofac.org/en/latest/register/scanning.html#iis-hosted-web-applications
+
+            // Register media storage service
+            builder.RegisterType<AzureBlobMediaService>()
+                .As<IMediaService>();
 
             // Register http provider
             builder.RegisterType<GeoChallengerHttpProvider>()

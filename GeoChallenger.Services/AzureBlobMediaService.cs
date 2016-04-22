@@ -20,22 +20,21 @@ namespace GeoChallenger.Services
 
         public async Task<MediaUploadResultDto> UploadAsync(Stream stream, MediaType mediaType)
         {
-            throw new NotImplementedException();
-            /*
             var mediaDescriptor = _azureStorageSettings.MediaContainers[mediaType];
             var blobContainer = await GetContainerAsync(_azureStorageSettings.AzureStorageConnectionString, mediaDescriptor.ContainerName);
 
-            var blobName = GenerateBlobName(fileName);
+            var blobName = $"{Guid.NewGuid()}.{mediaDescriptor.FileExtension}";
             var blockBlob = blobContainer.GetBlockBlobReference(blobName);
 
             blockBlob.Properties.ContentType = mediaDescriptor.ContentType;
 
             await blockBlob.UploadFromStreamAsync(stream);
 
-            return new UploadResultDto {
+            return new MediaUploadResultDto {
                 Name = blobName,
+                ContainerName = mediaDescriptor.ContainerName,
                 Uri = blockBlob.Uri.AbsoluteUri
-            };*/
+            };
         }
 
         /// <summary>

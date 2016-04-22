@@ -11,6 +11,11 @@
         public string Name { get; set; }
 
         /// <summary>
+        ///     Uploaded container name
+        /// </summary>
+        public string ContainerName { get; set; }
+
+        /// <summary>
         ///     Uploaded file Uri
         /// </summary>
         public string Uri { get; set; }
