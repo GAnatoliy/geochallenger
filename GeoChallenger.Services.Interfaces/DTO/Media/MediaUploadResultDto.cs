@@ -11,9 +11,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        ///     Uploaded container name
+        ///     Uploaded content type
         /// </summary>
-        public string ContainerName { get; set; }
+        public string ContentType { get; set; }
 
         /// <summary>
         ///     Uploaded file Uri

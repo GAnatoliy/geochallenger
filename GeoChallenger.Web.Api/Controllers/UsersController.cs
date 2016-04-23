@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Web.Api.Models.Users;
-
+using Microsoft.AspNet.Identity;
 
 namespace GeoChallenger.Web.Api.Controllers
 {
@@ -36,6 +33,18 @@ namespace GeoChallenger.Web.Api.Controllers
         }
 
         #region GET
+
+        /// <summary>
+        ///     Get authenticated user info.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        [Route("me")]
+        public async Task<UserReadViewModel> GetUserInfoAsync()
+        {
+            return _mapper.Map<UserReadViewModel>(await _usersService.GetUserAsync(User.Identity.GetUserId<int>()));
+        }
 
         [HttpGet]
         [Route("top")]

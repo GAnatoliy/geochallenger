@@ -36,7 +36,7 @@ namespace GeoChallenger.Services
 
             return new MediaUploadResultDto {
                 Name = blobName,
-                ContainerName = mediaDescriptor.ContainerName,
+                ContentType = blockBlob.Properties.ContentType,
                 Uri = blockBlob.Uri.AbsoluteUri
             };
         }
@@ -67,6 +67,11 @@ namespace GeoChallenger.Services
             });
 
             return container;
+        }
+
+        private async Task ValidateMediaType()
+        {
+            
         }
     }
 }

@@ -90,6 +90,21 @@ namespace GeoChallenger.Services
             }
         }
 
+        public async Task<UserDto> GetUserAsync(int userId)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
+                var user = await dbContextScope.DbContexts.Get<GeoChallengerContext>().Users
+                    .GetUser(userId)
+                    .SingleOrDefaultAsync();
+
+                if (user == null) {
+                    return null;
+                }
+
+                return _mapper.Map<UserDto>(user);
+            }
+        }
+
         public async Task<IList<UserDto>> GetLeaderboardAsync(int take)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {

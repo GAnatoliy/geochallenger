@@ -10,6 +10,17 @@ namespace GeoChallenger.Services.Queries
     public static class UsersQueries
     {
         /// <summary>
+        ///     Get user by id
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="userId">User Id</param>
+        /// <returns></returns>
+        public static IQueryable<User> GetUser(this IQueryable<User> query, int userId)
+        {
+            return query.Where(u => u.Id == userId);
+        }
+
+        /// <summary>
         ///     Get user by email
         /// </summary>
         /// <param name="query"></param>
