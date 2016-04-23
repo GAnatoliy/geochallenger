@@ -4,6 +4,7 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
 using GeoChallenger.DIModules;
+using GeoChallenger.Services.Settings;
 using GeoChallenger.Web.Api.Providers;
 
 
@@ -15,6 +16,8 @@ namespace GeoChallenger.Web.Api.Config
         public static void RegisterDI(HttpConfiguration configuration, MapperConfiguration mapperConfiguration)
         {
             var builder = new ContainerBuilder();
+
+            builder.RegisterInstance(SettingsFactory.GetApplicationSettings());
 
             // Register automapper.
             builder.Register(ctx => mapperConfiguration);

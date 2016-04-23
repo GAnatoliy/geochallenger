@@ -11,7 +11,6 @@ using GeoChallenger.Web.Api.Models.Pois;
 using GeoChallenger.Web.Api.Models.Routes;
 using GeoChallenger.Web.Api.Models.Users;
 
-
 namespace GeoChallenger.Web.Api.Config
 {
     public class MapperConfig
