@@ -16,6 +16,7 @@ namespace GeoChallenger.Search.Providers
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly SearchSettings _searchSettings;
+        private const int SEARCH_LIMIT = 10000;
 
         public PoisSearchProvider(SearchSettings searchSettings) : base(searchSettings)
         {
@@ -38,7 +39,7 @@ namespace GeoChallenger.Search.Providers
                         mq => geoBoundingBox == null ? mq : mq.GeoBoundingBox(b => b
                             .BoundingBox(geoBoundingBox.TopLeftLatitude, geoBoundingBox.TopLeftLongitude, geoBoundingBox.BottomRightLatitude, geoBoundingBox.BottomRightLongitude)
                             .Field(p => p.Location))))
-                ));
+                ).Size(SEARCH_LIMIT));
             return result.Documents.ToList();
         }
 
