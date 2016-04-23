@@ -280,11 +280,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ChallengesController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\PoisController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\ExceptionFilter.cs" />
+    <Compile Include="Models\Challenges\ChallengeReadViewModel.cs" />
+    <Compile Include="Models\Challenges\ChallengeUpdateViewModel.cs" />
     <Compile Include="Models\Media\MediaUploadResultViewModel.cs" />
     <Compile Include="Models\Pois\MediaTypeViewModel.cs" />
     <Compile Include="Models\Pois\PoiMediaReadViewModel.cs" />
@@ -295,6 +298,7 @@
     <Compile Include="Models\Routes\RouteReadViewModel.cs" />
     <Compile Include="Models\Users\AccountTypeViewModel.cs" />
     <Compile Include="Models\Users\UserReadViewModel.cs" />
+    <Compile Include="Models\ValueViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\GeoChallengerOAuthProvider.cs" />
     <Compile Include="Startup.cs" />

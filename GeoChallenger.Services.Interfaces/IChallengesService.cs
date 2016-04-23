@@ -22,7 +22,7 @@ namespace GeoChallenger.Services.Interfaces
         /// <summary>
         /// Returns challenges created by specified user.
         /// </summary>
-        Task<IList<ChallengeDto>> GetChallengesCreatedByUser(int userId);
+        Task<IList<ChallengeDto>> GetChallengesCreatedByUserAsync(int userId);
 
         #endregion
 

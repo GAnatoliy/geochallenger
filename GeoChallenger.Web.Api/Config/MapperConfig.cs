@@ -1,16 +1,22 @@
 ﻿using AutoMapper;
+using GeoChallenger.Services.Interfaces.DTO.Challenges;
 using GeoChallenger.Services.Interfaces.DTO.Media;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.DTO.Routes;
 using GeoChallenger.Services.Interfaces.DTO.Users;
+using GeoChallenger.Web.Api.Models.Challenges;
 using GeoChallenger.Web.Api.Models.Pois;
 using GeoChallenger.Web.Api.Models.Routes;
 using GeoChallenger.Web.Api.Models.Users;
+
 
 namespace GeoChallenger.Web.Api.Config
 {
     public class MapperConfig
     {
+        // Now all our challenges has the same reward.
+        private const int DEFAULT_CHALLENGE_REWARD = 5;
+
         public static MapperConfiguration CreateMapperConfiguration()
         {
             // TODO: consider to sue profile in order to configure mapping from different places,
@@ -45,6 +51,8 @@ namespace GeoChallenger.Web.Api.Config
 
             config.CreateMap<UserDto, UserReadViewModel>();
 
+            config.CreateMap<ChallengeDto, ChallengeReadViewModel>();
+
             config.CreateMap<MediaTypeDto, MediaTypeViewModel>();
         }
 
@@ -55,6 +63,9 @@ namespace GeoChallenger.Web.Api.Config
             config.CreateMap<AccountTypeViewModel, AccountTypeDto>();
 
             config.CreateMap<RouteUpdateViewModel, RouteUpdateDto>();
+
+            config.CreateMap<ChallengeUpdateViewModel, ChallengeUpdateDto>()
+                .ForMember(dst => dst.PointsReward, opt => opt.UseValue(DEFAULT_CHALLENGE_REWARD));
         }
     }
 }

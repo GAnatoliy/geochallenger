@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Users;
 
@@ -56,7 +57,7 @@ namespace GeoChallenger.Domains.Challenges
         /// <summary>
         /// Answers given by users.
         /// </summary>
-        public ICollection<ChallengeAnswer> Answers { get; set; }
+        public ICollection<ChallengeAnswer> Answers { get; protected set; } = new Collection<ChallengeAnswer>();
 
         /// <summary>
         /// Poi where challenge is attached.
@@ -96,6 +97,7 @@ namespace GeoChallenger.Domains.Challenges
         {
             var challengeAnswer = new ChallengeAnswer() {
                 Answer = SanitizeAnswer(answer),
+                CorrectAnswer = CorrectAnswer,
                 User = user,
                 Challenge = this,
                 EarnedPoints = PointsReward,

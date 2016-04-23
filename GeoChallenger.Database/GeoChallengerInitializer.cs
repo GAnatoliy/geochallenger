@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using GeoChallenger.Database.Extensions;
+using GeoChallenger.Domains.Challenges;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
@@ -18,11 +19,11 @@ namespace GeoChallenger.Database
         protected override void Seed(GeoChallengerContext context)
         {
             var coordinates = new List<KeyValuePair<string, DbGeography>> {
-                new KeyValuePair<string, DbGeography>("Test location", GeoExtensions.CreateLocationPoint(48.534159, 40.275574)),
+                new KeyValuePair<string, DbGeography>("Test location", GeoExtensions.CreateLocationPoint(48.534159, 32.275574)),
                 new KeyValuePair<string, DbGeography>("Dobrovolskogo St, 1, Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.534159, 32.275574)),
                 new KeyValuePair<string, DbGeography>("Shevchenka St, 1, Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.515507, 32.262109)),
                 new KeyValuePair<string, DbGeography>( "Karla Marksa St, 24, Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.513389, 32.269261)),
-                new KeyValuePair<string, DbGeography>("ulitsa Evgeniya Chikalenko, 18, Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.513653, 32.269458)),
+                new KeyValuePair<string, DbGeography>("ulitsa Evgeniya Chikalenko, 18, Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.513653, 40.269458)),
                 new KeyValuePair<string, DbGeography>("Kirovogradskiy natsionalnyy tekhnicheskiy universitet, просп. Університетський, 8, Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.506374, 32.210647)),
                 new KeyValuePair<string, DbGeography>("Kurhanna St, 56 Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.491290, 32.249571)),
                 new KeyValuePair<string, DbGeography>("Hoholya St, 109 Kirovohrad, Kirovohrads'ka oblast", GeoExtensions.CreateLocationPoint(48.506386, 32.270171)),
@@ -35,6 +36,11 @@ namespace GeoChallenger.Database
 
             var users = CreateUsers(5);
             var pois = CreatePois(coordinates, users.First());
+            
+            // Create 7 challenges for first poi and first user.
+            for (int i = 1; i <= 7; ++i) {
+                context.Challenges.Add(CreateChallenge(i, users.First(), pois.First()));
+            }
 
             context.Users.AddRange(users);
             context.Pois.AddRange(pois);
@@ -117,6 +123,17 @@ namespace GeoChallenger.Database
                 Points = i * 10
             };
         }
+
+        private static Challenge CreateChallenge(int index, User creator, Poi poi)
+        {
+            return new Challenge() {
+                Task = $"Task {index}",
+                CorrectAnswer = $"ansser {index}",
+                PointsReward = 5,
+                Creator = creator,
+                Poi = poi
+            };
+        } 
 
         #endregion
     }

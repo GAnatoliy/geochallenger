@@ -1,4 +1,5 @@
-﻿using GeoChallenger.Domains.Pois;
+﻿using System;
+using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Users;
 
 
@@ -19,6 +20,11 @@ namespace GeoChallenger.Domains.Challenges
         public string Answer { get; set; }
 
         /// <summary>
+        /// Correct answer.
+        /// </summary>
+        public string CorrectAnswer { get; set; }
+
+        /// <summary>
         /// Indicates if answer is correct.
         /// </summary>
         public bool IsCorrect { get; set; }
@@ -27,6 +33,8 @@ namespace GeoChallenger.Domains.Challenges
         /// Points earned in case of correct answer.
         /// </summary>
         public int EarnedPoints { get; set; }
+
+        public DateTime AnsweredAtUtc { get; set; } = DateTime.UtcNow;
 
         #endregion
 

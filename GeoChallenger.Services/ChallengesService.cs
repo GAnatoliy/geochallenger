@@ -64,7 +64,7 @@ namespace GeoChallenger.Services
             }
         }
 
-        public async Task<IList<ChallengeDto>> GetChallengesCreatedByUser(int userId)
+        public async Task<IList<ChallengeDto>> GetChallengesCreatedByUserAsync(int userId)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly()) {
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
