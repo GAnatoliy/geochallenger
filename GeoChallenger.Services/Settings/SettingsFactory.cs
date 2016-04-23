@@ -4,6 +4,8 @@ using GeoChallenger.Domains.Media;
 using GeoChallenger.Services.Interfaces.DTO.Media;
 using GeoChallenger.Services.Settings.SocialNetworks;
 using GeoChallenger.Services.Settings.Storage;
+using NLog;
+
 
 namespace GeoChallenger.Services.Settings
 {
@@ -12,16 +14,30 @@ namespace GeoChallenger.Services.Settings
     /// </summary>
     public static class SettingsFactory
     {
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         ///     Facebook provider settings factory
         /// </summary>
         /// <returns></returns>
         public static ApplicationSettings GetApplicationSettings()
         {
-            return new ApplicationSettings {
-                UserTokenLifetimeInDays = int.Parse(ConfigurationManager.AppSettings["UserTokenLifetimeInDays"]),
+            var setings = new ApplicationSettings {
                 ServerUrl = ConfigurationManager.AppSettings["Web.ApiHostUrl"]
             };
+
+            bool isParsed;
+            int userTokenLifeTime;
+            isParsed = int.TryParse(ConfigurationManager.AppSettings["UserTokenLifetimeInDays"], out userTokenLifeTime);
+            if (isParsed) {
+                setings.UserTokenLifetimeInDays = userTokenLifeTime;
+            }
+            else {
+                setings.UserTokenLifetimeInDays = 7;
+                _log.Warn("Can't parse setting 'UserTokenLifetimeInDays', default value is used.");
+            }
+
+            return setings;
         }
 
         /// <summary>

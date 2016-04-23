@@ -56,6 +56,7 @@ namespace GeoChallenger.Domains.Pois
         /// </summary>
         public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
+       
         #endregion
 
         #region Relations
