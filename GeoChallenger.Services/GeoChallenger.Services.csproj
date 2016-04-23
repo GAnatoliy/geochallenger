@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureBlobMediaService.cs" />
+    <Compile Include="ChallengesService.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Core\ISearchIndexer.cs" />
     <Compile Include="Core\SearchIndexer.cs" />

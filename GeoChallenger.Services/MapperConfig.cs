@@ -1,11 +1,13 @@
 ﻿using System;
 using AutoMapper;
 using GeoChallenger.Database.Extensions;
+using GeoChallenger.Domains.Challenges;
 using GeoChallenger.Domains.Media;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
 using GeoChallenger.Search.Documents;
+using GeoChallenger.Services.Interfaces.DTO.Challenges;
 using GeoChallenger.Services.Interfaces.DTO.Media;
 using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.DTO.Routes;
@@ -45,6 +47,8 @@ namespace GeoChallenger.Services
 
             config.CreateMap<User, UserDto>();
 
+            config.CreateMap<Challenge, ChallengeDto>();
+
             config.CreateMap<MediaType, MediaTypeDto>();
         }
 
@@ -60,6 +64,8 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.Owner, opt => opt.Ignore())
                 .ForMember(dst => dst.Routes, opt => opt.Ignore())
                 .ForMember(dst => dst.CreatedAtUtc, opt => opt.Ignore())
+                .ForMember(dst => dst.Challengeses, opt => opt.Ignore())
+                .ForMember(dst => dst.Checkins, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });
@@ -81,6 +87,18 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dst => dst.UserId, opt => opt.Ignore())
                 .ForMember(dst => dst.User, opt => opt.Ignore());
+
+            config.CreateMap<ChallengeUpdateDto, Challenge>()
+                .ForMember(dst => dst.Id, opt => opt.Ignore())
+                .ForMember(dst => dst.CorrectAnswer, opt => opt.MapFrom(src => Challenge.SanitizeAnswer(src.CorrectAnswer)))
+                .ForMember(dst => dst.CreatedAtUtc, opt => opt.Ignore())
+                .ForMember(dst => dst.UpdatedAtUtc, opt => opt.Ignore())
+                .ForMember(dst => dst.IsDeleted, opt => opt.Ignore())
+                .ForMember(dst => dst.PoiId, opt => opt.Ignore())
+                .ForMember(dst => dst.Poi, opt => opt.Ignore())
+                .ForMember(dst => dst.CreatorId, opt => opt.Ignore())
+                .ForMember(dst => dst.Creator, opt => opt.Ignore())
+                .ForMember(dst => dst.Answers, opt => opt.Ignore());
 
             config.CreateMap<MediaTypeDto, MediaType>();
         }

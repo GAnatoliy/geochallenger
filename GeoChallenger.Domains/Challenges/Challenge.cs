@@ -11,6 +11,11 @@ namespace GeoChallenger.Domains.Challenges
     /// </summary>
     public class Challenge
     {
+        public static string SanitizeAnswer(string answer)
+        {
+            return answer.Trim().ToLower();
+        }
+
         #region Date
 
         public int Id { get; set; }
@@ -40,6 +45,10 @@ namespace GeoChallenger.Domains.Challenges
         /// </summary>
         public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 
+        /// <summary>
+        /// Indicates that challenge is deleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
         #endregion
 
         #region Relations
@@ -69,5 +78,31 @@ namespace GeoChallenger.Domains.Challenges
         /// </summary>
         public virtual User Creator { get; set; }
         #endregion
+
+        /// <summary>
+        /// Mark current challenge deleted.
+        /// </summary>
+        public void Delete()
+        {
+            IsDeleted = true;
+        }
+
+        public bool IsCorrectAnswer(string answer)
+        {
+            return SanitizeAnswer(answer).Equals(SanitizeAnswer(CorrectAnswer));
+        }
+
+        public void Answer(User user, string answer)
+        {
+            var challengeAnswer = new ChallengeAnswer() {
+                Answer = SanitizeAnswer(answer),
+                User = user,
+                Challenge = this,
+                EarnedPoints = PointsReward,
+                IsCorrect = IsCorrectAnswer(answer)
+            };
+
+            Answers.Add(challengeAnswer);
+        }
     }
 }

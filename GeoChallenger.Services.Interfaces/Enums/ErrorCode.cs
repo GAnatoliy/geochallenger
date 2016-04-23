@@ -5,6 +5,8 @@
     /// </summary>
     public enum ErrorCode
     {
-        DeletePermissionRequired = 0
+        DeletePermissionRequired = 0,
+        UpdatePermissionRequired,
+        AnswerToOwnChallenge
     }
 }

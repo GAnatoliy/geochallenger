@@ -97,7 +97,7 @@ namespace GeoChallenger.Services
                 var context = dbContextScope.DbContexts.Get<GeoChallengerContext>();
 
                 var pois = await context.Pois
-                    .Where(p => p.OwnerId == ownerId)
+                    .Where(p => !p.IsDeleted && p.OwnerId == ownerId)
                     .ToListAsync();
 
                 return _mapper.Map<IList<PoiDto>>(pois);
@@ -127,7 +127,7 @@ namespace GeoChallenger.Services
 
                 var user = await context.Users.FindAsync(userId);
                 if (user == null) {
-                    throw new Exception($"Can't create poi by user with id {userId}, user doesn't exist.");
+                    throw new ObjectNotFoundException($"Can't create poi by user with id {userId}, user doesn't exist.");
                 }
 
                 poi = _mapper.Map<Poi>(poiUpdateDto);
