@@ -290,6 +290,7 @@
     <Compile Include="Models\Challenges\ChallengeUpdateViewModel.cs" />
     <Compile Include="Models\Media\MediaUploadResultViewModel.cs" />
     <Compile Include="Models\Pois\MediaTypeViewModel.cs" />
+    <Compile Include="Models\Pois\PoiMediaUpdateViewModel.cs" />
     <Compile Include="Models\Pois\PoiMediaReadViewModel.cs" />
     <Compile Include="Models\Pois\PoiPreviewViewModel.cs" />
     <Compile Include="Models\Pois\PoiReadViewModel.cs" />

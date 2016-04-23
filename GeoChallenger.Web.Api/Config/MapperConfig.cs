@@ -47,7 +47,11 @@ namespace GeoChallenger.Web.Api.Config
 
             config.CreateMap<PoiDto, PoiPreviewViewModel>();
 
-            config.CreateMap<PoiMediaDto, PoiMediaReadViewModel>();
+            config.CreateMap<PoiMediaDto, PoiMediaReadViewModel>()
+                .ForMember(dst => dst.MediaUrl, opt => opt.Ignore())
+                .AfterMap((src, dst) => {
+                    dst.MediaUrl = $"{ApplicationSettings.ServerUrl}/media/{src.MediaType}/{src.MediaName}/".ToLower();
+                });
 
             config.CreateMap<RouteDto, RouteReadViewModel>();
 
@@ -71,6 +75,8 @@ namespace GeoChallenger.Web.Api.Config
         private static void MapFromViewModelsToContracts(IMapperConfiguration config)
         {
             config.CreateMap<PoiUpdateViewModel, PoiUpdateDto>();
+
+            config.CreateMap<PoiMediaUpdateViewModel, PoiMediaUpdateDto>();
 
             config.CreateMap<AccountTypeViewModel, AccountTypeDto>();
 

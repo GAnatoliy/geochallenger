@@ -70,6 +70,13 @@ namespace GeoChallenger.Services
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });
 
+            config.CreateMap<PoiMediaUpdateDto, PoiMedia>()
+                .ForMember(dst => dst.Id, opt => opt.Ignore())
+                .ForMember(dst => dst.CreatedAtUtc, opt => opt.Ignore())
+                .ForMember(dst => dst.UserId, opt => opt.Ignore())
+                .ForMember(dst => dst.PoiId, opt => opt.Ignore())
+                .ForMember(dst => dst.Poi, opt => opt.Ignore());
+
             config.CreateMap<RouteUpdateDto, Route>()
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.CreatedAtUtc, opt => opt.Ignore())

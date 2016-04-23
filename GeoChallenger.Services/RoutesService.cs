@@ -107,7 +107,7 @@ namespace GeoChallenger.Services
             using (var dbScopeContext = _dbContextScopeFactory.CreateReadOnly()) {
                 var pois = await dbScopeContext.DbContexts.Get<GeoChallengerContext>().Pois
                     .Include(p => p.Routes)
-                    .GetPois(routes.Select(r => r.Id).ToList())
+                    .GetPoisByRouteIds(routes.Select(r => r.Id).ToList())
                     .ToListAsync();
 
                 foreach (var route in routes) {

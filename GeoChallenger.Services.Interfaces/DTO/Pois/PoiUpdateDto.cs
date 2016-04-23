@@ -31,5 +31,10 @@ namespace GeoChallenger.Services.Interfaces.DTO.Pois
         ///     POI location Longitude
         /// </summary>
         public double Longitude { get; set; }
+
+        /// <summary>
+        ///     POI media
+        /// </summary>
+        public IList<PoiMediaUpdateDto> Media { get; set; }
     }
 }

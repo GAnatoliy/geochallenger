@@ -69,8 +69,9 @@ namespace GeoChallenger.Web.Api.Controllers
             }
 
             var createdRoute = await _routesService.CreateRouteAsync(User.Identity.GetUserId<int>(), _mapper.Map<RouteUpdateDto>(model));
+            var createdRouteViewModel = _mapper.Map<RouteReadViewModel>(createdRoute);
 
-            return Created(Url.Link("GetRouteById", new { routeId = createdRoute.Id }), createdRoute);
+            return Created(Url.Link("GetRouteById", new { routeId = createdRoute.Id }), createdRouteViewModel);
         }
 
         /// <summary>

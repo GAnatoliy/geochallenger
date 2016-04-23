@@ -70,7 +70,11 @@ namespace GeoChallenger.Web.Api.Controllers
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return _mapper.Map<PoiReadViewModel>(poiDto);
+            var poiReadViewModel = _mapper.Map<PoiReadViewModel>(poiDto);
+            //poiReadViewModel.Media = _mapper.Map<List<PoiMediaReadViewModel>>(await _poisService.GetPoiMediaAsync(poiId));
+            await LoadPoiMedia(poiReadViewModel);
+
+            return poiReadViewModel;
         }
 
         [HttpGet]
@@ -110,7 +114,10 @@ namespace GeoChallenger.Web.Api.Controllers
 
             var createdPoi = await _poisService.CreatePoiAsync(User.Identity.GetUserId<int>(), _mapper.Map<PoiUpdateDto>(model));
 
-            return Created(Url.Link("GetPoiById", new { poiId = createdPoi.Id }), createdPoi);
+            var poiReadViewModel = _mapper.Map<PoiReadViewModel>(createdPoi);
+            await LoadPoiMedia(poiReadViewModel);
+
+            return Created(Url.Link("GetPoiById", new { poiId = createdPoi.Id }), poiReadViewModel);
         }
 
         [HttpPost]
@@ -165,5 +172,16 @@ namespace GeoChallenger.Web.Api.Controllers
             return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent));
         }
         #endregion
+
+        #region Private methods
+
+        private async Task LoadPoiMedia(PoiReadViewModel poiReadViewModel)
+        {
+            poiReadViewModel.Media = _mapper.Map<List<PoiMediaReadViewModel>>(await _poisService.GetPoiMediaAsync(poiReadViewModel.Id));
+        }
+
+        #endregion
+
+
     }
 }

@@ -137,6 +137,13 @@ namespace GeoChallenger.Services
                 poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
 
                 context.Pois.Add(poi);
+
+                // Handle poi media
+                foreach (var poiMedia in poi.Media) {
+                    poiMedia.UserId = user.Id;
+                    poiMedia.Poi = poi;
+                }
+                context.PoiMedia.AddRange(poi.Media);
                 
                 await dbContextScope.SaveChangesAsync();
             }

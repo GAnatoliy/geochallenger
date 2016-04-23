@@ -1,19 +1,14 @@
 ﻿namespace GeoChallenger.Web.Api.Models.Pois
 {
     /// <summary>
-    ///     View model for poi media
+    ///     View Model for create poi media
     /// </summary>
-    public class PoiMediaReadViewModel
+    public class PoiMediaUpdateViewModel
     {
         /// <summary>
-        ///     Poi media Id
+        ///     Poi media filename
         /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
-        ///     Poi media filename with extension
-        /// </summary>
-        public string MediaUrl { get; set; }
+        public string MediaName { get; set; }
 
         /// <summary>
         ///     Poi media content type

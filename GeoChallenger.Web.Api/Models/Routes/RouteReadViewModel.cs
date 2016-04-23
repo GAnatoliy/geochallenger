@@ -51,6 +51,6 @@ namespace GeoChallenger.Web.Api.Models.Routes
         /// <summary>
         ///     Route POIs
         /// </summary>
-        public IList<PoiReadViewModel> Pois { get; set; }
+        public IList<PoiPreviewViewModel> Pois { get; set; }
     }
 }

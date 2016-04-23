@@ -1,4 +1,6 @@
-﻿namespace GeoChallenger.Web.Api.Models.Pois
+﻿using System.Collections.Generic;
+
+namespace GeoChallenger.Web.Api.Models.Pois
 {
     /// <summary>
     ///     View model for update poi by user
@@ -29,5 +31,10 @@
         ///     POI location Longitude
         /// </summary>
         public double Longitude { get; set; }
+
+        /// <summary>
+        ///     Related poi media
+        /// </summary>
+        public IList<PoiMediaUpdateViewModel> Media { get; set; }
     }
 }

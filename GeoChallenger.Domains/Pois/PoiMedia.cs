@@ -24,9 +24,14 @@ namespace GeoChallenger.Domains.Pois
         public MediaType MediaType { get; set; }
 
         /// <summary>
+        ///     Poi media content type
+        /// </summary>
+        public string ContentType { get; set; }
+
+        /// <summary>
         ///     Media creation date
         /// </summary>
-        public DateTime CreatedAtUtc { get; set; }
+        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         ///     Media creator user Id

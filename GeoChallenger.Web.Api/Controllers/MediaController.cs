@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -24,7 +23,10 @@ namespace GeoChallenger.Web.Api.Controllers
             _mediaService = mediaService;
             _mapper = mapper;
         }
-        
+
+        #region GET
+
+        [HttpGet]
         [Route("{mediaType}/{filename}", Name = "GetMedia")]
         public async Task<IHttpActionResult> Get(MediaTypeViewModel mediaType, string filename)
         {
@@ -36,12 +38,18 @@ namespace GeoChallenger.Web.Api.Controllers
             return Redirect(mediaReadDto.Url);
         }
 
+        [HttpGet]
         [Route("{mediaType}/{size}/{filename}")]
         public async Task<IHttpActionResult> Get(string mediaType, string size, string filename)
         {
             return Redirect(Url.Link("GetMedia", new {mediaType = mediaType, filename = filename}));
         }
 
+        #endregion
+
+        #region POST
+
+        [HttpPost]
         [Route("{mediaType}")]
         public async Task<IList<MediaUploadResultViewModel>> Post(MediaTypeViewModel mediaType)
         {
@@ -62,9 +70,15 @@ namespace GeoChallenger.Web.Api.Controllers
             return result;
         }
 
+        #endregion
+
+        #region Private methods
+
         private string ConvertBlobAbsoluteUrl(string fileName, MediaTypeDto mediaType)
         {
             return $"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}{Url.Request.RequestUri.LocalPath}/{fileName}/";
         }
+
+        #endregion
     }
 }

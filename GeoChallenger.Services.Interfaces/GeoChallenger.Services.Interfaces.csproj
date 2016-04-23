@@ -57,6 +57,7 @@
     <Compile Include="DTO\Media\MediaTypeDto.cs" />
     <Compile Include="DTO\Media\MediaUploadResultDto.cs" />
     <Compile Include="DTO\Pois\PoiDto.cs" />
+    <Compile Include="DTO\Pois\PoiMediaUpdateDto.cs" />
     <Compile Include="DTO\Pois\PoiMediaDto.cs" />
     <Compile Include="DTO\Pois\PoiUpdateDto.cs" />
     <Compile Include="DTO\Pois\SearchPoiResultDto.cs" />

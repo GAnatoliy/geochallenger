@@ -3,28 +3,23 @@
 namespace GeoChallenger.Services.Interfaces.DTO.Pois
 {
     /// <summary>
-    ///     Carry poi media
+    ///     Carry new poi media
     /// </summary>
-    public class PoiMediaDto
+    public class PoiMediaUpdateDto
     {
         /// <summary>
-        ///     Poi media Id
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
-        ///     Poi media filename with extension
+        ///     Media filename with extension
         /// </summary>
         public string MediaName { get; set; }
+
+        /// <summary>
+        ///     Media type
+        /// </summary>
+        public MediaTypeDto MediaType { get; set; }
 
         /// <summary>
         ///     Poi media content type
         /// </summary>
         public string ContentType { get; set; }
-
-        /// <summary>
-        ///     Poi media type
-        /// </summary>
-        public MediaTypeDto MediaType { get; set; }
     }
 }
