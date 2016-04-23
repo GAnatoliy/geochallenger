@@ -66,6 +66,7 @@ namespace GeoChallenger.Services
                 .ForMember(dst => dst.CreatedAtUtc, opt => opt.Ignore())
                 .ForMember(dst => dst.Challengeses, opt => opt.Ignore())
                 .ForMember(dst => dst.Checkins, opt => opt.Ignore())
+                .ForMember(dst => dst.HashTags, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
                     dst.Location = GeoExtensions.CreateLocationPoint(src.Latitude, src.Longitude);
                 });

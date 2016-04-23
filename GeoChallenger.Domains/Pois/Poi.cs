@@ -56,7 +56,11 @@ namespace GeoChallenger.Domains.Pois
         /// </summary>
         public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 
-       
+        /// <summary>
+        /// List of hashtags separated by comma.
+        /// </summary>
+        public string HashTags { get; set; }
+
         #endregion
 
         #region Relations
