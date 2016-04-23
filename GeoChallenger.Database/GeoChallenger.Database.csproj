@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\ChallengeEntityConfiguration.cs" />
     <Compile Include="Config\PoiEntityConfiguration.cs" />
     <Compile Include="Config\RouteEntityConfiguration.cs" />
     <Compile Include="Config\UserEntityConfiguration.cs" />

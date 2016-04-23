@@ -260,7 +260,7 @@ namespace GeoChallenger.Services
 
                 context.PoiCheckins.Add(checkin);
 
-                // TODO: add unique constraint to poiId-userId, and use optimistic concurrency in order
+                // TODO: add unique constraint to poiId-userId, and use it for
                 // to prevent writing duplicated request. 
 
                 await context.SaveChangesAsync();

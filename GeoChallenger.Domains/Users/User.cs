@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using GeoChallenger.Domains.Challenges;
 using GeoChallenger.Domains.Pois;
 using GeoChallenger.Domains.Routes;
 
@@ -57,7 +58,20 @@ namespace GeoChallenger.Domains.Users
         /// </summary>
         public virtual ICollection<Poi> Pois { get; protected set; } = new Collection<Poi>();
 
-        public virtual ICollection<PoiCheckin> Checkins { get; protected set; } = new Collection<PoiCheckin>(); 
+        /// <summary>
+        /// Check ins made by this user.
+        /// </summary>
+        public virtual ICollection<PoiCheckin> Checkins { get; protected set; } = new Collection<PoiCheckin>();
+
+        /// <summary>
+        /// Challenges created by this user.
+        /// </summary>
+        public virtual ICollection<Challenge> CreatedChallenges { get; protected set; } = new Collection<Challenge>();
+
+        /// <summary>
+        /// Answers given by this user.
+        /// </summary>
+        public virtual ICollection<ChallengeAnswer> Answers { get; protected set; } = new Collection<ChallengeAnswer>(); 
         #endregion
     }
 }

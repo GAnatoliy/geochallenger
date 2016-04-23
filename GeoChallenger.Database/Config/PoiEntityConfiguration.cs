@@ -12,6 +12,11 @@ namespace GeoChallenger.Database.Config
                 .WithRequired(c => c.Poi)
                 .HasForeignKey(c => c.PoiId);
 
+            // Poi has list of challenges.
+            HasMany(p => p.Challengeses)
+                .WithRequired(c => c.Poi)
+                .HasForeignKey(c => c.PoiId);
+
             // Poi has media made by users.
             HasMany(p => p.Media)
                 .WithRequired(m => m.Poi)

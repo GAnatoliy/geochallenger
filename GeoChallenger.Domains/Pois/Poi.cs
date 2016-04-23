@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Spatial;
+using GeoChallenger.Domains.Challenges;
 using GeoChallenger.Domains.Routes;
 using GeoChallenger.Domains.Users;
 
@@ -83,6 +84,11 @@ namespace GeoChallenger.Domains.Pois
         /// Media of this poi
         /// </summary>
         public virtual ICollection<PoiMedia> Media { get; set; } = new HashSet<PoiMedia>();
+
+        /// <summary>
+        /// Challenges created for this poi.
+        /// </summary>
+        public virtual ICollection<Challenge> Challengeses { get; protected set; } = new Collection<Challenge>();
 
         #endregion
 

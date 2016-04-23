@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Challenges\Challenge.cs" />
+    <Compile Include="Challenges\ChallengeAnswer.cs" />
     <Compile Include="Media\MediaType.cs" />
     <Compile Include="Pois\Poi.cs" />
     <Compile Include="Pois\PoiCheckin.cs" />

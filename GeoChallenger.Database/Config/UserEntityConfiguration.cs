@@ -28,6 +28,18 @@ namespace GeoChallenger.Database.Config
             HasMany(u => u.Checkins)
                 .WithRequired(c => c.User)
                 .HasForeignKey(c => c.UserId);
+
+            // User has created by him challenges.
+            HasMany(u => u.CreatedChallenges)
+                .WithRequired(c => c.Creator)
+                .HasForeignKey(c => c.CreatorId)
+                .WillCascadeOnDelete(false);
+
+            // User has list of answers to challenges.
+            HasMany(u => u.Answers)
+                .WithRequired(a => a.User)
+                .HasForeignKey(a => a.UserId)
+                .WillCascadeOnDelete(false);
         }
     }
 }
