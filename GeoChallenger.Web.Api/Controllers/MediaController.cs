@@ -28,7 +28,7 @@ namespace GeoChallenger.Web.Api.Controllers
             return Ok();
         }
 
-        [Route("{mediaType:MediaTypeViewModel}")]
+        [Route("")]
         public async Task<MediaUploadResultViewModel> Post(MediaTypeViewModel mediaType)
         {
             if (!Request.Content.IsMimeMultipartContent()) {
