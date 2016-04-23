@@ -7,7 +7,6 @@ using AutoMapper;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Users;
 using GeoChallenger.Services.Settings;
-using GeoChallenger.Services.Settings.SocialNetworks;
 using GeoChallenger.Web.Api.Models.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -78,7 +77,7 @@ namespace GeoChallenger.Web.Api.Providers
 
             AuthenticateUser(context, userDto);
         }
-
+        
         #region Private methods
 
         private static Dictionary<string, AccountTypeViewModel> GetAccountTypes()

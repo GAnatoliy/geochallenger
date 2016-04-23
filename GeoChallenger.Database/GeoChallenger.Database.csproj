@@ -66,6 +66,15 @@
     <Compile Include="Extensions\GeoExtensions.cs" />
     <Compile Include="GeoChallengerContext.cs" />
     <Compile Include="GeoChallengerInitializer.cs" />
+    <Compile Include="Migrations\201604230857010_InitialCreate.cs" />
+    <Compile Include="Migrations\201604230857010_InitialCreate.Designer.cs">
+      <DependentUpon>201604230857010_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604231311584_InitialTestData.cs" />
+    <Compile Include="Migrations\201604231311584_InitialTestData.Designer.cs">
+      <DependentUpon>201604231311584_InitialTestData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +86,14 @@
       <Project>{67a4bb61-4802-48c9-b364-1d468e6eaf68}</Project>
       <Name>GeoChallenger.Domains</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604230857010_InitialCreate.resx">
+      <DependentUpon>201604230857010_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604231311584_InitialTestData.resx">
+      <DependentUpon>201604231311584_InitialTestData.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -42,7 +42,8 @@ namespace GeoChallenger.Services.Settings
         public static GoogleSettings GetGoogleSettings()
         {
             return new GoogleSettings {
-                GoogleVerificationUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="
+                //GoogleVerificationUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="
+                GoogleVerificationUrl = "https://www.googleapis.com/oauth2/v3/userinfo?access_token="
             };
         }
 
