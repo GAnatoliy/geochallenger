@@ -8,6 +8,8 @@ using GeoChallenger.Database;
 using GeoChallenger.Domains.Routes;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Routes;
+using GeoChallenger.Services.Interfaces.Enums;
+using GeoChallenger.Services.Interfaces.Exceptions;
 using GeoChallenger.Services.Queries;
 using Mehdime.Entity;
 
@@ -72,13 +74,15 @@ namespace GeoChallenger.Services
 
                 var route = await context.Routes.GetRoute(userId, routeId)
                     .SingleOrDefaultAsync();
-
+                
                 if (route == null) {
                     throw new ObjectNotFoundException($"Route with id {routeId} is not found");
                 }
 
                 _mapper.Map(routeUpdateDto, route);
-                route.Pois = await context.Pois.GetPois(routeUpdateDto.PoisIds).ToListAsync();
+                route.Pois.Clear();
+                var newPoisInRoute = await context.Pois.GetPois(routeUpdateDto.PoisIds).ToListAsync();
+                newPoisInRoute.ForEach(route.Pois.Add);
 
                 await dbContextScope.SaveChangesAsync();
                 return _mapper.Map<RouteDto>(route);
