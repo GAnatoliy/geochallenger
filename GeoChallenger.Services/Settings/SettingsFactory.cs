@@ -16,10 +16,11 @@ namespace GeoChallenger.Services.Settings
         ///     Facebook provider settings factory
         /// </summary>
         /// <returns></returns>
-        public static AuthenticationSettings GetAuthenticationSettings()
+        public static ApplicationSettings GetApplicationSettings()
         {
-            return new AuthenticationSettings {
-                UserTokenLifetimeInDays = int.Parse(ConfigurationManager.AppSettings["UserTokenLifetimeInDays"])
+            return new ApplicationSettings {
+                UserTokenLifetimeInDays = int.Parse(ConfigurationManager.AppSettings["UserTokenLifetimeInDays"]),
+                ServerUrl = ConfigurationManager.AppSettings["Web.ApiHostUrl"]
             };
         }
 

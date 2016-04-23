@@ -16,8 +16,13 @@
         public string ContentType { get; set; }
 
         /// <summary>
-        ///     Uploaded file Uri
+        ///     Uploaded media type
         /// </summary>
-        public string Uri { get; set; }
+        public MediaTypeDto MediaType { get; set; }
+
+        /// <summary>
+        ///     Uploaded file Url
+        /// </summary>
+        public string Url { get; set; }
     }
 }

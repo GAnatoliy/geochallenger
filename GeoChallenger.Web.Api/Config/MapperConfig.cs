@@ -5,6 +5,8 @@ using GeoChallenger.Services.Interfaces.DTO.Pois;
 using GeoChallenger.Services.Interfaces.DTO.Routes;
 using GeoChallenger.Services.Interfaces.DTO.Users;
 using GeoChallenger.Web.Api.Models.Challenges;
+using GeoChallenger.Services.Settings;
+using GeoChallenger.Web.Api.Models.Media;
 using GeoChallenger.Web.Api.Models.Pois;
 using GeoChallenger.Web.Api.Models.Routes;
 using GeoChallenger.Web.Api.Models.Users;
@@ -14,6 +16,8 @@ namespace GeoChallenger.Web.Api.Config
 {
     public class MapperConfig
     {
+        private static readonly ApplicationSettings ApplicationSettings = SettingsFactory.GetApplicationSettings();
+
         // Now all our challenges has the same reward.
         private const int DEFAULT_CHALLENGE_REWARD = 5;
 
@@ -54,6 +58,14 @@ namespace GeoChallenger.Web.Api.Config
             config.CreateMap<ChallengeDto, ChallengeReadViewModel>();
 
             config.CreateMap<MediaTypeDto, MediaTypeViewModel>();
+
+            config.CreateMap<MediaUploadResultDto, MediaUploadResultViewModel>()
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dst => dst.ContentType, opt => opt.MapFrom(src => src.ContentType))
+                .ForMember(dst => dst.MediaUrl, opt => opt.Ignore())
+                .AfterMap((src, dst) => {
+                    dst.MediaUrl = $"{ApplicationSettings.ServerUrl}/media/{src.MediaType}/{src.Name}/".ToLower();
+                });
         }
 
         private static void MapFromViewModelsToContracts(IMapperConfiguration config)

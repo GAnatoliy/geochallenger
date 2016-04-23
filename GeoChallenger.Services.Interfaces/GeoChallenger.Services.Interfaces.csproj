@@ -52,6 +52,7 @@
     <Compile Include="DTO\Challenges\ChallengeDto.cs" />
     <Compile Include="DTO\Challenges\ChallengeUpdateDto.cs" />
     <Compile Include="DTO\GeoBoundingBoxDto.cs" />
+    <Compile Include="DTO\Media\MediaReadDto.cs" />
     <Compile Include="DTO\Media\MediaTypeDescriptor.cs" />
     <Compile Include="DTO\Media\MediaTypeDto.cs" />
     <Compile Include="DTO\Media\MediaUploadResultDto.cs" />

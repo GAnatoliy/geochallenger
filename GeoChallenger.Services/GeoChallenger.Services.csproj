@@ -133,7 +133,7 @@
     <Compile Include="Queries\UsersQueries.cs" />
     <Compile Include="RoutesService.cs" />
     <Compile Include="Settings\SettingsFactory.cs" />
-    <Compile Include="Settings\SocialNetworks\AuthenticationSettings.cs" />
+    <Compile Include="Settings\ApplicationSettings.cs" />
     <Compile Include="Settings\SocialNetworks\FacebookSettings.cs" />
     <Compile Include="Settings\SocialNetworks\GoogleSettings.cs" />
     <Compile Include="Settings\Storage\AzureStorageSettings.cs" />

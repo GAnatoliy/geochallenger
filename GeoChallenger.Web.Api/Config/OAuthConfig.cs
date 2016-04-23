@@ -20,7 +20,7 @@ namespace GeoChallenger.Web.Api.Config
         public static void ConfigureOAuth(IAppBuilder app, HttpConfiguration configuration)
         {
             // Init oauth bearer token lifetime in days
-            var authenticationSettings = SettingsFactory.GetAuthenticationSettings();
+            var authenticationSettings = SettingsFactory.GetApplicationSettings();
 
             // Init auth server options
             var authServerOptions = new OAuthAuthorizationServerOptions {

@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace GeoChallenger.Web.Api.Models.Media
+﻿namespace GeoChallenger.Web.Api.Models.Media
 {
     public class MediaUploadResultViewModel
     {
-        public IList<string> Names { get; set; }
+        public string Name { get; set; }
 
-        public IList<string> MediaLinks { get; set; }
+        public string MediaUrl { get; set; }
 
-        public IList<string> ContentTypes { get; set; }
+        public string ContentType { get; set; }
     }
 }

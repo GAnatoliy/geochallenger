@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GeoChallenger.Services.Interfaces;
 using GeoChallenger.Services.Interfaces.DTO.Users;
+using GeoChallenger.Services.Settings;
 using GeoChallenger.Services.Settings.SocialNetworks;
 using GeoChallenger.Web.Api.Models.Users;
 using Microsoft.AspNet.Identity;
@@ -20,15 +21,15 @@ namespace GeoChallenger.Web.Api.Providers
 
         private readonly IUsersService _usersService;
         private readonly IMapper _mapper;
-        private readonly AuthenticationSettings _authenticationSettings;
+        private readonly ApplicationSettings _applicationSettings;
         
         private readonly Dictionary<string, AccountTypeViewModel> _accountTypes;
 
-        public GeoChallengerOAuthProvider(IUsersService usersService, IMapper mapper, AuthenticationSettings authenticationSettings)
+        public GeoChallengerOAuthProvider(IUsersService usersService, IMapper mapper, ApplicationSettings applicationSettings)
         {
             _usersService = usersService;
             _mapper = mapper;
-            _authenticationSettings = authenticationSettings;
+            _applicationSettings = applicationSettings;
             _accountTypes = GetAccountTypes();
         }
 
@@ -95,7 +96,7 @@ namespace GeoChallenger.Web.Api.Providers
 
             var properties = new AuthenticationProperties {
                 IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTime.UtcNow.AddDays(_authenticationSettings.UserTokenLifetimeInDays)
+                ExpiresUtc = DateTime.UtcNow.AddDays(_applicationSettings.UserTokenLifetimeInDays)
             };
 
             var ticket = new AuthenticationTicket(identity, properties);

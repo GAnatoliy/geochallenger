@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -21,35 +24,47 @@ namespace GeoChallenger.Web.Api.Controllers
             _mediaService = mediaService;
             _mapper = mapper;
         }
-
-        [Route("")]
-        public async Task<IHttpActionResult> Get(string url, string size = null)
+        
+        [Route("{mediaType}/{filename}", Name = "GetMedia")]
+        public async Task<IHttpActionResult> Get(MediaTypeViewModel mediaType, string filename)
         {
-            return Ok();
+            var mediaReadDto = await _mediaService.GetBlobUrl(filename, _mapper.Map<MediaTypeDto>(mediaType));
+            if (mediaReadDto == null) {
+                return NotFound();
+            }
+
+            return Redirect(mediaReadDto.Url);
         }
 
-        [Route("")]
-        public async Task<MediaUploadResultViewModel> Post(MediaTypeViewModel mediaType)
+        [Route("{mediaType}/{size}/{filename}")]
+        public async Task<IHttpActionResult> Get(string mediaType, string size, string filename)
+        {
+            return Redirect(Url.Link("GetMedia", new {mediaType = mediaType, filename = filename}));
+        }
+
+        [Route("{mediaType}")]
+        public async Task<IList<MediaUploadResultViewModel>> Post(MediaTypeViewModel mediaType)
         {
             if (!Request.Content.IsMimeMultipartContent()) {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
             var streamProvider = await Request.Content.ReadAsMultipartAsync();
-            var mediaUploadResultViewModel = new MediaUploadResultViewModel();
+            var result = new List<MediaUploadResultViewModel>();
 
             foreach (var content in streamProvider.Contents) {
                 if (content.Headers.ContentType == null) {
                     continue;
                 }
-
-                var mediaUploadResultDto = await _mediaService.UploadAsync(await content.ReadAsStreamAsync(), _mapper.Map<MediaTypeDto>(mediaType));
-                mediaUploadResultViewModel.Names.Add(mediaUploadResultDto.Name);
-                mediaUploadResultViewModel.MediaLinks.Add(mediaUploadResultDto.Uri);
-                mediaUploadResultViewModel.ContentTypes.Add(content.Headers.ContentType.ToString());
+                result.Add(_mapper.Map<MediaUploadResultViewModel>(await _mediaService.UploadAsync(await content.ReadAsStreamAsync(), _mapper.Map<MediaTypeDto>(mediaType))));
             }
 
-            return mediaUploadResultViewModel;
+            return result;
+        }
+
+        private string ConvertBlobAbsoluteUrl(string fileName, MediaTypeDto mediaType)
+        {
+            return $"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}{Url.Request.RequestUri.LocalPath}/{fileName}/";
         }
     }
 }

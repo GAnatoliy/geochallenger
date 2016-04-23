@@ -21,7 +21,7 @@ namespace GeoChallenger.DIModules
             // Register settings
             builder.RegisterInstance(SettingsFactory.GetFacebookSettings());
             builder.RegisterInstance(SettingsFactory.GetGoogleSettings());
-            builder.RegisterInstance(SettingsFactory.GetAuthenticationSettings());
+            builder.RegisterInstance(SettingsFactory.GetApplicationSettings());
             builder.RegisterInstance(SettingsFactory.GetAzureStorageSettings());
             builder.RegisterInstance(new SearchSettings());
 

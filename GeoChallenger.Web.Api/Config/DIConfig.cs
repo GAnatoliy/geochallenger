@@ -4,6 +4,7 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
 using GeoChallenger.DIModules;
+using GeoChallenger.Services.Settings;
 using GeoChallenger.Web.Api.Providers;
 
 
@@ -16,9 +17,12 @@ namespace GeoChallenger.Web.Api.Config
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterInstance(SettingsFactory.GetApplicationSettings());
+
             // Register automapper.
             builder.Register(ctx => mapperConfiguration);
-            builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>();
+            builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper())
+                .As<IMapper>();
 
             // Register modules.
             builder.RegisterModule(new DataAccessModule());

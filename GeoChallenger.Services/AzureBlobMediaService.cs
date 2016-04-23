@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,6 +23,22 @@ namespace GeoChallenger.Services
             _mapper = mapper;
         }
 
+        public async Task<MediaReadDto> GetBlobUrl(string filename, MediaTypeDto mediaType)
+        {
+            var mediaDescriptor = _azureStorageSettings.MediaContainers[_mapper.Map<MediaType>(mediaType)];
+            var blobContainer = await GetContainerAsync(_azureStorageSettings.AzureStorageConnectionString, mediaDescriptor.ContainerName, false);
+
+            var blob = blobContainer.GetBlobReference(filename);
+            if (blob == null) {
+                return null;
+            }
+
+            return new MediaReadDto {
+                ContentType = blob.Properties.ContentType,
+                Url = blob.Uri.AbsoluteUri
+            };
+        }
+
         public async Task<MediaUploadResultDto> UploadAsync(Stream stream, MediaTypeDto mediaType)
         {
             var mediaDescriptor = _azureStorageSettings.MediaContainers[_mapper.Map<MediaType>(mediaType)];
@@ -37,7 +54,8 @@ namespace GeoChallenger.Services
             return new MediaUploadResultDto {
                 Name = blobName,
                 ContentType = blockBlob.Properties.ContentType,
-                Uri = blockBlob.Uri.AbsoluteUri
+                MediaType = mediaType,
+                Url = blockBlob.Uri.AbsoluteUri
             };
         }
 
@@ -46,8 +64,9 @@ namespace GeoChallenger.Services
         /// </summary>
         /// <param name="storageConnectionString">Azure storage connection string</param>
         /// <param name="containerName">Container name</param>
+        /// <param name="createContainerIfNotExist">Create container if not exist</param>
         /// <returns></returns>
-        private async Task<CloudBlobContainer> GetContainerAsync(string storageConnectionString, string containerName)
+        private async Task<CloudBlobContainer> GetContainerAsync(string storageConnectionString, string containerName, bool createContainerIfNotExist = true)
         {
             // Create storage account
             var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
@@ -58,8 +77,15 @@ namespace GeoChallenger.Services
             // Getting container reference
             var container = blobClient.GetContainerReference(containerName);
 
-            // Create container if not exist
-            await container.CreateIfNotExistsAsync();
+            if (createContainerIfNotExist) {
+                // Create container if not exist
+                await container.CreateIfNotExistsAsync();
+            }
+            else if (!await container.ExistsAsync()) {
+                throw new ObjectNotFoundException($"{containerName} not found.");
+                
+            }
+
 
             // Set container permission
             await container.SetPermissionsAsync(new BlobContainerPermissions {
@@ -67,11 +93,6 @@ namespace GeoChallenger.Services
             });
 
             return container;
-        }
-
-        private async Task ValidateMediaType()
-        {
-            
         }
     }
 }
