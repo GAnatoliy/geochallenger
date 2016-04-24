@@ -19,6 +19,7 @@ namespace GeoChallenger.Web.Api.Config
 
         // Now all our challenges has the same reward.
         private const int DEFAULT_CHALLENGE_REWARD = 5;
+        private const string MEDIA_CONTROLLER_ENDPOINT = "media";
 
         public static MapperConfiguration CreateMapperConfiguration()
         {
@@ -49,7 +50,7 @@ namespace GeoChallenger.Web.Api.Config
             config.CreateMap<PoiMediaDto, PoiMediaReadViewModel>()
                 .ForMember(dst => dst.MediaUrl, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
-                    dst.MediaUrl = $"{ApplicationSettings.ServerUrl}/media/{src.MediaType}/{src.MediaName}/".ToLower();
+                    dst.MediaUrl = $"{ApplicationSettings.ServerUrl}/{MEDIA_CONTROLLER_ENDPOINT}/{src.MediaType}/{src.MediaName}/".ToLower();
                 });
 
             config.CreateMap<RouteDto, RouteReadViewModel>();
@@ -67,7 +68,7 @@ namespace GeoChallenger.Web.Api.Config
                 .ForMember(dst => dst.ContentType, opt => opt.MapFrom(src => src.ContentType))
                 .ForMember(dst => dst.MediaUrl, opt => opt.Ignore())
                 .AfterMap((src, dst) => {
-                    dst.MediaUrl = $"{ApplicationSettings.ServerUrl}/media/{src.MediaType}/{src.Name}/".ToLower();
+                    dst.MediaUrl = $"{ApplicationSettings.ServerUrl}/{MEDIA_CONTROLLER_ENDPOINT}/{src.MediaType}/{src.Name}/".ToLower();
                 });
         }
 

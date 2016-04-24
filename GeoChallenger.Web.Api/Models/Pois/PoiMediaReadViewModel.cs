@@ -11,7 +11,12 @@
         public int Id { get; set; }
 
         /// <summary>
-        ///     Poi media filename with extension
+        ///     Poi media filename with extension 
+        /// </summary>
+        public string MediaName { get; set; }
+
+        /// <summary>
+        ///     Poi media absolute url
         /// </summary>
         public string MediaUrl { get; set; }
 

@@ -153,7 +153,11 @@ namespace GeoChallenger.Web.Api.Controllers
             }
 
             var updatedPoi = await _poisService.UpdatePoiAsync(poiId, _mapper.Map<PoiUpdateDto>(model));
-            return Ok(updatedPoi);
+
+            var poiReadViewModel = _mapper.Map<PoiReadViewModel>(updatedPoi);
+            await LoadPoiMedia(poiReadViewModel);
+
+            return Ok(poiReadViewModel);
         }
         #endregion
 

@@ -170,7 +170,34 @@ namespace GeoChallenger.Services
                     throw new ObjectNotFoundException($"Poi with id {poiId} is not found");
                 }
 
+                // Find poi media difference
+                var existingMedia = new HashSet<string>(poi.Media.Select(m => m.MediaName));
+                var updatedMedia = new HashSet<string>(poiUpdateDto.Media.Select(m => m.MediaName));
+
+                var shouldBeNew = updatedMedia.Except(existingMedia).ToList();
+                var shouldBeRemoved = existingMedia.Except(updatedMedia).ToList();
+
                 _mapper.Map(poiUpdateDto, poi);
+
+                // TODO: Edit media should be finished
+                // Because automapper remove poi media very roughly. Should be finished
+                poi.Media = await dbContextScope.DbContexts.Get<GeoChallengerContext>().PoiMedia.Where(m => m.PoiId == poi.Id).ToListAsync();
+                /*
+                // Handle media
+                if (shouldBeNew.Count > 0) {
+
+                }
+
+                if (shouldBeRemoved.Count > 0) {
+                    foreach (var item in shouldBeRemoved) {
+                        var removedMedia = await dbContextScope.DbContexts.Get<GeoChallengerContext>().PoiMedia
+                            .SingleOrDefaultAsync(pm => pm.MediaName.Equals(item, StringComparison.OrdinalIgnoreCase));
+                       
+                        dbContextScope.DbContexts.Get<GeoChallengerContext>().PoiMedia.Remove(removedMedia);
+                        await dbContextScope.SaveChangesAsync();
+                    }
+                }
+                */
 
                 poi.Content = HtmlHelper.SanitizeHtml(poiUpdateDto.Content);
                 poi.ContentPreview = GetContentPreview(poiUpdateDto.Content);
